@@ -1,12 +1,12 @@
-# 🤖 DeenShield Release Automation Guide
+# 🤖 AmnShield Release Automation Guide
 
-This guide explains the automated release workflow for DeenShield.
+This guide explains the automated release workflow for AmnShield.
 
 ---
 
 ## 📋 Overview
 
-DeenShield uses **GitHub Actions** to automatically create releases when you push a version tag. No manual GitHub UI interaction needed!
+AmnShield uses **GitHub Actions** to automatically create releases when you push a version tag. No manual GitHub UI interaction needed!
 
 ---
 
@@ -17,7 +17,7 @@ DeenShield uses **GitHub Actions** to automatically create releases when you pus
 1. **You push a version tag** (e.g., `v0.1.0`)
 2. **GitHub Actions triggers** automatically
 3. **Release is created** with all files attached
-4. **Done!** Release is live at `https://github.com/Afrasyaab-GH/deenshield_flutter/releases`
+4. **Done!** Release is live at `https://github.com/Afrasyaab-GH/AmnShield_flutter/releases`
 
 ### What Gets Automated
 
@@ -58,12 +58,12 @@ Create the release packages:
 ```powershell
 # Create portable ZIP
 Compress-Archive -Path "build\windows\x64\runner\Release\*" `
-                 -DestinationPath "releases\DeenShield-Portable-v0.1.0.zip" `
+                 -DestinationPath "releases\AmnShield-Portable-v0.1.0.zip" `
                  -Force
 
 # Copy installer (already created by build_release.ps1)
-Copy-Item "installer\installer_output\DeenShield-Setup.exe" `
-          "releases\DeenShield-Setup-v0.1.0.exe" `
+Copy-Item "installer\installer_output\AmnShield-Setup.exe" `
+          "releases\AmnShield-Setup-v0.1.0.exe" `
           -Force
 ```
 
@@ -75,18 +75,18 @@ Copy-Item "installer\installer_output\DeenShield-Setup.exe" `
 
 ```powershell
 # Chrome/Edge/Brave/Opera
-Compress-Archive -Path "deenshield_extension\*" `
-                 -DestinationPath "releases\DeenShield-Extension-v0.1.0-Chrome.zip" `
+Compress-Archive -Path "AmnShield_extension\*" `
+                 -DestinationPath "releases\AmnShield-Extension-v0.1.0-Chrome.zip" `
                  -Force
 
 # Firefox
-Compress-Archive -Path "deenshield_extension_firefox\*" `
-                 -DestinationPath "releases\DeenShield-Extension-v0.1.0-Firefox.zip" `
+Compress-Archive -Path "AmnShield_extension_firefox\*" `
+                 -DestinationPath "releases\AmnShield-Extension-v0.1.0-Firefox.zip" `
                  -Force
 
 # All Browsers Bundle
-Compress-Archive -Path "deenshield_extension\*", "deenshield_extension_firefox\*" `
-                 -DestinationPath "releases\DeenShield-Extension-v0.1.0-All-Browsers.zip" `
+Compress-Archive -Path "AmnShield_extension\*", "AmnShield_extension_firefox\*" `
+                 -DestinationPath "releases\AmnShield-Extension-v0.1.0-All-Browsers.zip" `
                  -Force
 ```
 
@@ -131,7 +131,7 @@ git status
 git add releases/
 
 # Commit with descriptive message
-git commit -m "Release: DeenShield v0.1.0 - Experimental Release
+git commit -m "Release: AmnShield v0.1.0 - Experimental Release
 
 Features:
 - Desktop guardian application
@@ -145,8 +145,8 @@ Fixes:
 - Admin privileges not working (manifest embedding)
 
 Files:
-- DeenShield-Setup-v0.1.0.exe (31.98 MB)
-- DeenShield-Portable-v0.1.0.zip (33.59 MB)
+- AmnShield-Setup-v0.1.0.exe (31.98 MB)
+- AmnShield-Portable-v0.1.0.zip (33.59 MB)
 - Browser extensions (Chrome, Firefox, All)
 - SHA256 checksums
 - Release notes"
@@ -161,9 +161,9 @@ git push origin main
 
 ```powershell
 # Create annotated tag
-git tag -a v0.1.0 -m "DeenShield v0.1.0 - Experimental Release
+git tag -a v0.1.0 -m "AmnShield v0.1.0 - Experimental Release
 
-First public release of DeenShield Guardian - Islamic content filtering for Windows.
+First public release of AmnShield Guardian - Islamic content filtering for Windows.
 
 Features:
 - Desktop guardian application with system tray
@@ -173,7 +173,7 @@ Features:
 - Zero data collection - complete privacy
 - Free for personal use
 
-Download: https://github.com/Afrasyaab-GH/deenshield_flutter/releases/tag/v0.1.0"
+Download: https://github.com/Afrasyaab-GH/AmnShield_flutter/releases/tag/v0.1.0"
 
 # Push tag (this triggers GitHub Actions!)
 git push origin v0.1.0
@@ -184,7 +184,7 @@ git push origin v0.1.0
 2. Create the release
 3. Attach all files from `releases/`
 4. Set as pre-release
-5. Publish to https://github.com/Afrasyaab-GH/deenshield_flutter/releases
+5. Publish to https://github.com/Afrasyaab-GH/AmnShield_flutter/releases
 
 ---
 
@@ -207,7 +207,7 @@ on:
 2. **Extracts version** from tag name
 3. **Checks for release notes** in `releases/RELEASE_NOTES.md`
 4. **Creates GitHub Release** with:
-   - Title: "DeenShield v0.1.0 - Experimental Release 🕌"
+   - Title: "AmnShield v0.1.0 - Experimental Release 🕌"
    - Body: Content from `releases/RELEASE_NOTES.md`
    - Pre-release: ✅ Marked as experimental
    - Assets: All files from `releases/` directory
@@ -216,11 +216,11 @@ on:
 ### Required Files
 
 The workflow expects these files in `releases/`:
-- `DeenShield-Setup-v*.exe` (installer)
-- `DeenShield-Portable-v*.zip` (portable version)
-- `DeenShield-Extension-v*-Chrome.zip` (Chrome extension)
-- `DeenShield-Extension-v*-Firefox.zip` (Firefox extension)
-- `DeenShield-Extension-v*-All-Browsers.zip` (bundled extensions)
+- `AmnShield-Setup-v*.exe` (installer)
+- `AmnShield-Portable-v*.zip` (portable version)
+- `AmnShield-Extension-v*-Chrome.zip` (Chrome extension)
+- `AmnShield-Extension-v*-Firefox.zip` (Firefox extension)
+- `AmnShield-Extension-v*-All-Browsers.zip` (bundled extensions)
 - `SHA256SUMS.txt` (checksums)
 - `RELEASE_NOTES.md` (release documentation)
 
@@ -230,15 +230,15 @@ The workflow expects these files in `releases/`:
 
 ### View Workflow Status
 
-1. Go to: https://github.com/Afrasyaab-GH/deenshield_flutter/actions
+1. Go to: https://github.com/Afrasyaab-GH/AmnShield_flutter/actions
 2. Click on the latest "Create Release" workflow run
 3. Watch the progress in real-time
 
 ### Check Release
 
 After workflow completes (usually 1-2 minutes):
-- **Releases page:** https://github.com/Afrasyaab-GH/deenshield_flutter/releases
-- **Specific release:** https://github.com/Afrasyaab-GH/deenshield_flutter/releases/tag/v0.1.0
+- **Releases page:** https://github.com/Afrasyaab-GH/AmnShield_flutter/releases
+- **Specific release:** https://github.com/Afrasyaab-GH/AmnShield_flutter/releases/tag/v0.1.0
 
 ---
 
@@ -259,7 +259,7 @@ After workflow completes (usually 1-2 minutes):
 **Problem:** Workflow runs but release not created
 
 **Solutions:**
-1. Check workflow logs at: https://github.com/Afrasyaab-GH/deenshield_flutter/actions
+1. Check workflow logs at: https://github.com/Afrasyaab-GH/AmnShield_flutter/actions
 2. Verify `releases/` directory exists with all required files
 3. Ensure `GITHUB_TOKEN` has `contents: write` permission (automatic in workflow)
 4. Check file name patterns match wildcards in workflow
@@ -271,8 +271,8 @@ After workflow completes (usually 1-2 minutes):
 **Solutions:**
 1. Verify files exist in `releases/` directory before pushing tag
 2. Check file naming matches patterns:
-   - `DeenShield-Setup-v*.exe`
-   - `DeenShield-Portable-v*.zip`
+   - `AmnShield-Setup-v*.exe`
+   - `AmnShield-Portable-v*.zip`
    - etc.
 3. Ensure files are committed to git before creating tag
 4. Check workflow logs for file attachment errors
@@ -337,27 +337,27 @@ if ($LASTEXITCODE -ne 0) {
 # Step 2: Package portable
 Write-Host "`n📦 Creating portable package..." -ForegroundColor Yellow
 Compress-Archive -Path "build\windows\x64\runner\Release\*" `
-                 -DestinationPath "releases\DeenShield-Portable-$VersionTag.zip" `
+                 -DestinationPath "releases\AmnShield-Portable-$VersionTag.zip" `
                  -Force
 
 # Step 3: Copy installer
 Write-Host "`n📦 Copying installer..." -ForegroundColor Yellow
-Copy-Item "installer\installer_output\DeenShield-Setup.exe" `
-          "releases\DeenShield-Setup-$VersionTag.exe" `
+Copy-Item "installer\installer_output\AmnShield-Setup.exe" `
+          "releases\AmnShield-Setup-$VersionTag.exe" `
           -Force
 
 # Step 4: Package extensions
 Write-Host "`n📦 Packaging extensions..." -ForegroundColor Yellow
-Compress-Archive -Path "deenshield_extension\*" `
-                 -DestinationPath "releases\DeenShield-Extension-$VersionTag-Chrome.zip" `
+Compress-Archive -Path "AmnShield_extension\*" `
+                 -DestinationPath "releases\AmnShield-Extension-$VersionTag-Chrome.zip" `
                  -Force
 
-Compress-Archive -Path "deenshield_extension_firefox\*" `
-                 -DestinationPath "releases\DeenShield-Extension-$VersionTag-Firefox.zip" `
+Compress-Archive -Path "AmnShield_extension_firefox\*" `
+                 -DestinationPath "releases\AmnShield-Extension-$VersionTag-Firefox.zip" `
                  -Force
 
-Compress-Archive -Path "deenshield_extension\*", "deenshield_extension_firefox\*" `
-                 -DestinationPath "releases\DeenShield-Extension-$VersionTag-All-Browsers.zip" `
+Compress-Archive -Path "AmnShield_extension\*", "AmnShield_extension_firefox\*" `
+                 -DestinationPath "releases\AmnShield-Extension-$VersionTag-All-Browsers.zip" `
                  -Force
 
 # Step 5: Generate checksums
@@ -372,17 +372,17 @@ Add-Content "releases\SHA256SUMS.txt" "`nGenerated: $(Get-Date -Format 'yyyy-MM-
 # Step 6: Commit
 Write-Host "`n💾 Committing release files..." -ForegroundColor Yellow
 git add releases/
-git commit -m "Release: DeenShield $VersionTag - Experimental Release"
+git commit -m "Release: AmnShield $VersionTag - Experimental Release"
 git push origin main
 
 # Step 7: Create and push tag
 Write-Host "`n🏷️  Creating tag $VersionTag..." -ForegroundColor Yellow
-git tag -a $VersionTag -m "DeenShield $VersionTag - Experimental Release"
+git tag -a $VersionTag -m "AmnShield $VersionTag - Experimental Release"
 git push origin $VersionTag
 
 Write-Host "`n✅ Release process complete!" -ForegroundColor Green
 Write-Host "🎉 GitHub Actions will create the release automatically." -ForegroundColor Green
-Write-Host "📦 View at: https://github.com/Afrasyaab-GH/deenshield_flutter/releases/tag/$VersionTag" -ForegroundColor Cyan
+Write-Host "📦 View at: https://github.com/Afrasyaab-GH/AmnShield_flutter/releases/tag/$VersionTag" -ForegroundColor Cyan
 Write-Host "`n⏳ Wait 1-2 minutes for workflow to complete..." -ForegroundColor Yellow
 ```
 
@@ -411,18 +411,18 @@ git push origin v0.1.0
 .\build_release.ps1
 
 # 2. Package
-Compress-Archive -Path "build\windows\x64\runner\Release\*" -DestinationPath "releases\DeenShield-Portable-v0.1.0.zip" -Force
+Compress-Archive -Path "build\windows\x64\runner\Release\*" -DestinationPath "releases\AmnShield-Portable-v0.1.0.zip" -Force
 
 # 3. Checksums
 Get-ChildItem "releases\*.exe", "releases\*.zip" | ForEach-Object { $hash = Get-FileHash $_.FullName -Algorithm SHA256; "$($hash.Hash)  $($_.Name)" } | Out-File "releases\SHA256SUMS.txt" -Encoding utf8
 
 # 4. Commit & Push
 git add releases/
-git commit -m "Release: DeenShield v0.1.0"
+git commit -m "Release: AmnShield v0.1.0"
 git push origin main
 
 # 5. Tag & Push (triggers automation!)
-git tag -a v0.1.0 -m "DeenShield v0.1.0"
+git tag -a v0.1.0 -m "AmnShield v0.1.0"
 git push origin v0.1.0
 ```
 
@@ -442,8 +442,8 @@ git push origin v0.1.0
 
 ## 📞 Support
 
-**Workflow Issues:** Check https://github.com/Afrasyaab-GH/deenshield_flutter/actions  
-**Release Questions:** Open issue at https://github.com/Afrasyaab-GH/deenshield_flutter/issues
+**Workflow Issues:** Check https://github.com/Afrasyaab-GH/AmnShield_flutter/actions  
+**Release Questions:** Open issue at https://github.com/Afrasyaab-GH/AmnShield_flutter/issues
 
 ---
 

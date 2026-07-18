@@ -23,8 +23,8 @@
 
 **Version:** v0.1.0  
 **Status:** 🔄 **GitHub Actions Running**  
-**Monitor:** https://github.com/Afrasyaab-GH/deenshield_flutter/actions  
-**Release:** https://github.com/Afrasyaab-GH/deenshield_flutter/releases/tag/v0.1.0
+**Monitor:** https://github.com/Afrasyaab-GH/AmnShield_flutter/actions  
+**Release:** https://github.com/Afrasyaab-GH/AmnShield_flutter/releases/tag/v0.1.0
 
 **Wait:** 1-2 minutes for completion
 
@@ -88,7 +88,7 @@ Triggered on: Tag push (`v*.*.*`)
 
 After GitHub Actions completes (1-2 minutes):
 
-1. ✅ Verify release at: https://github.com/Afrasyaab-GH/deenshield_flutter/releases
+1. ✅ Verify release at: https://github.com/Afrasyaab-GH/AmnShield_flutter/releases
 2. ✅ Test download links work
 3. ✅ Share on social media
 4. ✅ Announce in communities

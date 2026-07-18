@@ -1,13 +1,13 @@
-# DeenShield - Islamic Digital Guardian
+# AmnShield - Islamic Digital Guardian
 
-[![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](https://github.com/yourusername/deenshield/releases)
-[![Platform](https://img.shields.io/badge/platform-Windows%2010%2B-lightgrey.svg)](https://github.com/yourusername/deenshield/releases)
+[![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](https://github.com/yourusername/AmnShield/releases)
+[![Platform](https://img.shields.io/badge/platform-Windows%2010%2B-lightgrey.svg)](https://github.com/yourusername/AmnShield/releases)
 [![License](https://img.shields.io/badge/license-Proprietary-red.svg)](LICENSE.md)
 [![Donate](https://img.shields.io/badge/donate-support%20development-green.svg)](https://github.com/sponsors/yourusername)
 
 **Protecting Muslim families in the digital age** 🕌
 
-DeenShield is a comprehensive Islamic content filtering and monitoring solution designed to help Muslim families maintain their digital purity and strengthen their relationship with Allah (SWT).
+AmnShield is a comprehensive Islamic content filtering and monitoring solution designed to help Muslim families maintain their digital purity and strengthen their relationship with Allah (SWT).
 
 ---
 
@@ -36,14 +36,14 @@ DeenShield is a comprehensive Islamic content filtering and monitoring solution 
 ### Latest Release: v0.1.0 (Experimental)
 
 **Windows Desktop Application:**
-- [DeenShield-Setup-v0.1.0.exe](https://github.com/yourusername/deenshield/releases/download/v0.1.0/DeenShield-Setup-v0.1.0.exe) (31.98 MB)
+- [AmnShield-Setup-v0.1.0.exe](https://github.com/yourusername/AmnShield/releases/download/v0.1.0/AmnShield-Setup-v0.1.0.exe) (31.98 MB)
 - **Requirements:** Windows 10 (1809+) 64-bit
 - **SHA256:** `[will be added after upload]`
 
 **Browser Extensions:**
-- [Chrome/Edge Extension v0.1.0](https://github.com/yourusername/deenshield/releases/download/v0.1.0/deenshield-chrome-v0.1.0.zip) (8.67 MB)
-- [Firefox Extension v0.1.0](https://github.com/yourusername/deenshield/releases/download/v0.1.0/deenshield-firefox-v0.1.0.zip) (8.66 MB)
-- [All Browsers Package](https://github.com/yourusername/deenshield/releases/download/v0.1.0/deenshield-all-browsers-v0.1.0.zip) (17.34 MB)
+- [Chrome/Edge Extension v0.1.0](https://github.com/yourusername/AmnShield/releases/download/v0.1.0/AmnShield-chrome-v0.1.0.zip) (8.67 MB)
+- [Firefox Extension v0.1.0](https://github.com/yourusername/AmnShield/releases/download/v0.1.0/AmnShield-firefox-v0.1.0.zip) (8.66 MB)
+- [All Browsers Package](https://github.com/yourusername/AmnShield/releases/download/v0.1.0/AmnShield-all-browsers-v0.1.0.zip) (17.34 MB)
 
 📖 **[Installation Guide](docs/INSTALLATION_GUIDE.md)** | 📋 **[Release Notes](docs/RELEASE_NOTES.md)** | ❓ **[FAQ](docs/FAQ.md)**
 
@@ -52,21 +52,21 @@ DeenShield is a comprehensive Islamic content filtering and monitoring solution 
 ## 🚀 Quick Start
 
 ### 1. Install Desktop Application
-1. Download `DeenShield-Setup-v0.1.0.exe`
+1. Download `AmnShield-Setup-v0.1.0.exe`
 2. Run the installer (requires admin privileges)
 3. Follow the setup wizard
 4. Create your guardian password
-5. Done! DeenShield is now protecting your system
+5. Done! AmnShield is now protecting your system
 
 ### 2. Install Browser Extension
 **Chrome/Edge:**
-1. Download and extract `deenshield-chrome-v0.1.0.zip`
+1. Download and extract `AmnShield-chrome-v0.1.0.zip`
 2. Open `chrome://extensions/`
 3. Enable "Developer mode"
 4. Click "Load unpacked" and select the extracted folder
 
 **Firefox:**
-1. Download `deenshield-firefox-v0.1.0.zip`
+1. Download `AmnShield-firefox-v0.1.0.zip`
 2. Open `about:addons`
 3. Click gear icon → "Install Add-on From File"
 4. Select the downloaded ZIP file
@@ -85,9 +85,9 @@ DeenShield is a comprehensive Islamic content filtering and monitoring solution 
 
 ---
 
-## 🎯 Why DeenShield?
+## 🎯 Why AmnShield?
 
-In today's digital age, Muslims face unprecedented challenges in maintaining their spiritual purity online. DeenShield provides:
+In today's digital age, Muslims face unprecedented challenges in maintaining their spiritual purity online. AmnShield provides:
 
 ✅ **Islamic-Focused Protection** - Designed specifically for Muslim families  
 ✅ **Comprehensive Coverage** - Desktop + Browser protection  
@@ -102,7 +102,7 @@ In today's digital age, Muslims face unprecedented challenges in maintaining the
 
 ## 💰 Support Development
 
-DeenShield is developed and maintained by **Alhaq Digital Services (ADS)** with the intention to help Muslims worldwide. Development costs include:
+AmnShield is developed and maintained by **Alhaq Digital Services (ADS)** with the intention to help Muslims worldwide. Development costs include:
 
 - Server infrastructure
 - Development tools and licenses
@@ -111,7 +111,7 @@ DeenShield is developed and maintained by **Alhaq Digital Services (ADS)** with 
 - Ongoing maintenance
 
 **Your support helps us:**
-- ✅ Keep DeenShield free for everyone
+- ✅ Keep AmnShield free for everyone
 - ✅ Add new features faster
 - ✅ Support more platforms (macOS, Linux, Mobile)
 - ✅ Improve AI content detection
@@ -124,7 +124,7 @@ DeenShield is developed and maintained by **Alhaq Digital Services (ADS)** with 
 
 **One-Time Donation:**
 - PayPal: [paypal.me/alhaqdigital](https://paypal.me/alhaqdigital)
-- Ko-fi: [ko-fi.com/deenshield](https://ko-fi.com/deenshield)
+- Ko-fi: [ko-fi.com/AmnShield](https://ko-fi.com/AmnShield)
 - Bitcoin: `[Your BTC Address]`
 - Ethereum: `[Your ETH Address]`
 
@@ -142,7 +142,7 @@ DeenShield is developed and maintained by **Alhaq Digital Services (ADS)** with 
 
 ## 🛡️ Security & Privacy
 
-DeenShield takes your privacy seriously:
+AmnShield takes your privacy seriously:
 
 - ✅ **All processing happens locally** - No data sent to external servers
 - ✅ **Passwords encrypted** - PBKDF2 + AES-256 encryption
@@ -183,30 +183,30 @@ DeenShield takes your privacy seriously:
 
 ## 💬 Community & Support
 
-- **Issues:** [GitHub Issues](https://github.com/yourusername/deenshield/issues) (for bug reports only)
-- **Discussions:** [GitHub Discussions](https://github.com/yourusername/deenshield/discussions)
+- **Issues:** [GitHub Issues](https://github.com/yourusername/AmnShield/issues) (for bug reports only)
+- **Discussions:** [GitHub Discussions](https://github.com/yourusername/AmnShield/discussions)
 - **Email:** support@alhaqdigital.com
-- **Website:** [www.deenshield.com](https://www.deenshield.com) (coming soon)
-- **Twitter:** [@DeenShield](https://twitter.com/deenshield)
+- **Website:** [www.AmnShield.com](https://www.AmnShield.com) (coming soon)
+- **Twitter:** [@AmnShield](https://twitter.com/AmnShield)
 
 ---
 
 ## ❓ Frequently Asked Questions
 
-**Q: Is DeenShield really free?**  
-A: Yes! DeenShield is free for all Muslims. Donations are appreciated to support ongoing development.
+**Q: Is AmnShield really free?**  
+A: Yes! AmnShield is free for all Muslims. Donations are appreciated to support ongoing development.
 
 **Q: Why is the source code private?**  
 A: To prevent malicious actors from creating bypasses. Security through obscurity is a secondary layer. We're open to providing source code access for security audits.
 
-**Q: Will DeenShield work without the desktop app?**  
+**Q: Will AmnShield work without the desktop app?**  
 A: The browser extension works independently, but some advanced features require the desktop app for full functionality.
 
-**Q: Does DeenShield slow down my computer?**  
-A: No. DeenShield uses minimal resources (~50-100 MB RAM) and runs efficiently in the background.
+**Q: Does AmnShield slow down my computer?**  
+A: No. AmnShield uses minimal resources (~50-100 MB RAM) and runs efficiently in the background.
 
-**Q: Can children bypass DeenShield?**  
-A: DeenShield provides strong protection, but no system is 100% foolproof. It should be combined with proper Islamic education and parental supervision.
+**Q: Can children bypass AmnShield?**  
+A: AmnShield provides strong protection, but no system is 100% foolproof. It should be combined with proper Islamic education and parental supervision.
 
 **[View All FAQs](docs/FAQ.md)**
 
@@ -214,7 +214,7 @@ A: DeenShield provides strong protection, but no system is 100% foolproof. It sh
 
 ## 📜 License
 
-DeenShield is proprietary software developed by **Alhaq Digital Services (ADS)**.
+AmnShield is proprietary software developed by **Alhaq Digital Services (ADS)**.
 
 - ✅ Free to use for personal, non-commercial purposes
 - ❌ Source code is not publicly available
@@ -248,7 +248,7 @@ DeenShield is proprietary software developed by **Alhaq Digital Services (ADS)**
 
 *Protecting Muslim Families in the Digital Age*
 
-[![Star](https://img.shields.io/github/stars/yourusername/deenshield?style=social)](https://github.com/yourusername/deenshield)
-[![Follow](https://img.shields.io/twitter/follow/deenshield?style=social)](https://twitter.com/deenshield)
+[![Star](https://img.shields.io/github/stars/yourusername/AmnShield?style=social)](https://github.com/yourusername/AmnShield)
+[![Follow](https://img.shields.io/twitter/follow/AmnShield?style=social)](https://twitter.com/AmnShield)
 
 </div>

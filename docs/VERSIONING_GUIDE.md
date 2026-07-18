@@ -1,4 +1,4 @@
-# 🔢 DeenShield Version Numbering Guide
+# 🔢 AmnShield Version Numbering Guide
 
 **Format:** `v MAJOR . MINOR . PATCH`
 
@@ -181,7 +181,7 @@ After extensive testing at v0.9.5:
 
 ## 📋 Version History Example
 
-Typical progression for DeenShield:
+Typical progression for AmnShield:
 
 ```
 v0.1.0  - Initial release
@@ -243,7 +243,7 @@ v2.0.0  - Major rewrite with cloud sync
 ### For PATCH releases (bug fixes):
 
 ```markdown
-# DeenShield v0.1.1 Release Notes
+# AmnShield v0.1.1 Release Notes
 
 **Release Date:** November 10, 2025
 **Type:** Bug Fix Release
@@ -262,7 +262,7 @@ Update from v0.1.0 by downloading and installing v0.1.1.
 ### For MINOR releases (features):
 
 ```markdown
-# DeenShield v0.2.0 Release Notes
+# AmnShield v0.2.0 Release Notes
 
 **Release Date:** November 15, 2025
 **Type:** Feature Release
@@ -359,7 +359,7 @@ v0.1.0 → v0.2.0 → v0.2.1  # Feature first, then bug fix
 
 ---
 
-## 📊 Version Strategy for DeenShield
+## 📊 Version Strategy for AmnShield
 
 ### Phase 1: Experimental (v0.x.x)
 - **Current:** v0.1.0
@@ -391,7 +391,7 @@ git tag -l
 git describe --tags
 
 # View current release on GitHub
-# https://github.com/Afrasyaab-GH/deenshield_flutter/releases
+# https://github.com/Afrasyaab-GH/AmnShield_flutter/releases
 ```
 
 ---

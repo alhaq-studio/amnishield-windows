@@ -8,8 +8,8 @@ assignees: ''
 
 **⚠️ Please check before submitting:**
 - [ ] I've searched existing issues and this hasn't been requested
-- [ ] I've read the [Roadmap](https://github.com/alhaqdigital/deenshield-releases/blob/main/docs/ROADMAP.md)
-- [ ] This feature aligns with DeenShield's Islamic purpose
+- [ ] I've read the [Roadmap](https://github.com/alhaqdigital/AmnShield-releases/blob/main/docs/ROADMAP.md)
+- [ ] This feature aligns with AmnShield's Islamic purpose
 
 ---
 

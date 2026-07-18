@@ -1,4 +1,4 @@
-# DeenShield Privacy Policy
+# AmnShield Privacy Policy
 
 **Effective Date:** November 9, 2025  
 **Last Updated:** November 9, 2025
@@ -7,7 +7,7 @@
 
 ## Our Commitment to Privacy
 
-At **Alhaq Digital Services (ADS)**, we take your privacy extremely seriously. DeenShield is designed with **privacy-first principles** rooted in Islamic values of trust, confidentiality, and respect for personal boundaries.
+At **Alhaq Digital Services (ADS)**, we take your privacy extremely seriously. AmnShield is designed with **privacy-first principles** rooted in Islamic values of trust, confidentiality, and respect for personal boundaries.
 
 > *"O you who believe, avoid much suspicion. Indeed, some suspicion is sin. And do not spy..."* (Quran 49:12)
 
@@ -15,7 +15,7 @@ At **Alhaq Digital Services (ADS)**, we take your privacy extremely seriously. D
 
 ## What Information We DO NOT Collect
 
-DeenShield operates with **zero data collection**. We do not collect, store, or transmit:
+AmnShield operates with **zero data collection**. We do not collect, store, or transmit:
 
 - ❌ **Personal Information:** Names, emails, addresses, phone numbers
 - ❌ **Browsing History:** URLs visited, search queries, web content
@@ -28,13 +28,13 @@ DeenShield operates with **zero data collection**. We do not collect, store, or 
 
 ---
 
-## How DeenShield Works
+## How AmnShield Works
 
 ### 100% Local Processing
 All content filtering, analysis, and blocking happens **entirely on your device**:
 - No external servers process your data
 - No cloud-based filtering or analysis
-- No network communication with DeenShield servers (because we don't have any!)
+- No network communication with AmnShield servers (because we don't have any!)
 - Browser extension communicates only with local desktop app via `localhost:47147`
 
 ### Data Storage
@@ -45,7 +45,7 @@ The only data stored locally includes:
 - ✅ **AI Model Cache:** Pre-downloaded Islamic content detection model (optional feature)
 
 **Storage Location:** All data is stored in:
-- Windows: `%APPDATA%\DeenShield\`
+- Windows: `%APPDATA%\AmnShield\`
 - Database: Encrypted Hive database (local only)
 
 ---
@@ -75,7 +75,7 @@ When analyzing web content:
 
 ## Third-Party Services
 
-DeenShield does **not** use any third-party services, including:
+AmnShield does **not** use any third-party services, including:
 - ❌ Analytics platforms (Google Analytics, Mixpanel, etc.)
 - ❌ Error tracking (Sentry, Crashlytics, etc.)
 - ❌ Cloud hosting or storage
@@ -93,7 +93,7 @@ DeenShield does **not** use any third-party services, including:
 - **Isolation:** Each user account has separate data storage
 
 ### No Network Vulnerabilities
-Since DeenShield doesn't communicate with external servers:
+Since AmnShield doesn't communicate with external servers:
 - No risk of man-in-the-middle attacks on our services
 - No data breaches from compromised servers
 - No unauthorized access to cloud-stored data
@@ -103,7 +103,7 @@ Since DeenShield doesn't communicate with external servers:
 
 ## Children's Privacy
 
-DeenShield is designed to **protect** children and does not collect any information from users of any age. Parents can:
+AmnShield is designed to **protect** children and does not collect any information from users of any age. Parents can:
 - Configure settings without providing child's information
 - Monitor usage through local logs (optional, disabled by default)
 - All monitoring happens locally on the family device
@@ -113,16 +113,16 @@ DeenShield is designed to **protect** children and does not collect any informat
 ## Data Retention
 
 Since we don't collect data, there's nothing to retain. Local data on your device:
-- Remains until you uninstall DeenShield
-- Can be manually deleted by removing `%APPDATA%\DeenShield\`
+- Remains until you uninstall AmnShield
+- Can be manually deleted by removing `%APPDATA%\AmnShield\`
 - Uninstallation removes all app files automatically
 
 ---
 
 ## Your Rights
 
-You have complete control over DeenShield's data:
-- ✅ **Access:** All your data is on your device (`%APPDATA%\DeenShield\`)
+You have complete control over AmnShield's data:
+- ✅ **Access:** All your data is on your device (`%APPDATA%\AmnShield\`)
 - ✅ **Modify:** Change settings and configurations anytime
 - ✅ **Delete:** Uninstall to remove all data permanently
 - ✅ **Export:** Database files can be backed up manually
@@ -133,7 +133,7 @@ You have complete control over DeenShield's data:
 ## Updates to This Policy
 
 We may update this privacy policy to reflect:
-- New features in DeenShield
+- New features in AmnShield
 - Changes in privacy regulations
 - Improvements to our privacy practices
 
@@ -142,13 +142,13 @@ Changes will be communicated through:
 - Release notes on GitHub
 - Email notification (if you opt-in to our mailing list)
 
-**You are not required to provide an email to use DeenShield.** Email opt-in is completely separate and optional.
+**You are not required to provide an email to use AmnShield.** Email opt-in is completely separate and optional.
 
 ---
 
 ## Open Source Transparency
 
-While DeenShield's source code is proprietary, we offer:
+While AmnShield's source code is proprietary, we offer:
 - **Security Audits:** Request access for privacy/security review
 - **Independent Verification:** Network traffic can be monitored to confirm no external data transmission
 - **Community Trust:** GitHub discussions and issue tracking for transparency
@@ -174,7 +174,7 @@ For privacy concerns or questions:
 
 - 📧 **Email:** privacy@alhaqdigital.com
 - 🌐 **Website:** www.alhaqdigital.com
-- 💬 **GitHub Discussions:** [github.com/alhaqdigital/deenshield-releases](https://github.com/alhaqdigital/deenshield-releases/discussions)
+- 💬 **GitHub Discussions:** [github.com/alhaqdigital/AmnShield-releases](https://github.com/alhaqdigital/AmnShield-releases/discussions)
 
 **Response Time:** Within 48 hours (Insha'Allah)
 
@@ -182,7 +182,7 @@ For privacy concerns or questions:
 
 ## Compliance
 
-DeenShield is designed to respect:
+AmnShield is designed to respect:
 - **GDPR:** European privacy regulations (no data collection = compliance)
 - **COPPA:** Children's Online Privacy Protection Act (no data from children)
 - **CCPA:** California Consumer Privacy Act (no data sales or sharing)
@@ -194,14 +194,14 @@ DeenShield is designed to respect:
 
 You can verify our privacy claims by:
 1. **Network Monitoring:** Use Wireshark or Fiddler to inspect traffic (you'll see only localhost communication)
-2. **File System Audit:** Check `%APPDATA%\DeenShield\` for stored files
+2. **File System Audit:** Check `%APPDATA%\AmnShield\` for stored files
 3. **Code Review:** Request security audit access (security@alhaqdigital.com)
 
 ---
 
 ## Your Trust is Our Priority
 
-We built DeenShield because we care about protecting Muslim families online. Your privacy is not a feature—it's the foundation of everything we do.
+We built AmnShield because we care about protecting Muslim families online. Your privacy is not a feature—it's the foundation of everything we do.
 
 **JazakAllahu Khair** for trusting us to help safeguard your digital life.
 

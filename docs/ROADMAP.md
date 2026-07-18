@@ -1,4 +1,4 @@
-# DeenShield Roadmap
+# AmnShield Roadmap
 
 **Vision:** Empower Muslims worldwide to maintain digital purity and protect their families from harmful content through intelligent, privacy-respecting technology.
 
@@ -210,7 +210,7 @@
   - Regional content databases (Middle East, Southeast Asia, etc.)
 
 - 📖 **Open API**
-  - Developers can build on DeenShield
+  - Developers can build on AmnShield
   - Custom integrations for schools/mosques
   - Third-party plugin support
 
@@ -234,10 +234,10 @@
 
 ## 🤝 Community Input
 
-We want to hear from **you**! Help shape the future of DeenShield:
+We want to hear from **you**! Help shape the future of AmnShield:
 
 ### How to Contribute Ideas
-- 💬 **GitHub Discussions:** https://github.com/alhaqdigital/deenshield-releases/discussions
+- 💬 **GitHub Discussions:** https://github.com/alhaqdigital/AmnShield-releases/discussions
 - 📧 **Email:** feedback@alhaqdigital.com
 - 🗳️ **Feature Voting:** Vote on proposed features in our community forum
 
@@ -264,7 +264,7 @@ We want to hear from **you**! Help shape the future of DeenShield:
 
 ## 💰 Funding the Roadmap
 
-DeenShield is a **community-funded project**. Development is supported by:
+AmnShield is a **community-funded project**. Development is supported by:
 - 💚 **GitHub Sponsors:** Monthly recurring donations
 - ☕ **One-Time Donations:** PayPal, Ko-fi
 - 🏢 **Enterprise Licenses:** Paid features for organizations
@@ -274,7 +274,7 @@ DeenShield is a **community-funded project**. Development is supported by:
 **Support Development:**
 - GitHub Sponsors: https://github.com/sponsors/alhaqdigital
 - PayPal: https://paypal.me/alhaqdigital
-- Ko-fi: https://ko-fi.com/deenshield
+- Ko-fi: https://ko-fi.com/AmnShield
 
 Every contribution helps us reach more Muslim families 🕌
 
@@ -293,8 +293,8 @@ Every contribution helps us reach more Muslim families 🕌
 Subscribe for release notifications:
 - ⭐ **Star the GitHub repo:** Notifications for new releases
 - 📧 **Email Newsletter:** Monthly updates (opt-in)
-- 🐦 **Twitter/X:** Follow [@DeenShield](https://twitter.com/DeenShield)
-- 💬 **Discord Community:** https://discord.gg/deenshield (coming soon)
+- 🐦 **Twitter/X:** Follow [@AmnShield](https://twitter.com/AmnShield)
+- 💬 **Discord Community:** https://discord.gg/AmnShield (coming soon)
 
 ---
 

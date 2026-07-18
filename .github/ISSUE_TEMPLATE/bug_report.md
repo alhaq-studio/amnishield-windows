@@ -1,6 +1,6 @@
 ---
 name: Bug Report
-about: Report a bug or issue with DeenShield
+about: Report a bug or issue with AmnShield
 title: '[BUG] '
 labels: bug
 assignees: ''
@@ -9,7 +9,7 @@ assignees: ''
 **⚠️ Please check before submitting:**
 - [ ] I've searched existing issues and this is not a duplicate
 - [ ] I'm using the latest version (v0.1.0)
-- [ ] I've read the [FAQ](https://github.com/alhaqdigital/deenshield-releases/blob/main/docs/FAQ.md)
+- [ ] I've read the [FAQ](https://github.com/alhaqdigital/AmnShield-releases/blob/main/docs/FAQ.md)
 
 ---
 
@@ -31,7 +31,7 @@ assignees: ''
 *If applicable, add screenshots to help explain your problem*
 
 ## 💻 System Information
-- **DeenShield Version:** [e.g., v0.1.0]
+- **AmnShield Version:** [e.g., v0.1.0]
 - **Windows Version:** [e.g., Windows 11 22H2]
 - **Browser:** [e.g., Chrome 120, Firefox 115]
 - **Running as Admin:** [Yes/No]
@@ -48,4 +48,4 @@ Paste error messages here
 
 ---
 
-**JazakAllahu Khair for helping improve DeenShield!**
+**JazakAllahu Khair for helping improve AmnShield!**

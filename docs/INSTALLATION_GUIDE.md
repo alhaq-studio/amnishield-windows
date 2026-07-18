@@ -1,4 +1,4 @@
-# DeenShield v0.1.0 - Installation & Setup Guide
+# AmnShield v0.1.0 - Installation & Setup Guide
 
 **Quick Start Guide for Windows Users**
 
@@ -15,12 +15,12 @@
 ### Installation Steps
 
 1. **Download the Installer**
-   - Download `DeenShield-Setup-v0.1.0.exe` from:
-     - GitHub Releases: https://github.com/alhaqdigital/deenshield-releases/releases/tag/v0.1.0
+   - Download `AmnShield-Setup-v0.1.0.exe` from:
+     - GitHub Releases: https://github.com/alhaqdigital/AmnShield-releases/releases/tag/v0.1.0
      - Official Website: www.alhaqdigital.com/downloads
 
 2. **Run the Installer**
-   - Double-click `DeenShield-Setup-v0.1.0.exe`
+   - Double-click `AmnShield-Setup-v0.1.0.exe`
    - Windows will show a UAC (User Account Control) prompt
    - Click **"Yes"** to allow installation with administrator privileges
    - *This is normal and required for proper installation*
@@ -28,13 +28,13 @@
 3. **Installation Wizard**
    - **Welcome Screen:** Click "Next"
    - **License Agreement:** Read and accept (Click "I accept")
-   - **Destination Folder:** Default is `C:\Program Files\DeenShield`
+   - **Destination Folder:** Default is `C:\Program Files\AmnShield`
      - You can change this if needed
    - **Select Components:** All components are required (pre-selected)
    - **Additional Options:**
      - ☐ Create Desktop Icon (optional)
      - ☐ Create Quick Launch Icon (optional)
-     - ☑ **Start DeenShield automatically when Windows starts** (RECOMMENDED)
+     - ☑ **Start AmnShield automatically when Windows starts** (RECOMMENDED)
    - Click "Install"
 
 4. **Installation Progress**
@@ -47,17 +47,17 @@
      - Configure auto-start (if selected)
 
 5. **Completion**
-   - ☑ Launch DeenShield Desktop Guardian (recommended)
+   - ☑ Launch AmnShield Desktop Guardian (recommended)
    - Click "Finish"
 
 ---
 
 ## 🔐 First-Time Setup (Guardian Password)
 
-When you launch DeenShield for the first time:
+When you launch AmnShield for the first time:
 
 1. **Welcome Screen**
-   - You'll see a welcome message explaining DeenShield's purpose
+   - You'll see a welcome message explaining AmnShield's purpose
    - Click "Continue to Setup"
 
 2. **Create Guardian Password**
@@ -90,8 +90,8 @@ Currently, there is no password recovery in v0.1.0 (planned for v0.2).
 #### Method 2: Manual Installation (Current)
 
 1. **Download the Extension**
-   - Download `deenshield-chrome-v0.1.0.zip`
-   - Extract the ZIP file to a permanent location (e.g., `C:\DeenShield Extensions\Chrome\`)
+   - Download `AmnShield-chrome-v0.1.0.zip`
+   - Extract the ZIP file to a permanent location (e.g., `C:\AmnShield Extensions\Chrome\`)
    - **DO NOT delete this folder** - Chrome will use it directly
 
 2. **Enable Developer Mode**
@@ -101,16 +101,16 @@ Currently, there is no password recovery in v0.1.0 (planned for v0.2).
 
 3. **Load the Extension**
    - Click **"Load unpacked"**
-   - Browse to the extracted folder: `deenshield-chrome-v0.1.0\`
+   - Browse to the extracted folder: `AmnShield-chrome-v0.1.0\`
    - Select the folder and click "Select Folder"
 
 4. **Verify Installation**
    - You should see "Deen Shield" in your extensions list
-   - The DeenShield icon should appear in your browser toolbar
-   - If not visible, click the puzzle icon and pin DeenShield
+   - The AmnShield icon should appear in your browser toolbar
+   - If not visible, click the puzzle icon and pin AmnShield
 
 5. **Grant Permissions**
-   - Click the DeenShield icon
+   - Click the AmnShield icon
    - Review and accept requested permissions:
      - Read and change all your data on websites (for content filtering)
      - Display notifications (for block alerts)
@@ -124,14 +124,14 @@ Currently, there is no password recovery in v0.1.0 (planned for v0.2).
 #### Method 2: Manual Installation (Current)
 
 1. **Download the Extension**
-   - Download `deenshield-firefox-v0.1.0.zip`
+   - Download `AmnShield-firefox-v0.1.0.zip`
    - **Keep the ZIP file** - Firefox will install from it
 
 2. **Install from File**
    - Open Firefox
    - Navigate to: `about:addons`
    - Click the gear icon (⚙️) → **"Install Add-on From File..."**
-   - Select `deenshield-firefox-v0.1.0.zip`
+   - Select `AmnShield-firefox-v0.1.0.zip`
    - Click "Open"
 
 3. **Approve Installation**
@@ -141,7 +141,7 @@ Currently, there is no password recovery in v0.1.0 (planned for v0.2).
 
 4. **Verify Installation**
    - You should see "Deen Shield" in your extensions list
-   - The DeenShield icon should appear in your browser toolbar
+   - The AmnShield icon should appear in your browser toolbar
 
 ---
 
@@ -159,7 +159,7 @@ If both the desktop app and browser extension are installed:
    - You'll see a "✓ Connected to Desktop App" indicator
 
 3. **Connection Status**
-   - Click the DeenShield extension icon
+   - Click the AmnShield extension icon
    - Go to Settings
    - Look for "Desktop Connection Status"
    - Should show: **"Connected ✓"**
@@ -169,7 +169,7 @@ If both the desktop app and browser extension are installed:
 If the connection fails:
 
 1. **Check Desktop App is Running**
-   - Look for DeenShield icon in system tray (near clock)
+   - Look for AmnShield icon in system tray (near clock)
    - If not there, launch from Start Menu
 
 2. **Verify Port is Open**
@@ -210,7 +210,7 @@ If the connection fails:
 ### Browser Extension Settings
 
 1. **Access Extension Settings**
-   - Click DeenShield icon in toolbar
+   - Click AmnShield icon in toolbar
    - Click "Settings" (gear icon)
 
 2. **Configure Blocking**
@@ -228,7 +228,7 @@ If the connection fails:
 
 ---
 
-## 🎯 Using DeenShield
+## 🎯 Using AmnShield
 
 ### Browsing with Protection
 
@@ -272,7 +272,7 @@ If the connection fails:
 
 ---
 
-## 🔄 Updating DeenShield
+## 🔄 Updating AmnShield
 
 ### Desktop App Updates
 
@@ -295,16 +295,16 @@ To update manually:
 
 ---
 
-## 🗑️ Uninstalling DeenShield
+## 🗑️ Uninstalling AmnShield
 
 ### Uninstall Desktop App
 
 1. **Via Start Menu**
-   - Start Menu → DeenShield → Uninstall DeenShield
+   - Start Menu → AmnShield → Uninstall AmnShield
 
 2. **Via Windows Settings**
    - Settings → Apps → Apps & features
-   - Find "DeenShield"
+   - Find "AmnShield"
    - Click → Uninstall
 
 3. **During Uninstallation**
@@ -336,7 +336,7 @@ To update manually:
 
 **Solutions:**
 1. Check Task Manager → Processes tab
-   - If "deenshield_flutter.exe" is running, end it
+   - If "AmnShield_flutter.exe" is running, end it
    - Try launching again
 2. Reinstall the application
 3. Check Windows Event Viewer for error logs
@@ -382,7 +382,7 @@ To update manually:
    - Visit `http://localhost:47147/status`
    - Should show JSON response
 3. Check Windows Firewall:
-   - Allow `deenshield_flutter.exe` for local connections
+   - Allow `AmnShield_flutter.exe` for local connections
 4. Restart both app and browser
 
 ---
@@ -390,13 +390,13 @@ To update manually:
 ## 📧 Getting Help
 
 ### Resources
-- **GitHub Issues:** https://github.com/alhaqdigital/deenshield-releases/issues
-- **Discussions:** https://github.com/alhaqdigital/deenshield-releases/discussions
+- **GitHub Issues:** https://github.com/alhaqdigital/AmnShield-releases/issues
+- **Discussions:** https://github.com/alhaqdigital/AmnShield-releases/discussions
 - **Email Support:** support@alhaqdigital.com
 
 ### Reporting Bugs
 When reporting issues, include:
-- DeenShield version (v0.1.0)
+- AmnShield version (v0.1.0)
 - Windows version (e.g., Windows 11 22H2)
 - Browser and version (e.g., Chrome 120)
 - Steps to reproduce the problem
@@ -408,7 +408,7 @@ When reporting issues, include:
 
 **"O you who believe! Enter into Islam completely and do not follow the footsteps of Satan. Indeed, he is to you a clear enemy." (Quran 2:208)**
 
-Thank you for using DeenShield. May it help you maintain your digital purity and strengthen your connection with Allah (SWT).
+Thank you for using AmnShield. May it help you maintain your digital purity and strengthen your connection with Allah (SWT).
 
 **JazakAllahu Khair!**
 

@@ -6,7 +6,7 @@
 
 ### Responsible Disclosure
 
-If you discover a security vulnerability in DeenShield, please report it responsibly:
+If you discover a security vulnerability in AmnShield, please report it responsibly:
 
 1. **DO NOT** create a public GitHub issue
 2. **DO NOT** exploit the vulnerability
@@ -72,7 +72,7 @@ If you discover a security vulnerability in DeenShield, please report it respons
 
 ## 🎯 Threat Model
 
-### What DeenShield Protects Against
+### What AmnShield Protects Against
 
 ✅ **Accidental Access**
 - Children stumbling upon inappropriate content
@@ -89,7 +89,7 @@ If you discover a security vulnerability in DeenShield, please report it respons
 - Families seeking digital purity
 - Muslims committed to lowering their gaze
 
-### What DeenShield Does NOT Protect Against
+### What AmnShield Does NOT Protect Against
 
 ❌ **Determined Attackers**
 - Advanced users with admin rights can disable protection
@@ -97,7 +97,7 @@ If you discover a security vulnerability in DeenShield, please report it respons
 - VPNs or proxies to bypass network-level blocks (not implemented yet)
 
 ❌ **Physical Access**
-- Someone with physical access can uninstall DeenShield
+- Someone with physical access can uninstall AmnShield
 - Booting into Safe Mode bypasses auto-start protection
 - BIOS/UEFI level attacks (out of scope)
 
@@ -122,7 +122,7 @@ If you discover a security vulnerability in DeenShield, please report it respons
    - Subscribe to security announcements (optional)
 
 3. **Layered Protection**
-   - Use DeenShield + parental supervision
+   - Use AmnShield + parental supervision
    - Combine with network-level filtering (router settings)
    - Educate family about Islamic digital ethics
 
@@ -144,7 +144,7 @@ If you discover a security vulnerability in DeenShield, please report it respons
    - Test blocking before relying on it
 
 3. **Monitoring**
-   - Periodically check if DeenShield is running
+   - Periodically check if AmnShield is running
    - Verify browser extensions are active
    - Review app blocking list for changes
 
