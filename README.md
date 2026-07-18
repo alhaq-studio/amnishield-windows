@@ -1,12 +1,12 @@
-# DeenShield Flutter - Unified Desktop Guardian
+# AmnShield Desktop - Unified Guardian
 
-A modern Flutter desktop application that unifies the **C# Desktop Guardian** and **Electron Manager** into a single, fast, and maintainable cross-platform solution.
+A modern Flutter desktop application for Windows that unifies desktop process monitoring, blocking, and configuration settings into a single, fast, and maintainable cross-platform solution.
 
 ## 🚀 Migration Summary
 
 ### **What Was Converted**
 
-#### From C# Desktop App (DeenShield-Desktop_app):
+#### From C# Desktop App (AmnShield-Desktop-App):
 - ✅ Password protection with encryption (SHA-256 + AES)
 - ✅ Application discovery from registry and file system
 - ✅ Process monitoring and blocking
@@ -16,7 +16,7 @@ A modern Flutter desktop application that unifies the **C# Desktop Guardian** an
 - ✅ Admin privilege detection
 - ✅ Modern Material Design UI
 
-#### From Electron Manager (DeenShield-Desktop-Manager):
+#### From Electron Manager (AmnShield-Desktop-Manager):
 - ✅ Quick launch dashboard
 - ✅ Search functionality
 - ✅ Todo list management
@@ -61,7 +61,7 @@ lib/
 
 1. **Install Dependencies**
 ```powershell
-cd c:\Users\habib\PROJECTS\DEENSHIELD\deenshield_flutter
+cd c:\Users\habib\PROJECTS\AmnShield\AmnShield_flutter
 flutter pub get
 ```
 
@@ -240,7 +240,7 @@ flutter build windows
 flutter build windows --release
 
 # Executable location:
-# build/windows/runner/Release/deenshield_flutter.exe
+# build/windows/runner/Release/amnshield_flutter.exe
 ```
 
 ## 🤝 Next Steps
@@ -254,13 +254,13 @@ flutter build windows --release
 
 ## 📄 License
 
-Same as original DeenShield projects.
+Same as original AmnShield projects.
 
 ## 🔗 Related Projects
 
-- **DeenShield Extension**: Browser extension (Chrome/Firefox)
-- **Original C# App**: `DeenShield-Desktop_app`
-- **Original Electron Manager**: `DeenShield-Desktop-Manager`
+- **AmnShield Extension**: Browser extension (Chrome/Firefox)
+- **Original C# App**: `AmnShield-Desktop-App`
+- **Original Electron Manager**: `AmnShield-Desktop-Manager`
 
 ---
 

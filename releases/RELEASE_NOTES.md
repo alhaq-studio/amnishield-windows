@@ -1,4 +1,4 @@
-# DeenShield v0.1.0 - Experimental Release 🕌
+# AmnShield v0.1.0 - Experimental Release 🕌
 
 **Release Date:** November 9, 2025  
 **Status:** 🚧 Experimental / Alpha Testing  
@@ -11,7 +11,7 @@
 ### 🖥️ Desktop Application
 
 #### **Option 1: Installer (Recommended)**
-📥 **DeenShield-Setup-v0.1.0.exe** (31.98 MB)
+📥 **AmnShield-Setup-v0.1.0.exe** (31.98 MB)
 - Full Windows installer with admin privileges
 - Auto-start on Windows boot
 - Creates shortcuts and Start Menu entries
@@ -20,7 +20,7 @@
 **SHA256:** `27DEE95D5B764E8E62DF55EB86071316803951659508D9E9BF22CE04BE9EE36B`
 
 #### **Option 2: Portable (No Installation)**
-📥 **DeenShield-Portable-v0.1.0.zip** (33.59 MB)
+📥 **AmnShield-Portable-v0.1.0.zip** (33.59 MB)
 - Extract and run anywhere
 - No installation required
 - Run from USB drive
@@ -33,21 +33,21 @@
 ### 🌐 Browser Extensions
 
 #### **Chrome / Edge / Brave / Opera**
-📥 **DeenShield-Extension-v0.1.0-Chrome.zip** (8.67 MB)
+📥 **AmnShield-Extension-v0.1.0-Chrome.zip** (8.67 MB)
 - Manifest V3 (latest security standards)
 - Manual installation required (not on Chrome Web Store yet)
 
 **SHA256:** `A8D0DF20B1409444E9537330C1BE374C64CC186FE45B22379763C05A35C2C33C`
 
 #### **Firefox**
-📥 **DeenShield-Extension-v0.1.0-Firefox.zip** (8.66 MB)
+📥 **AmnShield-Extension-v0.1.0-Firefox.zip** (8.66 MB)
 - Manifest V2 (Firefox standard)
 - Manual installation required (not on Firefox Add-ons yet)
 
 **SHA256:** `FC99B69FE9D6AADDFDEB39C7C9DAA7863482761E32876A19D6F63896091D0CD3`
 
 #### **All Browsers Bundle**
-📥 **DeenShield-Extension-v0.1.0-All-Browsers.zip** (17.34 MB)
+📥 **AmnShield-Extension-v0.1.0-All-Browsers.zip** (17.34 MB)
 - Both Chrome and Firefox extensions
 - One download for all browsers
 
@@ -61,13 +61,13 @@
 
 ### Windows PowerShell:
 ```powershell
-Get-FileHash -Path "DeenShield-Setup-v0.1.0.exe" -Algorithm SHA256
+Get-FileHash -Path "AmnShield-Setup-v0.1.0.exe" -Algorithm SHA256
 # Compare output with SHA256 above
 ```
 
 ### Linux / macOS:
 ```bash
-sha256sum DeenShield-Setup-v0.1.0.exe
+sha256sum AmnShield-Setup-v0.1.0.exe
 # Compare output with SHA256 above
 ```
 
@@ -80,7 +80,7 @@ sha256sum DeenShield-Setup-v0.1.0.exe
 ### Desktop App Installation
 
 #### Using Installer:
-1. Download `DeenShield-Setup-v0.1.0.exe`
+1. Download `AmnShield-Setup-v0.1.0.exe`
 2. Right-click → Properties → Check "Unblock" (if present) → OK
 3. Run installer (UAC prompt will appear - click "Yes")
 4. Follow installation wizard
@@ -88,9 +88,9 @@ sha256sum DeenShield-Setup-v0.1.0.exe
 6. App starts in system tray
 
 #### Using Portable:
-1. Download `DeenShield-Portable-v0.1.0.zip`
-2. Extract to any folder (e.g., `C:\DeenShield\`)
-3. Right-click `deenshield_flutter.exe` → "Run as administrator"
+1. Download `AmnShield-Portable-v0.1.0.zip`
+2. Extract to any folder (e.g., `C:\AmnShield\`)
+3. Right-click `AmnShield_flutter.exe` → "Run as administrator"
 4. Create guardian password
 5. App runs without installation
 
@@ -99,8 +99,8 @@ sha256sum DeenShield-Setup-v0.1.0.exe
 ### Browser Extension Installation
 
 #### Chrome / Edge:
-1. Download `DeenShield-Extension-v0.1.0-Chrome.zip`
-2. Extract to permanent location (e.g., `C:\DeenShield Extensions\Chrome\`)
+1. Download `AmnShield-Extension-v0.1.0-Chrome.zip`
+2. Extract to permanent location (e.g., `C:\AmnShield Extensions\Chrome\`)
 3. Open `chrome://extensions/` (or `edge://extensions/`)
 4. Enable "Developer mode" (top-right)
 5. Click "Load unpacked"
@@ -108,7 +108,7 @@ sha256sum DeenShield-Setup-v0.1.0.exe
 7. Pin extension to toolbar
 
 #### Firefox:
-1. Download `DeenShield-Extension-v0.1.0-Firefox.zip`
+1. Download `AmnShield-Extension-v0.1.0-Firefox.zip`
 2. Open `about:addons`
 3. Click gear icon ⚙️ → "Install Add-on From File..."
 4. Select the ZIP file
@@ -216,7 +216,7 @@ Comprehensive guides available in the repository:
 ### Extension Shows "Disconnected"
 **Cause:** Desktop app not running  
 **Solution:**
-1. Check system tray for DeenShield icon
+1. Check system tray for AmnShield icon
 2. If not there, launch from Start Menu
 3. Test: Visit `http://localhost:47147/status` (should show JSON)
 
@@ -231,10 +231,10 @@ Comprehensive guides available in the repository:
 
 Found a bug? Help us improve!
 
-**GitHub Issues:** https://github.com/alhaqdigital/deenshield-releases/issues
+**GitHub Issues:** https://github.com/alhaqdigital/AmnShield-releases/issues
 
 **Include in your report:**
-- DeenShield version (v0.1.0)
+- AmnShield version (v0.1.0)
 - Windows version (e.g., Windows 11 22H2)
 - Browser and version (if extension issue)
 - Steps to reproduce
@@ -249,7 +249,7 @@ Found a bug? Help us improve!
 
 **Without Coding:**
 - 🤲 **Donate:** Support ongoing development (Sadaqah Jariyah)
-- 🗣️ **Spread the word:** Tell other Muslims about DeenShield
+- 🗣️ **Spread the word:** Tell other Muslims about AmnShield
 - 🧪 **Test:** Report bugs and suggest improvements
 - 📝 **Translate:** Help localize to Arabic, Urdu, Turkish, etc.
 - ⭐ **Star the repo:** Show your support on GitHub
@@ -257,7 +257,7 @@ Found a bug? Help us improve!
 **Donations:**
 - 💚 GitHub Sponsors: https://github.com/sponsors/alhaqdigital
 - 💰 PayPal: https://paypal.me/alhaqdigital
-- ☕ Ko-fi: https://ko-fi.com/deenshield
+- ☕ Ko-fi: https://ko-fi.com/AmnShield
 
 **Every donation is Sadaqah Jariyah (continuous charity)!**
 
@@ -282,13 +282,13 @@ See full [Roadmap](docs/ROADMAP.md) for complete timeline through v1.0.
 ## 📞 Support & Community
 
 **Get Help:**
-- 💬 GitHub Discussions: https://github.com/alhaqdigital/deenshield-releases/discussions
+- 💬 GitHub Discussions: https://github.com/alhaqdigital/AmnShield-releases/discussions
 - 📧 Email: support@alhaqdigital.com
 - 🔒 Security: security@alhaqdigital.com
 
 **Stay Updated:**
 - ⭐ Star this repo for release notifications
-- 🐦 Twitter: [@DeenShield](https://twitter.com/DeenShield) (coming soon)
+- 🐦 Twitter: [@AmnShield](https://twitter.com/AmnShield) (coming soon)
 - 📧 Newsletter: Monthly updates (opt-in)
 
 ---
@@ -297,7 +297,7 @@ See full [Roadmap](docs/ROADMAP.md) for complete timeline through v1.0.
 
 > *"Tell the believing men to lower their gaze and guard their private parts. That is purer for them. Indeed, Allah is Acquainted with what they do."* (Quran 24:30)
 
-DeenShield is built on Islamic principles:
+AmnShield is built on Islamic principles:
 - **Haya (Modesty):** Protecting your gaze and heart
 - **Taqwa (God-consciousness):** Fearing Allah in private
 - **Amanah (Trust):** Safeguarding your family's digital life

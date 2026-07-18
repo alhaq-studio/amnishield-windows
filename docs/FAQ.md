@@ -1,23 +1,23 @@
 # Frequently Asked Questions (FAQ)
 
-**DeenShield - Your Digital Guardian**
+**AmnShield - Your Digital Guardian**
 
 ---
 
 ## 📋 General Questions
 
-### What is DeenShield?
-DeenShield is a **privacy-first Islamic content filtering system** for Windows that helps Muslims and Muslim families maintain digital purity by blocking harmful content across browsers and applications. It combines a desktop guardian app with browser extensions to provide comprehensive protection.
+### What is AmnShield?
+AmnShield is a **privacy-first Islamic content filtering system** for Windows that helps Muslims and Muslim families maintain digital purity by blocking harmful content across browsers and applications. It combines a desktop guardian app with browser extensions to provide comprehensive protection.
 
-### Who is DeenShield for?
+### Who is AmnShield for?
 - 👨‍👩‍👧‍👦 **Muslim families** seeking to protect children from inappropriate content
 - 🧔 **Individuals** struggling with online temptations
 - 🏫 **Islamic schools and madrasahs** needing institutional protection
 - 🕌 **Mosques** providing computer access to community members
 - 🤲 **Anyone** committed to lowering their gaze online
 
-### Is DeenShield free?
-**Yes!** DeenShield v0.1.0 is completely **free for personal use**. We believe digital purity should be accessible to all Muslims.
+### Is AmnShield free?
+**Yes!** AmnShield v0.1.0 is completely **free for personal use**. We believe digital purity should be accessible to all Muslims.
 
 **Future plans:**
 - Personal/family use: Always free (Insha'Allah)
@@ -39,8 +39,8 @@ DeenShield is a **privacy-first Islamic content filtering system** for Windows t
 
 ## 🔒 Privacy & Security
 
-### Does DeenShield collect my data?
-**Absolutely NOT.** DeenShield has **zero data collection**:
+### Does AmnShield collect my data?
+**Absolutely NOT.** AmnShield has **zero data collection**:
 - ❌ No browsing history
 - ❌ No usage statistics
 - ❌ No telemetry or analytics
@@ -49,9 +49,9 @@ DeenShield is a **privacy-first Islamic content filtering system** for Windows t
 
 **Everything happens locally on your device.** See our [Privacy Policy](PRIVACY_POLICY.md) for details.
 
-### How can I verify DeenShield's privacy claims?
+### How can I verify AmnShield's privacy claims?
 1. **Network Monitoring:** Use Wireshark or Fiddler to inspect traffic (you'll see only `localhost:47147` communication)
-2. **File System Audit:** All data stored in `%APPDATA%\DeenShield\` (local only)
+2. **File System Audit:** All data stored in `%APPDATA%\AmnShield\` (local only)
 3. **Security Audit:** Request source code access for review (email: security@alhaqdigital.com)
 
 ### Is my guardian password secure?
@@ -63,10 +63,10 @@ DeenShield is a **privacy-first Islamic content filtering system** for Windows t
 
 ⚠️ **Important:** If you forget your password in v0.1.0, you'll need to reinstall. Password recovery coming in v0.2.
 
-### Can DeenShield be bypassed?
+### Can AmnShield be bypassed?
 **Honest answer:** Yes, with enough technical skill and admin privileges.
 
-**What DeenShield protects against:**
+**What AmnShield protects against:**
 - ✅ Accidental access to inappropriate sites
 - ✅ Impulsive browsing decisions
 - ✅ Children's unrestricted internet use
@@ -78,7 +78,7 @@ DeenShield is a **privacy-first Islamic content filtering system** for Windows t
 - ❌ Booting into Safe Mode
 - ❌ Physical access to the computer
 
-**Philosophy:** DeenShield is a tool to **help** those who want to protect themselves. It's not a prison, but a guardian. Combine it with:
+**Philosophy:** AmnShield is a tool to **help** those who want to protect themselves. It's not a prison, but a guardian. Combine it with:
 - Islamic education about digital ethics
 - Parental supervision
 - Trust and open communication
@@ -110,21 +110,21 @@ DeenShield is a **privacy-first Islamic content filtering system** for Windows t
 - ❌ Safari (macOS version needed first)
 - ❌ Internet Explorer (obsolete browser)
 
-### How much disk space does DeenShield use?
+### How much disk space does AmnShield use?
 - **Desktop App:** ~100-150 MB installed
 - **Browser Extension:** ~8-10 MB per browser
 - **Database/Settings:** <5 MB
 - **Total:** ~150-200 MB
 
-### Does DeenShield slow down my computer?
-**No.** DeenShield is built with Flutter and optimized for performance:
+### Does AmnShield slow down my computer?
+**No.** AmnShield is built with Flutter and optimized for performance:
 - **RAM Usage:** ~150-250 MB (comparable to a browser tab)
 - **CPU Usage:** <1% idle, ~5-10% during content analysis
 - **Browser Impact:** Minimal (extension adds <50ms page load time)
 - **Startup:** Auto-starts in background (no noticeable delay)
 
-### Can I use DeenShield on a laptop?
-**Yes!** DeenShield works on:
+### Can I use AmnShield on a laptop?
+**Yes!** AmnShield works on:
 - Desktop computers
 - Laptops
 - Tablets with Windows (Surface, etc.)
@@ -134,7 +134,7 @@ DeenShield is a **privacy-first Islamic content filtering system** for Windows t
 
 ## 🛡️ Features & Functionality
 
-### What types of content does DeenShield block?
+### What types of content does AmnShield block?
 **Content Categories:**
 - 🚫 **Adult/Pornographic content** (images, videos, sites)
 - 🎰 **Gambling sites** (casinos, betting, lotteries)
@@ -163,9 +163,9 @@ DeenShield is a **privacy-first Islamic content filtering system** for Windows t
 - Medical/health information sites
 - News sites with occasional false positives
 
-### Can I temporarily disable DeenShield?
+### Can I temporarily disable AmnShield?
 **Yes, with guardian password:**
-1. Open DeenShield dashboard
+1. Open AmnShield dashboard
 2. Click "Pause Protection"
 3. Enter guardian password
 4. Choose duration (15 min, 1 hour, until restart)
@@ -173,7 +173,7 @@ DeenShield is a **privacy-first Islamic content filtering system** for Windows t
 
 ⚠️ **Note:** This is for legitimate needs (e.g., research, tech support), not to bypass protection.
 
-### Does DeenShield block social media?
+### Does AmnShield block social media?
 **Not by default.** Social media (Facebook, Twitter, Instagram, TikTok) are not blocked entirely, but:
 - ✅ Inappropriate posts/ads within social media are filtered
 - ✅ Private/direct messages are NOT monitored (privacy!)
@@ -185,7 +185,7 @@ DeenShield is a **privacy-first Islamic content filtering system** for Windows t
 - Filter comments with inappropriate language
 
 ### Can I block specific applications?
-**Yes!** DeenShield can block any Windows application:
+**Yes!** AmnShield can block any Windows application:
 1. Go to "Apps" tab in dashboard
 2. Click "Add Application"
 3. Browse to `.exe` file (e.g., `game.exe`, `app.exe`)
@@ -195,7 +195,7 @@ DeenShield is a **privacy-first Islamic content filtering system** for Windows t
 **Common uses:**
 - Block games during study hours
 - Restrict messaging apps
-- Prevent uninstalling DeenShield
+- Prevent uninstalling AmnShield
 
 ---
 
@@ -216,7 +216,7 @@ The installer is **not yet code signed** (requires expensive certificate ~$200-5
 **Yes, for installation only.**
 
 **After installation:**
-- Normal users can run DeenShield
+- Normal users can run AmnShield
 - Admin rights required only for:
   - Blocking applications
   - Changing protection settings
@@ -233,7 +233,7 @@ The installer is **not yet code signed** (requires expensive certificate ~$200-5
 - Contact us for multi-device licensing: business@alhaqdigital.com
 
 ### Where are settings stored?
-**Local database:** `%APPDATA%\DeenShield\`
+**Local database:** `%APPDATA%\AmnShield\`
 
 **What's stored:**
 - Guardian password (encrypted)
@@ -248,10 +248,10 @@ The installer is **not yet code signed** (requires expensive certificate ~$200-5
 ## 🤝 Support & Community
 
 ### I found a bug. How do I report it?
-**GitHub Issues:** https://github.com/alhaqdigital/deenshield-releases/issues
+**GitHub Issues:** https://github.com/alhaqdigital/AmnShield-releases/issues
 
 **Include:**
-- DeenShield version (v0.1.0)
+- AmnShield version (v0.1.0)
 - Windows version (e.g., Windows 11 22H2)
 - Browser and version
 - Steps to reproduce
@@ -259,7 +259,7 @@ The installer is **not yet code signed** (requires expensive certificate ~$200-5
 
 ### Can I request a feature?
 **Yes!** Feature requests welcome:
-- 💬 **GitHub Discussions:** https://github.com/alhaqdigital/deenshield-releases/discussions
+- 💬 **GitHub Discussions:** https://github.com/alhaqdigital/AmnShield-releases/discussions
 - 📧 **Email:** feedback@alhaqdigital.com
 
 **We prioritize based on:**
@@ -278,10 +278,10 @@ The installer is **not yet code signed** (requires expensive certificate ~$200-5
 - GitHub Discussions (technical)
 - Email support (support@alhaqdigital.com)
 
-### How can I contribute to DeenShield?
+### How can I contribute to AmnShield?
 **Without coding:**
 - 🤲 **Donate:** Support development (GitHub Sponsors, PayPal)
-- 🗣️ **Spread the word:** Tell other Muslims about DeenShield
+- 🗣️ **Spread the word:** Tell other Muslims about AmnShield
 - 📝 **Translate:** Help localize to other languages
 - 🧪 **Beta testing:** Test new features before release
 - 📚 **Documentation:** Improve guides and FAQs
@@ -294,7 +294,7 @@ The installer is **not yet code signed** (requires expensive certificate ~$200-5
 
 ## 💰 Donations & Funding
 
-### How is DeenShield funded?
+### How is AmnShield funded?
 **Current funding model:**
 - 💚 **Donations:** GitHub Sponsors, PayPal, Ko-fi
 - 🤲 **Sadaqah Jariyah:** Voluntary ongoing charity
@@ -313,7 +313,7 @@ The installer is **not yet code signed** (requires expensive certificate ~$200-5
 **Transparency:** Annual financial reports published (Insha'Allah).
 
 ### Is this Sadaqah Jariyah?
-**Yes, Insha'Allah!** Supporting DeenShield is **continuous charity** because:
+**Yes, Insha'Allah!** Supporting AmnShield is **continuous charity** because:
 - Every person protected from sin = reward for you
 - Ongoing benefit to the Ummah = ongoing reward
 - Helping others lower their gaze = multiplied reward
@@ -333,7 +333,7 @@ The installer is **not yet code signed** (requires expensive certificate ~$200-5
 
 ## 🕌 Islamic Questions
 
-### Is DeenShield approved by Islamic scholars?
+### Is AmnShield approved by Islamic scholars?
 **Currently:** Informal approval from several local imams.
 
 **Goal:** Formal endorsement from major Islamic organizations:
@@ -345,13 +345,13 @@ The installer is **not yet code signed** (requires expensive certificate ~$200-5
 **Process:** Underway for v1.0 certification.
 
 ### Does blocking content replace Islamic education?
-**No!** DeenShield is a **tool**, not a substitute for:
+**No!** AmnShield is a **tool**, not a substitute for:
 - 📚 Islamic education about modesty and purity
 - 👨‍👩‍👧‍👦 Parental supervision and guidance
 - 🤲 Personal taqwa (God-consciousness)
 - 💬 Open communication about online dangers
 
-**Use DeenShield as part of a holistic approach to digital parenting.**
+**Use AmnShield as part of a holistic approach to digital parenting.**
 
 ### Is it permissible to use monitoring software in Islam?
 **Short answer:** Yes, for **protection** and **guardianship**, not **spying**.
@@ -362,7 +362,7 @@ The installer is **not yet code signed** (requires expensive certificate ~$200-5
 - ❌ **Suspicion:** Don't monitor without valid reason (Quran 49:12)
 - ❌ **Privacy:** Respect personal boundaries
 
-**DeenShield philosophy:**
+**AmnShield philosophy:**
 - Focus on **blocking** harmful content (prevention)
 - Minimal **monitoring** (only for parental dashboard)
 - No **spying** on private communications
@@ -370,7 +370,7 @@ The installer is **not yet code signed** (requires expensive certificate ~$200-5
 
 **Consult your local scholar** for specific family situations.
 
-### What Quranic verses guide DeenShield?
+### What Quranic verses guide AmnShield?
 **Core principles:**
 
 > *"Tell the believing men to lower their gaze and guard their private parts. That is purer for them. Indeed, Allah is Acquainted with what they do."* (Quran 24:30)
@@ -404,7 +404,7 @@ The installer is **not yet code signed** (requires expensive certificate ~$200-5
 - Apple's strict sandboxing
 - Need for native Swift development
 
-### Can DeenShield integrate with parental control routers?
+### Can AmnShield integrate with parental control routers?
 **Great idea!** Planned for **v0.5 (Q4 2026)**.
 
 **Integration possibilities:**
@@ -439,11 +439,11 @@ The installer is **not yet code signed** (requires expensive certificate ~$200-5
 
 ### Where can I follow updates?
 - ⭐ **GitHub:** Star the repo for release notifications
-- 🐦 **Twitter/X:** [@DeenShield](https://twitter.com/DeenShield) (coming soon)
+- 🐦 **Twitter/X:** [@AmnShield](https://twitter.com/AmnShield) (coming soon)
 - 📧 **Newsletter:** Monthly updates (opt-in, privacy-respecting)
 - 💬 **Discord:** Community server (in development)
 
-### Can I partner with DeenShield?
+### Can I partner with AmnShield?
 **We welcome partnerships:**
 - 🏫 **Islamic schools:** Subsidized/free licensing
 - 🕌 **Mosques:** Community awareness programs
@@ -457,7 +457,7 @@ The installer is **not yet code signed** (requires expensive certificate ~$200-5
 ## 🤲 Final Thoughts
 
 ### Isn't this restricting freedom?
-**Perspective:** DeenShield is **voluntary**. You choose to install it because:
+**Perspective:** AmnShield is **voluntary**. You choose to install it because:
 - You want to protect yourself
 - You want to protect your family
 - You want to fulfill your Islamic duty
@@ -467,9 +467,9 @@ The installer is **not yet code signed** (requires expensive certificate ~$200-5
 - Restriction of harm = liberation for the soul
 - Taqwa (God-consciousness) brings peace
 
-**No one is forced to use DeenShield.** It's a tool for those committed to digital purity.
+**No one is forced to use AmnShield.** It's a tool for those committed to digital purity.
 
-### What if I relapse despite using DeenShield?
+### What if I relapse despite using AmnShield?
 **Remember:**
 - 🤲 **Allah is Most Merciful:** Repent sincerely (Tawbah)
 - 🔄 **Keep trying:** Failing doesn't mean you're a failure
@@ -477,7 +477,7 @@ The installer is **not yet code signed** (requires expensive certificate ~$200-5
 - 📚 **Learn:** Understand triggers and develop coping strategies
 - 🤝 **Support groups:** Join Muslim accountability communities
 
-**DeenShield is a shield, not a cage.** It helps, but ultimate success requires:
+**AmnShield is a shield, not a cage.** It helps, but ultimate success requires:
 - Sincere intention (Niyyah)
 - Trust in Allah (Tawakkul)
 - Consistent effort (Istiqamah)
@@ -486,7 +486,7 @@ The installer is **not yet code signed** (requires expensive certificate ~$200-5
 
 ---
 
-**May Allah (SWT) make DeenShield a means of protection and purity for you and your family. Ameen.**
+**May Allah (SWT) make AmnShield a means of protection and purity for you and your family. Ameen.**
 
 **JazakAllahu Khair for your interest!**
 
@@ -500,4 +500,4 @@ The installer is **not yet code signed** (requires expensive certificate ~$200-5
 
 **Have a question not answered here?**  
 📧 Email: support@alhaqdigital.com  
-💬 GitHub Discussions: https://github.com/alhaqdigital/deenshield-releases/discussions
+💬 GitHub Discussions: https://github.com/alhaqdigital/AmnShield-releases/discussions
