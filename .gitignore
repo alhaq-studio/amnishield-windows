@@ -80,9 +80,9 @@ QUICKSTART.md
 windows/**
 !windows/.gitkeep
 
-# Assets (icons/images contain branding - keep private for now)
-assets/**
-!assets/.gitkeep
+# Assets
+!assets/
+!assets/**
 
 # Scripts
 *.ps1
