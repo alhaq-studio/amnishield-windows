@@ -53,7 +53,7 @@ class AboutAmnShieldDialog extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             Text(
-              'v1.0.4 - Windows Desktop Edition',
+              'v7.29.2026 - Windows Desktop Edition',
               style: TextStyle(
                 fontSize: 12,
                 color: theme.colorScheme.onPrimary.withValues(alpha: 0.8),
@@ -88,13 +88,52 @@ class AboutAmnShieldDialog extends StatelessWidget {
             _buildFeatureRow(Icons.web, 'System-Wide Web Filter', 'Hosts File & Domain Filter Packs'),
             _buildFeatureRow(Icons.psychology, 'Focus Overlay & Quotes Engine', 'Motivational Overlay Warning'),
             const SizedBox(height: 20),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.surfaceContainerHigh.withValues(alpha: 0.5),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: theme.colorScheme.outlineVariant),
+              ),
+              child: Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.asset(
+                      'assets/images/alhaq_logo.png',
+                      width: 36,
+                      height: 36,
+                      fit: BoxFit.contain,
+                      errorBuilder: (_, __, ___) => const Icon(Icons.business, size: 36),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        Text(
+                          'Built by Al-Haq Studio',
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                        ),
+                        Text(
+                          'Developed by Afrasyaab Meranai | Al-Haq.uk',
+                          style: TextStyle(fontSize: 11, color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 12),
             const Divider(),
             const SizedBox(height: 12),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '© 2026 AmnShield Security',
+                  '© 2026 Al-Haq Studio. All rights reserved.',
                   style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
                 ),
                 Text(

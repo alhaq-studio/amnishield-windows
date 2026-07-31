@@ -62,6 +62,8 @@ flutter:
 
   assets:
     - assets/images/app_logo.png
+    - assets/images/amnshield_logo.png
+    - assets/images/alhaq_logo.png
     - assets/blocklists/adult_domains.txt
     - assets/blocklists/social_media_domains.txt
 
