@@ -52,6 +52,8 @@ Name: "{autodesktop}\AmnShield Guardian"; Filename: "{app}\amnshield_flutter.exe
 [Run]
 ; Run the PowerShell installation script to register and start the Windows service
 Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File ""{app}\install.ps1"""; Flags: runhidden runascurrentuser
+; Launch AmnShield Desktop application at the end of setup
+Filename: "{app}\amnshield_flutter.exe"; Description: "{cm:LaunchProgram,AmnShield Guardian}"; Flags: nowait postinstall skipifsilent
 
 [UninstallRun]
 ; Stop and unregister the service before deleting files
