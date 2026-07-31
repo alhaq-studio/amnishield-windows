@@ -47,7 +47,31 @@ jobs:
           Compress-Archive -Path "build\windows\x64\runner\Release\*" -DestinationPath "build_zip\AmnShield-Windows-v7.29.2026-x64.zip" -Force
 
       - name: Compile Installer with Inno Setup
-        run: iscc installer.iss
+        shell: powershell
+        run: |
+          New-Item -ItemType Directory -Force -Path "installer_output"
+          $isccPath = (Get-Command "iscc" -ErrorAction SilentlyContinue).Source
+          if (-not $isccPath) {
+            if (Test-Path "C:\Program Files (x86)\Inno Setup 6\ISCC.exe") {
+              $isccPath = "C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
+            } elseif (Test-Path "C:\Program Files\Inno Setup 6\ISCC.exe") {
+              $isccPath = "C:\Program Files\Inno Setup 6\ISCC.exe"
+            } else {
+              Write-Error "Inno Setup Compiler (ISCC.exe) not found on runner!"
+              exit 1
+            }
+          }
+          Write-Host "Using Inno Setup Compiler: $isccPath"
+          & "$isccPath" installer.iss
+          if ($LASTEXITCODE -ne 0) {
+            Write-Error "Inno Setup compilation failed with exit code $LASTEXITCODE"
+            exit 1
+          }
+          if (-not (Test-Path "installer_output\AmnShield-Setup-v7.29.2026.exe")) {
+            Write-Error "Installer binary not generated at installer_output\AmnShield-Setup-v7.29.2026.exe"
+            exit 1
+          }
+          Write-Host "Successfully compiled AmnShield-Setup-v7.29.2026.exe" -ForegroundColor Green
 
       - name: Create / Update Release
         uses: softprops/action-gh-release@v2
