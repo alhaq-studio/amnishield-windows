@@ -7,13 +7,13 @@ ThemeData buildAppTheme(String currentTheme) {
     return ThemeData(
       useMaterial3: true,
       colorScheme: ColorScheme.fromSeed(
-        seedColor: const Color(0xFF3C7A67),
-        primary: const Color(0xFF3C7A67),
-        secondary: const Color(0xFF3C7A67),
-        secondaryContainer: const Color(0xFFD9E8E0),
-        surface: const Color(0xFFF3F1EC),
+        seedColor: const Color(0xFF10B981),
+        primary: const Color(0xFF059669),
+        secondary: const Color(0xFFD4AF37),
+        secondaryContainer: const Color(0xFFD1FAE5),
+        surface: const Color(0xFFF8F9FC),
         onPrimary: Colors.white,
-        onSurface: const Color(0xFF202724),
+        onSurface: const Color(0xFF0A2540),
       ),
       fontFamily: 'Segoe UI',
     );
@@ -22,27 +22,27 @@ ThemeData buildAppTheme(String currentTheme) {
       useMaterial3: true,
       brightness: Brightness.dark,
       colorScheme: const ColorScheme.dark(
-        primary: Color(0xFFC8B8FF),
-        secondary: Color(0xFFC8B8FF),
-        secondaryContainer: Color(0xFF3A2570),
-        surface: Color(0xFF241840),
-        onPrimary: Color(0xFF2B1450),
-        onSurface: Color(0xFFF3ECFF),
+        primary: Color(0xFFD4AF37),
+        secondary: Color(0xFF10B981),
+        secondaryContainer: Color(0xFF1E293B),
+        surface: Color(0xFF0F172A),
+        onPrimary: Color(0xFF0A2540),
+        onSurface: Color(0xFFF8FAFC),
       ),
       fontFamily: 'Segoe UI',
     );
   } else {
-    // Default: sunset
+    // Default: Deep Navy & Royal Gold (Al-Haq Studio Signature)
     return ThemeData(
       useMaterial3: true,
       colorScheme: ColorScheme.fromSeed(
-        seedColor: const Color(0xFFA45833),
-        primary: const Color(0xFFA45833),
-        secondary: const Color(0xFFA45833),
-        secondaryContainer: const Color(0xFFE6C2AF),
-        surface: const Color(0xFFEEDBD0),
+        seedColor: const Color(0xFF0A2540),
+        primary: const Color(0xFF0A2540),
+        secondary: const Color(0xFFD4AF37),
+        secondaryContainer: const Color(0xFFFEF3C7),
+        surface: const Color(0xFFF8F9FC),
         onPrimary: Colors.white,
-        onSurface: const Color(0xFF2D1B14),
+        onSurface: const Color(0xFF0A2540),
       ),
       fontFamily: 'Segoe UI',
     );
