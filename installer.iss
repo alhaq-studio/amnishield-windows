@@ -41,7 +41,7 @@ Source: "uninstall.ps1"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
 Name: "{group}\AmnShield Guardian"; Filename: "{app}\amnshield_flutter.exe"
-Name: "{group}\{cm:UninstallProgram,AmnShield Guardian}"; Filename: "{uninstdevelfile}"
+Name: "{group}\{cm:UninstallProgram,AmnShield Guardian}"; Filename: "{uninstallexe}"
 Name: "{autodesktop}\AmnShield Guardian"; Filename: "{app}\amnshield_flutter.exe"; Tasks: desktopicon
 
 [Run]
