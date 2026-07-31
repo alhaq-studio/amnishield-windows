@@ -1,61 +1,66 @@
-name: Create Release
+name: Build & Release AmnShield Windows
 
 on:
   push:
+    branches:
+      - main
+      - restructure
     tags:
-      - 'v*.*.*'  # Triggers on version tags like v0.1.0, v1.0.0, etc.
+      - 'v*'
+  workflow_dispatch:
 
 permissions:
-  contents: write  # Required to create releases
+  contents: write
 
 jobs:
-  create-release:
-    runs-on: ubuntu-latest
-    
+  build-windows:
+    name: Build & Test Windows Desktop App
+    runs-on: windows-latest
+
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v4
+
+      - name: Set up Flutter SDK
+        uses: subosito/flutter-action@v2
         with:
-          fetch-depth: 0  # Fetch all history for all tags
-      
-      - name: Get version from tag
-        id: get_version
+          channel: 'stable'
+          architecture: x64
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Analyze Code
+        run: flutter analyze
+
+      - name: Run Tests
+        run: flutter test
+
+      - name: Build Windows Release
+        run: flutter build windows --release
+
+      - name: Package Release Assets
+        shell: powershell
         run: |
-          VERSION=${GITHUB_REF#refs/tags/}
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "Version: $VERSION"
-      
-      - name: Check if release notes exist
-        id: check_notes
-        run: |
-          if [ -f "releases/RELEASE_NOTES.md" ]; then
-            echo "notes_exist=true" >> $GITHUB_OUTPUT
-            echo "Release notes found"
-          else
-            echo "notes_exist=false" >> $GITHUB_OUTPUT
-            echo "Release notes not found"
-          fi
-      
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
+          New-Item -ItemType Directory -Force -Path "build_zip"
+          Compress-Archive -Path "build\windows\x64\runner\Release\*" -DestinationPath "build_zip\AmnShield-Windows-x64.zip" -Force
+
+      - name: Create / Update Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/restructure'
         with:
-          name: DeenShield ${{ steps.get_version.outputs.version }} - Experimental Release 🕌
-          body_path: ${{ steps.check_notes.outputs.notes_exist == 'true' && 'releases/RELEASE_NOTES.md' || '' }}
-          body: ${{ steps.check_notes.outputs.notes_exist == 'false' && 'Release ${{ steps.get_version.outputs.version }}' || '' }}
-          prerelease: true  # Mark as pre-release (experimental)
+          tag_name: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || 'v1.0.4' }}
+          name: AmnShield Guardian Windows ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || 'v1.0.4' }}
+          body: |
+            ## 🕌 AmnShield Guardian for Windows v1.0.4
+            - **Non-Admin HTTP Service Engine**: Native Dart loopback socket binding on `http://127.0.0.1:48192/` for 100% non-elevated sync.
+            - **Live Extension Sync**: Real-time status polling for Chrome & Edge extension connection.
+            - **Enterprise Policy Enforcement**: Prevents extension deletion via Chromium `ExtensionInstallForcelist`.
+            - **Strict Engine Toggles**: Instantly activates/deactivates web domain blocking across system `hosts` file and extension.
+            - **50,000+ Domain Support**: Fast Set-based streaming of prebuilt packs.
           draft: false
+          prerelease: false
           files: |
-            releases/DeenShield-Setup-*.exe
-            releases/DeenShield-Portable-*.zip
-            releases/DeenShield-Extension-*-Chrome.zip
-            releases/DeenShield-Extension-*-Firefox.zip
-            releases/DeenShield-Extension-*-All-Browsers.zip
-            releases/SHA256SUMS.txt
-            releases/RELEASE_NOTES.md
+            build_zip/AmnShield-Windows-x64.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: Release created
-        run: |
-          echo "✅ Release ${{ steps.get_version.outputs.version }} created successfully!"
-          echo "📦 View at: https://github.com/${{ github.repository }}/releases/tag/${{ steps.get_version.outputs.version }}"
