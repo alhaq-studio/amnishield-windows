@@ -131,3 +131,10 @@ coverage/
 .test_results/
 debug/
 *.log
+
+# ========================================
+# Precompiled Binaries
+# ========================================
+guardian-service/*.exe
+*.exe
+!releases/**/*.exe
