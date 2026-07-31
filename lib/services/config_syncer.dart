@@ -1,0 +1,183 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:flutter/foundation.dart' show debugPrint;
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:shared_preferences/shared_preferences.dart';
+
+class ConfigSyncer {
+  static const String _configPath = r'C:\ProgramData\AmnShield\config.json';
+  static const String _configDir = r'C:\ProgramData\AmnShield';
+
+  static const String _keyBlockedApps = 'blocked_apps';
+  static const String _keyBlockedDomains = 'blocked_domains';
+  static const String _keyFocusMode = 'focus_mode_active';
+  static const String _keyPassword = 'app_password';
+  static const String _keyTheme = 'app_theme';
+  static const String _keyAdultPackActive = 'adult_pack_active';
+  static const String _keySocialPackActive = 'social_pack_active';
+
+  static const List<String> _socialDomains = [
+    'facebook.com', 'www.facebook.com', 'fb.com', 'instagram.com', 'www.instagram.com',
+    'twitter.com', 'www.twitter.com', 'x.com', 'www.x.com', 'tiktok.com', 'www.tiktok.com',
+    'reddit.com', 'www.reddit.com', 'snapchat.com', 'www.snapchat.com'
+  ];
+
+  static Future<void> savePackStates({
+    bool? adultPackActive,
+    bool? socialPackActive,
+  }) async {
+    final prefs = await SharedPreferences.getInstance();
+    if (adultPackActive != null) await prefs.setBool(_keyAdultPackActive, adultPackActive);
+    if (socialPackActive != null) await prefs.setBool(_keySocialPackActive, socialPackActive);
+  }
+
+  // Save config both to local SharedPrefs and write to shared JSON for the C# Service
+  static Future<void> syncConfig({
+    List<String>? blockedApps,
+    List<String>? customDomains,
+    List<String>? blockedDomains,
+    bool? focusModeActive,
+    bool? adultPackActive,
+    bool? socialPackActive,
+  }) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    List<String> userDomains = customDomains ?? blockedDomains ?? prefs.getStringList(_keyBlockedDomains) ?? [];
+    List<String> apps = blockedApps ?? prefs.getStringList(_keyBlockedApps) ?? [];
+    bool focus = focusModeActive ?? prefs.getBool(_keyFocusMode) ?? false;
+
+    if (adultPackActive != null) await prefs.setBool(_keyAdultPackActive, adultPackActive);
+    if (socialPackActive != null) await prefs.setBool(_keySocialPackActive, socialPackActive);
+
+    bool isAdultActive = adultPackActive ?? prefs.getBool(_keyAdultPackActive) ?? false;
+    bool isSocialActive = socialPackActive ?? prefs.getBool(_keySocialPackActive) ?? false;
+
+    // Save only user custom domains locally so UI stays clean and fast
+    await prefs.setStringList(_keyBlockedApps, apps);
+    await prefs.setStringList(_keyBlockedDomains, userDomains);
+    await prefs.setBool(_keyFocusMode, focus);
+
+    bool webFilterEnabled = prefs.getBool(_keyWebFilterEnabled) ?? true;
+    bool appBlockerEnabled = prefs.getBool(_keyAppBlockerEnabled) ?? true;
+
+    // Format app names with .exe extension for Windows monitoring if enabled and focus active
+    List<String> formattedApps = (focus && appBlockerEnabled)
+        ? apps.map((app) {
+            String clean = app.trim().toLowerCase();
+            if (!clean.endsWith('.exe')) {
+              return '$clean.exe';
+            }
+            return clean;
+          }).toList()
+        : <String>[];
+
+    // Prepare full domain list for background service config (empty if web filter is disabled or focus is off)
+    Set<String> allBannedDomains = <String>{};
+
+    if (focus && webFilterEnabled) {
+      allBannedDomains.addAll(userDomains.map((d) => d.trim().toLowerCase()));
+
+      if (isSocialActive) {
+        allBannedDomains.addAll(_socialDomains.map((d) => d.trim().toLowerCase()));
+      }
+
+      if (isAdultActive) {
+        try {
+          String data = await rootBundle.loadString('assets/blocklists/adult_domains.txt');
+          final lines = data.split('\n');
+          for (final line in lines) {
+            final trimmed = line.trim().toLowerCase();
+            if (trimmed.isNotEmpty && !trimmed.startsWith('#')) {
+              allBannedDomains.add(trimmed);
+            }
+          }
+        } catch (e) {
+          debugPrint('Error loading adult blocklist asset in background sync: $e');
+        }
+      }
+    }
+
+    // Write to C:\ProgramData\AmnShield\config.json
+    try {
+      final dir = Directory(_configDir);
+      if (!await dir.exists()) {
+        await dir.create(recursive: true);
+      }
+
+      final file = File(_configPath);
+      final configMap = {
+        'banned_apps': formattedApps,
+        'banned_domains': allBannedDomains.toList(),
+        'focus_mode_active': focus && (webFilterEnabled || appBlockerEnabled),
+      };
+
+      // Output as clean formatted JSON
+      final jsonString = const JsonEncoder.withIndent('  ').convert(configMap);
+      await file.writeAsString(jsonString);
+    } catch (e) {
+      debugPrint('Config sync file write failed: $e');
+    }
+  }
+
+  static const String _keyCustomWhitelist = 'custom_whitelist';
+
+  // Save custom whitelist
+  static Future<void> saveCustomWhitelist(List<String> whitelist) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList(_keyCustomWhitelist, whitelist);
+  }
+
+  // Save new theme configuration
+  static Future<void> saveTheme(String theme) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_keyTheme, theme);
+  }
+
+  static const String _keyShowBlockOverlay = 'show_block_overlay';
+  static const String _keyAppBlockerEnabled = 'app_blocker_enabled';
+  static const String _keyWebFilterEnabled = 'web_filter_enabled';
+  static const String _keyUsageTrackerEnabled = 'usage_tracker_enabled';
+
+  // Save block overlay setting
+  static Future<void> saveShowBlockOverlay(bool show) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_keyShowBlockOverlay, show);
+  }
+
+  // Save engine toggles
+  static Future<void> saveEngineToggles({
+    bool? appBlockerEnabled,
+    bool? webFilterEnabled,
+    bool? usageTrackerEnabled,
+  }) async {
+    final prefs = await SharedPreferences.getInstance();
+    if (appBlockerEnabled != null) await prefs.setBool(_keyAppBlockerEnabled, appBlockerEnabled);
+    if (webFilterEnabled != null) await prefs.setBool(_keyWebFilterEnabled, webFilterEnabled);
+    if (usageTrackerEnabled != null) await prefs.setBool(_keyUsageTrackerEnabled, usageTrackerEnabled);
+  }
+
+  // Load configuration from local SharedPreferences
+  static Future<Map<String, dynamic>> loadLocalConfig() async {
+    final prefs = await SharedPreferences.getInstance();
+    return {
+      'blocked_apps': prefs.getStringList(_keyBlockedApps) ?? [],
+      'blocked_domains': prefs.getStringList(_keyBlockedDomains) ?? [],
+      'focus_mode_active': prefs.getBool(_keyFocusMode) ?? false,
+      'password': prefs.getString(_keyPassword) ?? '', // no default password
+      'theme': prefs.getString(_keyTheme) ?? 'emerald', // default theme
+      'custom_whitelist': prefs.getStringList(_keyCustomWhitelist) ?? [],
+      'show_block_overlay': prefs.getBool(_keyShowBlockOverlay) ?? true,
+      'app_blocker_enabled': prefs.getBool(_keyAppBlockerEnabled) ?? true,
+      'web_filter_enabled': prefs.getBool(_keyWebFilterEnabled) ?? true,
+      'usage_tracker_enabled': prefs.getBool(_keyUsageTrackerEnabled) ?? true,
+      'adult_pack_active': prefs.getBool(_keyAdultPackActive) ?? false,
+      'social_pack_active': prefs.getBool(_keySocialPackActive) ?? false,
+    };
+  }
+
+  // Save new password configuration
+  static Future<void> savePassword(String password) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_keyPassword, password);
+  }
+}

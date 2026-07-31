@@ -51,18 +51,17 @@ windows/flutter/ephemeral/
 # ========================================
 # Ensure NO source code is ever committed to public repo
 
-# Flutter source files
-lib/**
-!lib/.gitkeep
-
-# Dart source files
-test/**
-!test/.gitkeep
-
 # Build scripts and configuration
-pubspec.yaml
-pubspec.lock
-analysis_options.yaml
+# Allow pubspec and source code for CI/CD builds
+!pubspec.yaml
+!pubspec.lock
+!analysis_options.yaml
+!lib/
+!lib/**
+!test/
+!test/**
+!windows/
+!windows/**
 
 # Development documentation (private)
 IMPLEMENTATION_SUMMARY.md
