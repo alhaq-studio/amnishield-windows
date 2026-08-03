@@ -104,7 +104,7 @@ class AboutAmnShieldDialog extends StatelessWidget {
                       width: 36,
                       height: 36,
                       fit: BoxFit.contain,
-                      errorBuilder: (_, __, ___) => const Icon(Icons.business, size: 36),
+                      errorBuilder: (context, error, stackTrace) => const Icon(Icons.business, size: 36),
                     ),
                   ),
                   const SizedBox(width: 12),
