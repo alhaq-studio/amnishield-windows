@@ -36,6 +36,10 @@ dependencies:
   path_provider: ^2.1.4
   window_manager: ^0.4.3
   file_picker: ^8.1.2
+  ecdsa: ^0.2.0
+  elliptic: ^0.4.0
+  crypto: ^3.0.7
+  app_links: ^7.2.1
 
   # assets:
   #   - images/a_dot_burr.jpeg

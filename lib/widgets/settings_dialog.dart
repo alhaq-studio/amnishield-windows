@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/config_syncer.dart';
 import '../services/extension_enforcer_service.dart';
+import '../services/payment_manager.dart';
 import '../theme/app_theme.dart';
 
 class SettingsDialog extends StatefulWidget {
@@ -24,6 +25,10 @@ class _SettingsDialogState extends State<SettingsDialog> {
   String _storedPassword = '';
   bool _showBlockOverlay = true;
   bool _extensionEnforced = false;
+  bool _syncRulesEnabled = true;
+  bool _syncAppUsageEnabled = true;
+  bool _syncWebUsageEnabled = true;
+  bool _smartRecommendationsEnabled = true;
   String _message = '';
   Color _messageColor = Colors.green;
 
@@ -48,6 +53,10 @@ class _SettingsDialogState extends State<SettingsDialog> {
         _storedPassword = config['password'] ?? '';
         _showBlockOverlay = config['show_block_overlay'] ?? true;
         _extensionEnforced = enforced;
+        _syncRulesEnabled = config['sync_rules_enabled'] ?? true;
+        _syncAppUsageEnabled = config['sync_app_usage_enabled'] ?? true;
+        _syncWebUsageEnabled = config['sync_web_usage_enabled'] ?? true;
+        _smartRecommendationsEnabled = config['smart_recommendations_enabled'] ?? true;
       });
     }
   }
@@ -244,6 +253,69 @@ class _SettingsDialogState extends State<SettingsDialog> {
 
               const SizedBox(height: 24),
 
+              // Sync & Cloud Privacy Controls
+              Text(
+                'Sync & Cloud Privacy',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: theme.colorScheme.primary),
+              ),
+              const SizedBox(height: 6),
+              const Text(
+                'Control what rules, app activity, and web telemetry sync with your cloud account.',
+                style: TextStyle(color: Colors.grey, fontSize: 13),
+              ),
+              const SizedBox(height: 12),
+              Card(
+                child: Column(
+                  children: [
+                    SwitchListTile(
+                      title: const Text('Sync Rules & Blocklists', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                      subtitle: Text(_syncRulesEnabled ? 'Cloud sync active for domain & app rules' : 'Local rules only (cloud sync disabled)'),
+                      value: _syncRulesEnabled,
+                      activeThumbColor: theme.colorScheme.primary,
+                      onChanged: (val) async {
+                        setState(() => _syncRulesEnabled = val);
+                        await ConfigSyncer.saveSyncSettings(syncRulesEnabled: val);
+                      },
+                    ),
+                    const Divider(height: 1),
+                    SwitchListTile(
+                      title: const Text('Sync App Usage & Screentime', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                      subtitle: Text(_syncAppUsageEnabled ? 'App usage stats backing up to cloud' : 'App screentime stored locally only'),
+                      value: _syncAppUsageEnabled,
+                      activeThumbColor: theme.colorScheme.primary,
+                      onChanged: (val) async {
+                        setState(() => _syncAppUsageEnabled = val);
+                        await ConfigSyncer.saveSyncSettings(syncAppUsageEnabled: val);
+                      },
+                    ),
+                    const Divider(height: 1),
+                    SwitchListTile(
+                      title: const Text('Sync Website Usage Data', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                      subtitle: Text(_syncWebUsageEnabled ? 'Web metrics syncing for cross-platform analytics' : 'Web usage stats stored locally only'),
+                      value: _syncWebUsageEnabled,
+                      activeThumbColor: theme.colorScheme.primary,
+                      onChanged: (val) async {
+                        setState(() => _syncWebUsageEnabled = val);
+                        await ConfigSyncer.saveSyncSettings(syncWebUsageEnabled: val);
+                      },
+                    ),
+                    const Divider(height: 1),
+                    SwitchListTile(
+                      title: const Text('Smart AI Recommendations', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                      subtitle: Text(_smartRecommendationsEnabled ? 'AI recommendations active' : 'AI analytics & recommendations disabled'),
+                      value: _smartRecommendationsEnabled,
+                      activeThumbColor: theme.colorScheme.primary,
+                      onChanged: (val) async {
+                        setState(() => _smartRecommendationsEnabled = val);
+                        await ConfigSyncer.saveSyncSettings(smartRecommendationsEnabled: val);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 24),
+
               // Color Theme Accent Selection
               Text(
                 'App Theme Accent',
@@ -269,6 +341,50 @@ class _SettingsDialogState extends State<SettingsDialog> {
                     ],
                   );
                 },
+              ),
+
+              const SizedBox(height: 24),
+
+              // Supporter & Payment Card
+              Text(
+                'Al-Haq Initiative Support & License',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: theme.colorScheme.primary),
+              ),
+              const SizedBox(height: 6),
+              const Text(
+                'AmnShield is 100% free and open-source. Voluntary supporter contributions help fund our AI models and cloud sync infrastructure.',
+                style: TextStyle(color: Colors.grey, fontSize: 13),
+              ),
+              const SizedBox(height: 12),
+              Card(
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  side: BorderSide(color: theme.colorScheme.primary.withValues(alpha: 0.3)),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ElevatedButton.icon(
+                        onPressed: () async {
+                          final launched = await PaymentManager.openStripeCheckout(plan: 'annual');
+                          if (!launched && context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Could not launch Stripe Checkout.')),
+                            );
+                          }
+                        },
+                        icon: const Icon(Icons.payment),
+                        label: const Text('Support via Stripe Checkout (Web)'),
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size.fromHeight(44),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ],
           ),

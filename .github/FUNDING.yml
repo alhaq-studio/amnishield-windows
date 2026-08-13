@@ -1,19 +1,9 @@
-# GitHub Sponsors & Donations Configuration
-# These links will show up on the "Sponsor" button in the repository
+# GitHub Sponsors & Funding
+# These links appear on the "Sponsor" button in the repository
 
-# GitHub Sponsors (replace with your GitHub username when set up)
-github: [alhaqdigital]
+github: [Afrasyaab-GH, alhaq-studio]
+patreon: alhaq
+buy_me_a_coffee: alhaq
+ko_fi: alhaq
 
-# PayPal (replace with your actual PayPal.me link)
-patreon: # Not using Patreon
-open_collective: # Not using Open Collective
-ko_fi: deenshield
-tidelift: # Not using Tidelift
-community_bridge: # Not using Community Bridge
-liberapay: # Not using Liberapay
-issuehunt: # Not using IssueHunt
-otechie: # Not using Otechie
-lfx_crowdfunding: # Not using LFX Crowdfunding
-
-# Custom sponsorship URLs (max 4)
-custom: ['https://paypal.me/alhaqdigital', 'https://www.alhaqdigital.com/donate']
+custom: ['https://alhaq.uk', 'https://alhaq-initiative.org']

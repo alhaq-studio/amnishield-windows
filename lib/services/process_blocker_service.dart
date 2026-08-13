@@ -92,8 +92,8 @@ class ProcessBlockerService {
     }
 
     if (_timer == null || !_timer!.isActive) {
-      // Run process enforcement check every 1 second
-      _timer = Timer.periodic(const Duration(seconds: 1), (_) => _enforceBlocking());
+      // Run lightweight process enforcement check every 2.5 seconds
+      _timer = Timer.periodic(const Duration(milliseconds: 2500), (_) => _enforceBlocking());
       // Run immediate check
       _enforceBlocking();
     }
@@ -102,49 +102,56 @@ class ProcessBlockerService {
   static void _notifyBlocked(String cleanName) {
     final now = DateTime.now();
     if (_lastNotificationTime != null && now.difference(_lastNotificationTime!) < const Duration(seconds: 5)) {
-      return; // 5-second cooldown to prevent infinite loop / dialog spamming
+      return; // 5-second cooldown to prevent notification spam
     }
     _lastNotificationTime = now;
     lastBlockedNotifier.value = cleanName;
   }
 
-  /// Executes process termination for all blocked applications.
+  /// Executes process termination ONLY for apps currently running in RAM.
   static Future<void> _enforceBlocking() async {
     if (!_isActive || _blockedApps.isEmpty) return;
 
-    for (final rawApp in _blockedApps) {
-      final app = rawApp.trim().toLowerCase();
-      if (app.isEmpty) continue;
+    try {
+      // 1. Get snapshot of currently active processes in ONE lightweight call
+      final res = await Process.run('tasklist', ['/FO', 'CSV', '/NH']);
+      if (res.exitCode != 0) return;
 
-      final cleanName = app.replaceAll('.exe', '').trim();
+      final outputLines = res.stdout.toString().split('\n');
+      final runningProcessNames = <String>{};
 
-      // Guard against system whitelist and user custom exceptions
-      if (_systemWhitelist.contains(cleanName) || _customWhitelist.contains(cleanName)) continue;
-
-      try {
-        // 1. Direct taskkill by exact image name (e.g. taskkill /F /IM whatsapp.exe)
-        final targetExe = app.endsWith('.exe') ? app : '$app.exe';
-        final res = await Process.run('taskkill', ['/F', '/IM', targetExe]);
-
-        final stdout1 = res.stdout.toString().toUpperCase();
-        if (res.exitCode == 0 && stdout1.contains('SUCCESS') && stdout1.contains('TERMINATED')) {
-          _notifyBlocked(cleanName);
-        }
-
-        // 2. Wildcard taskkill by prefix to kill UWP / Store variants (e.g. whatsapp.root.exe, instagram.app.exe)
-        if (cleanName.length >= 3) {
-          final prefix = cleanName.split('.')[0];
-          if (prefix.length >= 3 && !_systemWhitelist.contains(prefix)) {
-            final res2 = await Process.run('taskkill', ['/F', '/FI', 'IMAGENAME eq $prefix*']);
-            final stdout2 = res2.stdout.toString().toUpperCase();
-            if (res2.exitCode == 0 && stdout2.contains('SUCCESS') && stdout2.contains('TERMINATED')) {
-              _notifyBlocked(cleanName);
-            }
+      for (final line in outputLines) {
+        if (line.trim().isEmpty) continue;
+        final parts = line.split('","');
+        if (parts.isNotEmpty) {
+          final procName = parts[0].replaceAll('"', '').trim().toLowerCase();
+          if (procName.isNotEmpty) {
+            runningProcessNames.add(procName);
           }
         }
-      } catch (e) {
-        debugPrint('Process termination error for $app: $e');
       }
+
+      // 2. Cross-reference blocked apps against active running process names
+      for (final rawApp in _blockedApps) {
+        final app = rawApp.trim().toLowerCase();
+        if (app.isEmpty) continue;
+
+        final cleanName = app.replaceAll('.exe', '').trim();
+        final targetExe = app.endsWith('.exe') ? app : '$app.exe';
+
+        // Guard against system whitelist and user custom exceptions
+        if (_systemWhitelist.contains(cleanName) || _customWhitelist.contains(cleanName)) continue;
+
+        // ONLY execute taskkill IF the process is actually running in RAM!
+        if (runningProcessNames.contains(targetExe) || runningProcessNames.contains(cleanName)) {
+          final killRes = await Process.run('taskkill', ['/F', '/IM', targetExe]);
+          if (killRes.exitCode == 0) {
+            _notifyBlocked(cleanName);
+          }
+        }
+      }
+    } catch (e) {
+      debugPrint('[ProcessBlocker] Enforcement error: $e');
     }
   }
 

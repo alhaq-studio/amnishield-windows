@@ -4,22 +4,31 @@
 [Setup]
 AppId={{91A39BE9-4A73-4019-9430-8D3E64AE1B42}
 AppName=AmnShield Guardian
-AppVersion=7.29.2026
+AppVersion=07.08.2026
 AppPublisher=Al-Haq Studio
 AppPublisherURL=https://alhaq.uk
 AppSupportURL=https://alhaq.uk
-AppUpdatesURL=https://alhaq.uk
+AppUpdatesURL=https://amnshield.com/download
 DefaultDirName={commonpf}\AmnShield
 DefaultGroupName=AmnShield
-OutputDir=installer_output
-OutputBaseFilename=AmnShield-Setup-v7.29.2026
+OutputDir=releases
+OutputBaseFilename=AmnShield-Setup-v07.08.2026
 SetupIconFile=windows\runner\resources\app_icon.ico
 Compression=lzma
 SolidCompression=yes
+DirExistsWarning=no
+UsePreviousAppDir=yes
+CloseApplications=yes
+CloseApplicationsFilter=*.exe;*.dll
+RestartApplications=no
 WizardStyle=modern
 PrivilegesRequired=admin
 ArchitecturesAllowed=x64
 ArchitecturesInstallIn64BitMode=x64
+UninstallDisplayIcon={app}\amnshield_flutter.exe
+UninstallDisplayName=AmnShield Guardian
+CreateUninstallRegKey=yes
+Uninstallable=yes
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -53,3 +62,18 @@ Filename: "{app}\amnshield_flutter.exe"; Description: "{cm:LaunchProgram,AmnShie
 [UninstallRun]
 ; Stop and unregister the service before deleting files
 Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File ""{app}\uninstall.ps1"""; Flags: runhidden runascurrentuser
+
+[Code]
+procedure CurStepChanged(CurStep: TSetupStep);
+var
+  ResultCode: Integer;
+begin
+  if CurStep = ssInstall then
+  begin
+    Exec('taskkill.exe', '/F /T /IM amnshield_flutter.exe', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+    Exec('taskkill.exe', '/F /T /IM AmnShieldGuardian.exe', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+    Exec('taskkill.exe', '/F /T /IM AmnShieldNativeHost.exe', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+    Exec('net.exe', 'stop AmnShieldGuardian', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+    Sleep(1000);
+  end;
+end;

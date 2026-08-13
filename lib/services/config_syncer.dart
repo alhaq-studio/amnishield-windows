@@ -74,7 +74,7 @@ class ConfigSyncer {
     // Prepare full domain list for background service config (empty if web filter is disabled or focus is off)
     Set<String> allBannedDomains = <String>{};
 
-    if (focus && webFilterEnabled) {
+    if (webFilterEnabled) {
       allBannedDomains.addAll(userDomains.map((d) => d.trim().toLowerCase()));
 
       if (isSocialActive) {
@@ -138,10 +138,29 @@ class ConfigSyncer {
   static const String _keyWebFilterEnabled = 'web_filter_enabled';
   static const String _keyUsageTrackerEnabled = 'usage_tracker_enabled';
 
+  static const String _keySyncRulesEnabled = 'sync_rules_enabled';
+  static const String _keySyncAppUsageEnabled = 'sync_app_usage_enabled';
+  static const String _keySyncWebUsageEnabled = 'sync_web_usage_enabled';
+  static const String _keySmartRecommendationsEnabled = 'smart_recommendations_enabled';
+
   // Save block overlay setting
   static Future<void> saveShowBlockOverlay(bool show) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_keyShowBlockOverlay, show);
+  }
+
+  // Save cloud sync & privacy settings
+  static Future<void> saveSyncSettings({
+    bool? syncRulesEnabled,
+    bool? syncAppUsageEnabled,
+    bool? syncWebUsageEnabled,
+    bool? smartRecommendationsEnabled,
+  }) async {
+    final prefs = await SharedPreferences.getInstance();
+    if (syncRulesEnabled != null) await prefs.setBool(_keySyncRulesEnabled, syncRulesEnabled);
+    if (syncAppUsageEnabled != null) await prefs.setBool(_keySyncAppUsageEnabled, syncAppUsageEnabled);
+    if (syncWebUsageEnabled != null) await prefs.setBool(_keySyncWebUsageEnabled, syncWebUsageEnabled);
+    if (smartRecommendationsEnabled != null) await prefs.setBool(_keySmartRecommendationsEnabled, smartRecommendationsEnabled);
   }
 
   // Save engine toggles
@@ -172,7 +191,23 @@ class ConfigSyncer {
       'usage_tracker_enabled': prefs.getBool(_keyUsageTrackerEnabled) ?? true,
       'adult_pack_active': prefs.getBool(_keyAdultPackActive) ?? false,
       'social_pack_active': prefs.getBool(_keySocialPackActive) ?? false,
+      'sync_rules_enabled': prefs.getBool(_keySyncRulesEnabled) ?? true,
+      'sync_app_usage_enabled': prefs.getBool(_keySyncAppUsageEnabled) ?? true,
+      'sync_web_usage_enabled': prefs.getBool(_keySyncWebUsageEnabled) ?? true,
+      'smart_recommendations_enabled': prefs.getBool(_keySmartRecommendationsEnabled) ?? true,
     };
+  }
+
+  static const String _keyOnboardingCompleted = 'onboarding_completed';
+
+  static Future<bool> isOnboardingCompleted() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_keyOnboardingCompleted) ?? false;
+  }
+
+  static Future<void> saveOnboardingCompleted(bool completed) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_keyOnboardingCompleted, completed);
   }
 
   // Save new password configuration

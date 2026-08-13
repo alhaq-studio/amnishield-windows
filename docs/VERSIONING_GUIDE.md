@@ -391,7 +391,7 @@ git tag -l
 git describe --tags
 
 # View current release on GitHub
-# https://github.com/Afrasyaab-GH/AmnShield_flutter/releases
+# https://github.com/alhaq-studio/AmnShield_flutter/releases
 ```
 
 ---

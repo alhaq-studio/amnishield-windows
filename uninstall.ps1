@@ -60,10 +60,35 @@ if (Test-Path $installDir) {
     Write-Host "Removed folder: $installDir" -ForegroundColor Green
 }
 
-# 4. Remove Extension Policy Entries
+# 4. Remove Extension Policy Entries, Incognito Blocking, and Guest Mode Blocking
 try {
-    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Google\Chrome\ExtensionInstallForcelist" -Name "1" -ErrorAction SilentlyContinue
-    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Edge\ExtensionInstallForcelist" -Name "1" -ErrorAction SilentlyContinue
+    $policyPaths = @(
+        "HKCU:\Software\Policies\Google\Chrome\ExtensionInstallForcelist",
+        "HKLM:\SOFTWARE\Policies\Google\Chrome\ExtensionInstallForcelist",
+        "HKCU:\Software\Policies\Microsoft\Edge\ExtensionInstallForcelist",
+        "HKLM:\SOFTWARE\Policies\Microsoft\Edge\ExtensionInstallForcelist"
+    )
+    foreach ($p in $policyPaths) {
+        if (Test-Path $p) {
+            Remove-ItemProperty -Path $p -Name "100" -ErrorAction SilentlyContinue | Out-Null
+            Remove-ItemProperty -Path $p -Name "101" -ErrorAction SilentlyContinue | Out-Null
+            Remove-ItemProperty -Path $p -Name "102" -ErrorAction SilentlyContinue | Out-Null
+            Remove-ItemProperty -Path $p -Name "103" -ErrorAction SilentlyContinue | Out-Null
+        }
+    }
+
+    $browserPolicyKeys = @(
+        @{ Path="HKLM:\SOFTWARE\Policies\Google\Chrome"; Incognito="IncognitoModeAvailability"; Guest="BrowserGuestModeEnabled" },
+        @{ Path="HKCU:\Software\Policies\Google\Chrome"; Incognito="IncognitoModeAvailability"; Guest="BrowserGuestModeEnabled" },
+        @{ Path="HKLM:\SOFTWARE\Policies\Microsoft\Edge"; Incognito="InPrivateModeAvailability"; Guest="AllowGuestMode" },
+        @{ Path="HKCU:\Software\Policies\Microsoft\Edge"; Incognito="InPrivateModeAvailability"; Guest="AllowGuestMode" }
+    )
+    foreach ($item in $browserPolicyKeys) {
+        if (Test-Path $item.Path) {
+            Remove-ItemProperty -Path $item.Path -Name $item.Incognito -ErrorAction SilentlyContinue | Out-Null
+            Remove-ItemProperty -Path $item.Path -Name $item.Guest -ErrorAction SilentlyContinue | Out-Null
+        }
+    }
 } catch {}
 
 Write-Host "=== AmnShield Guardian Uninstalled ===" -ForegroundColor Green

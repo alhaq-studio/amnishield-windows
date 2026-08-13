@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'config_syncer.dart';
+import 'license_service.dart';
 
 class GuardianHttpService {
   static HttpServer? _server;
@@ -40,7 +41,7 @@ class GuardianHttpService {
     _server = null;
   }
 
-  static void _handleRequest(HttpRequest request) async {
+  static Future<void> _handleRequest(HttpRequest request) async {
     final response = request.response;
 
     // CORS Headers for browser extensions
@@ -61,7 +62,7 @@ class GuardianHttpService {
       final appBlockerEnabled = config['app_blocker_enabled'] ?? true;
       final webFilterEnabled = config['web_filter_enabled'] ?? true;
 
-      final isWebActive = focusModeActive && webFilterEnabled;
+      final isWebActive = webFilterEnabled;
       final isAppActive = focusModeActive && appBlockerEnabled;
 
       final customDomains = List<String>.from(config['blocked_domains'] ?? []);
@@ -97,9 +98,17 @@ class GuardianHttpService {
         }
       }
 
+      final isPrem = await LicenseService.isPremium();
+
       final statusJson = {
         'status': 'online',
-        'focus_mode_active': isWebActive || isAppActive,
+        'is_premium': isPrem,
+        'web_filter_enabled': isWebActive,
+        'focus_mode_active': focusModeActive,
+        'adult_pack_active': adultActive,
+        'social_pack_active': socialActive,
+        'custom_domains': customDomains,
+        'windows_custom_domains': customDomains,
         'banned_apps_count': isAppActive ? (config['blocked_apps'] as List? ?? []).length : 0,
         'banned_domains_count': allDomains.length,
         'banned_domains': allDomains.toList(),
@@ -110,6 +119,39 @@ class GuardianHttpService {
       response.write(jsonEncode(statusJson));
       await response.close();
       return;
+    }
+
+    if ((request.uri.path == '/update-domains' || request.uri.path == '/update-domains/') && request.method == 'POST') {
+      try {
+        final content = await utf8.decoder.bind(request).join();
+        final body = jsonDecode(content) as Map<String, dynamic>;
+        final newDomains = List<String>.from(body['blocked_domains'] ?? []);
+
+        final config = await ConfigSyncer.loadLocalConfig();
+        final apps = List<String>.from(config['blocked_apps'] ?? []);
+        final focus = config['focus_mode_active'] ?? true;
+        final adult = config['adult_pack_active'] ?? false;
+        final social = config['social_pack_active'] ?? false;
+
+        await ConfigSyncer.syncConfig(
+          blockedApps: apps,
+          customDomains: newDomains,
+          focusModeActive: focus,
+          adultPackActive: adult,
+          socialPackActive: social,
+        );
+
+        response.statusCode = HttpStatus.ok;
+        response.headers.contentType = ContentType.json;
+        response.write(jsonEncode({'success': true, 'updated_domains': newDomains}));
+        await response.close();
+        return;
+      } catch (e) {
+        response.statusCode = HttpStatus.badRequest;
+        response.write(jsonEncode({'error': e.toString()}));
+        await response.close();
+        return;
+      }
     }
 
     response.statusCode = HttpStatus.notFound;

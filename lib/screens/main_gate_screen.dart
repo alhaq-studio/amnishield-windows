@@ -4,6 +4,8 @@ import '../services/config_syncer.dart';
 import '../widgets/window_caption_controls.dart';
 import 'control_panel_screen.dart';
 
+import 'onboarding_screen.dart';
+
 class MainGateScreen extends StatefulWidget {
   const MainGateScreen({super.key});
 
@@ -14,6 +16,7 @@ class MainGateScreen extends StatefulWidget {
 class _MainGateScreenState extends State<MainGateScreen> {
   final TextEditingController _passwordController = TextEditingController();
   bool _isAuthenticated = false;
+  bool _hasCompletedOnboarding = true;
   bool _isLoading = true;
   String _storedPassword = '';
   String _errorMessage = '';
@@ -32,11 +35,13 @@ class _MainGateScreenState extends State<MainGateScreen> {
 
   Future<void> _loadAuthSettings() async {
     final config = await ConfigSyncer.loadLocalConfig();
+    final onboardingDone = await ConfigSyncer.isOnboardingCompleted();
     if (mounted) {
       final pwd = (config['password'] as String? ?? '').trim();
       setState(() {
         _storedPassword = pwd;
         _isAuthenticated = pwd.isEmpty;
+        _hasCompletedOnboarding = onboardingDone;
         _isLoading = false;
       });
     }
@@ -64,6 +69,16 @@ class _MainGateScreenState extends State<MainGateScreen> {
         body: const Center(
           child: CircularProgressIndicator(),
         ),
+      );
+    }
+
+    if (!_hasCompletedOnboarding) {
+      return OnboardingScreen(
+        onOnboardingComplete: () {
+          setState(() {
+            _hasCompletedOnboarding = true;
+          });
+        },
       );
     }
 

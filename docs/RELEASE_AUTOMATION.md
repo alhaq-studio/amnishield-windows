@@ -17,7 +17,7 @@ AmnShield uses **GitHub Actions** to automatically create releases when you push
 1. **You push a version tag** (e.g., `v0.1.0`)
 2. **GitHub Actions triggers** automatically
 3. **Release is created** with all files attached
-4. **Done!** Release is live at `https://github.com/Afrasyaab-GH/AmnShield_flutter/releases`
+4. **Done!** Release is live at `https://github.com/alhaq-studio/AmnShield_flutter/releases`
 
 ### What Gets Automated
 
@@ -173,7 +173,7 @@ Features:
 - Zero data collection - complete privacy
 - Free for personal use
 
-Download: https://github.com/Afrasyaab-GH/AmnShield_flutter/releases/tag/v0.1.0"
+Download: https://github.com/alhaq-studio/AmnShield_flutter/releases/tag/v0.1.0"
 
 # Push tag (this triggers GitHub Actions!)
 git push origin v0.1.0
@@ -184,7 +184,7 @@ git push origin v0.1.0
 2. Create the release
 3. Attach all files from `releases/`
 4. Set as pre-release
-5. Publish to https://github.com/Afrasyaab-GH/AmnShield_flutter/releases
+5. Publish to https://github.com/alhaq-studio/AmnShield_flutter/releases
 
 ---
 
@@ -230,15 +230,15 @@ The workflow expects these files in `releases/`:
 
 ### View Workflow Status
 
-1. Go to: https://github.com/Afrasyaab-GH/AmnShield_flutter/actions
+1. Go to: https://github.com/alhaq-studio/AmnShield_flutter/actions
 2. Click on the latest "Create Release" workflow run
 3. Watch the progress in real-time
 
 ### Check Release
 
 After workflow completes (usually 1-2 minutes):
-- **Releases page:** https://github.com/Afrasyaab-GH/AmnShield_flutter/releases
-- **Specific release:** https://github.com/Afrasyaab-GH/AmnShield_flutter/releases/tag/v0.1.0
+- **Releases page:** https://github.com/alhaq-studio/AmnShield_flutter/releases
+- **Specific release:** https://github.com/alhaq-studio/AmnShield_flutter/releases/tag/v0.1.0
 
 ---
 
@@ -259,7 +259,7 @@ After workflow completes (usually 1-2 minutes):
 **Problem:** Workflow runs but release not created
 
 **Solutions:**
-1. Check workflow logs at: https://github.com/Afrasyaab-GH/AmnShield_flutter/actions
+1. Check workflow logs at: https://github.com/alhaq-studio/AmnShield_flutter/actions
 2. Verify `releases/` directory exists with all required files
 3. Ensure `GITHUB_TOKEN` has `contents: write` permission (automatic in workflow)
 4. Check file name patterns match wildcards in workflow
@@ -382,7 +382,7 @@ git push origin $VersionTag
 
 Write-Host "`n✅ Release process complete!" -ForegroundColor Green
 Write-Host "🎉 GitHub Actions will create the release automatically." -ForegroundColor Green
-Write-Host "📦 View at: https://github.com/Afrasyaab-GH/AmnShield_flutter/releases/tag/$VersionTag" -ForegroundColor Cyan
+Write-Host "📦 View at: https://github.com/alhaq-studio/AmnShield_flutter/releases/tag/$VersionTag" -ForegroundColor Cyan
 Write-Host "`n⏳ Wait 1-2 minutes for workflow to complete..." -ForegroundColor Yellow
 ```
 
@@ -442,8 +442,8 @@ git push origin v0.1.0
 
 ## 📞 Support
 
-**Workflow Issues:** Check https://github.com/Afrasyaab-GH/AmnShield_flutter/actions  
-**Release Questions:** Open issue at https://github.com/Afrasyaab-GH/AmnShield_flutter/issues
+**Workflow Issues:** Check https://github.com/alhaq-studio/AmnShield_flutter/actions  
+**Release Questions:** Open issue at https://github.com/alhaq-studio/AmnShield_flutter/issues
 
 ---
 
