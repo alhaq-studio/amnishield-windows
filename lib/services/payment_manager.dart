@@ -6,7 +6,7 @@ class PaymentManager {
   static const String _supabaseCheckoutUrl =
       'https://jrgpmcomvibgklmvnxud.supabase.co/functions/v1/stripe-checkout';
   static const String _fallbackPricingUrl =
-      'https://amnshield.com/#pricing';
+      'https://amnishield.com/#pricing';
 
   /// Triggers direct Stripe Checkout via Supabase Edge Function
   static Future<String?> createStripeCheckoutSession({
@@ -22,8 +22,8 @@ class PaymentManager {
       final body = jsonEncode({
         'plan': plan,
         'customerEmail': customerEmail,
-        'successUrl': 'https://app.amnshield.com/?checkout=success',
-        'cancelUrl': 'https://amnshield.com/#pricing',
+        'successUrl': 'https://app.amnishield.com/?checkout=success',
+        'cancelUrl': 'https://amnishield.com/#pricing',
       });
 
       request.write(body);
