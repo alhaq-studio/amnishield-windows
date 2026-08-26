@@ -1,22 +1,47 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:amnshield_flutter/main.dart';
+import 'package:amnshield_flutter/screens/control_panel_screen.dart';
+import 'package:amnshield_flutter/screens/onboarding_screen.dart';
 
 void main() {
-  testWidgets('AmnShield Guardian initial launch test', (WidgetTester tester) async {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  testWidgets('AmnShield Guardian first-time launch shows OnboardingScreen', (WidgetTester tester) async {
     SharedPreferences.setMockInitialValues({});
     await tester.pumpWidget(const AmnShieldApp());
-    await tester.pump(const Duration(milliseconds: 500));
+    await tester.pumpAndSettle();
 
-    // Verify that fresh launch without a set password opens Control Panel directly
+    // Verify Onboarding wizard is presented on fresh install
+    expect(find.byType(OnboardingScreen), findsOneWidget);
+    expect(find.textContaining('Welcome to AmnShield'), findsOneWidget);
+  });
+
+  testWidgets('AmnShield launch with completed onboarding opens Control Panel directly', (WidgetTester tester) async {
+    SharedPreferences.setMockInitialValues({
+      'onboarding_completed': true,
+      'app_password': '',
+    });
+    await tester.pumpWidget(const AmnShieldApp());
+    await tester.pumpAndSettle();
+
+    // Verify that launch with completed onboarding and no password opens ControlPanel
+    expect(find.byType(ControlPanelScreen), findsOneWidget);
     expect(find.text('AmnShield Control Panel'), findsOneWidget);
-    expect(find.text('Guardian Protection Active'), findsOneWidget);
+  });
+
+  testWidgets('AmnShield launch with passcode set requires authentication', (WidgetTester tester) async {
+    SharedPreferences.setMockInitialValues({
+      'onboarding_completed': true,
+      'app_password': 'secret_password_123',
+    });
+    await tester.pumpWidget(const AmnShieldApp());
+    await tester.pumpAndSettle();
+
+    // Verify that passcode gate is displayed
+    expect(find.text('AMNSHIELD GUARDIAN'), findsOneWidget);
+    expect(find.text('Enter passcode to unlock settings'), findsOneWidget);
+    expect(find.byType(TextField), findsOneWidget);
   });
 }
