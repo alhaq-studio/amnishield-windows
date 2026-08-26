@@ -163,9 +163,28 @@ namespace AmnShield
         {
             try
             {
-                ctx.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+                string origin = ctx.Request.Headers["Origin"] ?? "";
+                bool isLocalOrExtension = string.IsNullOrEmpty(origin) ||
+                    origin.StartsWith("chrome-extension://", StringComparison.OrdinalIgnoreCase) ||
+                    origin.StartsWith("moz-extension://", StringComparison.OrdinalIgnoreCase) ||
+                    origin.StartsWith("http://localhost", StringComparison.OrdinalIgnoreCase) ||
+                    origin.StartsWith("http://127.0.0.1", StringComparison.OrdinalIgnoreCase) ||
+                    origin.StartsWith("https://app.amnishield.com", StringComparison.OrdinalIgnoreCase);
+
+                if (!isLocalOrExtension)
+                {
+                    ctx.Response.StatusCode = 403;
+                    ctx.Response.Close();
+                    return;
+                }
+
+                if (!string.IsNullOrEmpty(origin))
+                {
+                    ctx.Response.Headers.Add("Access-Control-Allow-Origin", origin);
+                    ctx.Response.Headers.Add("Vary", "Origin");
+                }
                 ctx.Response.Headers.Add("Access-Control-Allow-Methods", "GET, OPTIONS, POST");
-                ctx.Response.Headers.Add("Access-Control-Allow-Headers", "Content-Type");
+                ctx.Response.Headers.Add("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
                 if (ctx.Request.HttpMethod == "OPTIONS")
                 {

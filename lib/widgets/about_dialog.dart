@@ -53,7 +53,7 @@ class AboutAmnShieldDialog extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             Text(
-              'v7.29.2026 - Windows Desktop Edition',
+              'v8.26.2026 - Windows Desktop Edition',
               style: TextStyle(
                 fontSize: 12,
                 color: theme.colorScheme.onPrimary.withValues(alpha: 0.8),

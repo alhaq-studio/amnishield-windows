@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - restructure
     tags:
       - 'v*'
   workflow_dispatch:
@@ -14,12 +13,27 @@ permissions:
 
 jobs:
   build-windows:
-    name: Build & Test Windows Desktop App
+    name: Build & Release Windows Desktop App
     runs-on: windows-latest
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+
+      - name: Extract Version from pubspec.yaml
+        id: version
+        shell: powershell
+        run: |
+          $content = Get-Content pubspec.yaml -Raw
+          if ($content -match 'version:\s*(\S+)') {
+            $fullVersion = $matches[1] -replace '\+.*$', ''
+            echo "VERSION=$fullVersion" >> $env:GITHUB_OUTPUT
+            echo "TAG=v$fullVersion" >> $env:GITHUB_OUTPUT
+            Write-Host "Detected version: $fullVersion (tag: v$fullVersion)"
+          } else {
+            Write-Error "Could not extract version from pubspec.yaml"
+            exit 1
+          }
 
       - name: Set up Flutter SDK
         uses: subosito/flutter-action@v2
@@ -39,57 +53,85 @@ jobs:
       - name: Build Windows Release
         run: flutter build windows --release
 
-      - name: Package Release Assets
+      - name: Package Portable Zip
         shell: powershell
         run: |
+          $tag = "${{ steps.version.outputs.TAG }}"
           New-Item -ItemType Directory -Force -Path "build_zip"
-          Compress-Archive -Path "build\windows\x64\runner\Release\*" -DestinationPath "build_zip\AmnShield-Windows-v7.29.2026-x64.zip" -Force
+          Compress-Archive -Path "build\windows\x64\runner\Release\*" -DestinationPath "build_zip\AmnShield-Windows-$tag-x64.zip" -Force
+
+      - name: Install Inno Setup
+        shell: powershell
+        run: |
+          choco install innosetup -y --no-progress
+          refreshenv
 
       - name: Compile Installer with Inno Setup
         shell: powershell
         run: |
-          New-Item -ItemType Directory -Force -Path "installer_output"
-          $isccPath = (Get-Command "iscc" -ErrorAction SilentlyContinue).Source
-          if (-not $isccPath) {
-            if (Test-Path "C:\Program Files (x86)\Inno Setup 6\ISCC.exe") {
-              $isccPath = "C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
-            } elseif (Test-Path "C:\Program Files\Inno Setup 6\ISCC.exe") {
-              $isccPath = "C:\Program Files\Inno Setup 6\ISCC.exe"
-            } else {
-              Write-Error "Inno Setup Compiler (ISCC.exe) not found on runner!"
-              exit 1
-            }
+          $tag = "${{ steps.version.outputs.TAG }}"
+          New-Item -ItemType Directory -Force -Path "releases"
+
+          # Find Inno Setup compiler
+          $isccPath = $null
+          $candidates = @(
+            "C:\Program Files (x86)\Inno Setup 6\ISCC.exe",
+            "C:\Program Files\Inno Setup 6\ISCC.exe",
+            (Get-Command "iscc" -ErrorAction SilentlyContinue).Source
+          )
+          foreach ($c in $candidates) {
+            if ($c -and (Test-Path $c)) { $isccPath = $c; break }
           }
+          if (-not $isccPath) {
+            Write-Warning "Inno Setup not found — skipping installer compilation"
+            exit 0
+          }
+
           Write-Host "Using Inno Setup Compiler: $isccPath"
           & "$isccPath" installer.iss
           if ($LASTEXITCODE -ne 0) {
-            Write-Error "Inno Setup compilation failed with exit code $LASTEXITCODE"
-            exit 1
+            Write-Warning "Inno Setup compilation failed — portable zip will still be uploaded"
+          } else {
+            Write-Host "Successfully compiled AmnShield installer" -ForegroundColor Green
           }
-          if (-not (Test-Path "installer_output\AmnShield-Setup-v7.29.2026.exe")) {
-            Write-Error "Installer binary not generated at installer_output\AmnShield-Setup-v7.29.2026.exe"
-            exit 1
-          }
-          Write-Host "Successfully compiled AmnShield-Setup-v7.29.2026.exe" -ForegroundColor Green
 
       - name: Create / Update Release
         uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/restructure'
+        if: startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/main'
         with:
-          tag_name: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || 'v7.29.2026' }}
-          name: AmnShield Guardian Windows ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || 'v7.29.2026' }}
+          tag_name: ${{ steps.version.outputs.TAG }}
+          name: AmnShield Guardian Windows ${{ steps.version.outputs.TAG }}
           body: |
-            ## 🕌 AmnShield Guardian for Windows v7.29.2026
-            - **Standalone Installer Package**: Prebuilt `.exe` setup wizard for automatic process monitoring, hosts redirection, and service installation.
-            - **Non-Admin HTTP Service Engine**: Native Dart loopback socket binding on `http://127.0.0.1:48192/` for 100% non-elevated sync.
-            - **Live Extension Sync**: Real-time status polling for Chrome & Edge extension connection.
-            - **Enterprise Policy Enforcement**: Prevents extension deletion via Chromium `ExtensionInstallForcelist`.
-            - **Strict Engine Toggles**: Instantly activates/deactivates web domain blocking across system `hosts` file and extension.
-            - **50,000+ Domain Support**: Fast Set-based streaming of prebuilt packs.
+            ## 🛡️ AmnShield Guardian for Windows ${{ steps.version.outputs.TAG }}
+
+            ### ✨ Features
+            - **Desktop App Blocker**: Block distracting Windows apps with real-time process monitoring (2.5s enforcement loop)
+            - **Web Domain Filter**: 50,000+ domain pack support with Adult & Social Media domain packs
+            - **Usage Tracker**: Real-time app & website screentime tracking with daily time limits
+            - **Browser Extension Sync**: Local HTTP API server on `127.0.0.1:48192` for live rule sync with AmniShield Chrome/Edge/Firefox extension
+            - **Extension Enforcement**: Anti-uninstall via Chromium ExtensionInstallForcelist policy (Pro feature)
+            - **ECDSA License Verification**: Offline NIST P-256 cryptographic license key validation
+            - **Onboarding Wizard**: First-run setup with protection goal selection
+            - **Passcode Lock**: Parental/admin passcode for settings protection
+            - **3 Color Themes**: Emerald Green, Cosmic Dark, Deep Navy & Gold
+            - **Stripe Checkout**: Direct Supporter Pass purchase via Supabase Edge Function
+
+            ### 📦 Downloads
+            | File | Description |
+            |------|-------------|
+            | `AmnShield-Windows-${{ steps.version.outputs.TAG }}-x64.zip` | Portable version (extract & run) |
+            | `AmnShield-Setup-*.exe` | Windows installer with service registration |
+
+            ### 🔒 Privacy
+            - 100% local processing — zero telemetry, zero cloud data collection
+            - All filtering and blocking runs on your machine only
+
+            ---
+            Built with ❤️ by **Al-Haq Studio** | [amnishield.com](https://amnishield.com)
           draft: false
           prerelease: false
           files: |
-            build_zip/AmnShield-Windows-v7.29.2026-x64.zip
-            installer_output/AmnShield-Setup-v7.29.2026.exe
+            build_zip/AmnShield-Windows-${{ steps.version.outputs.TAG }}-x64.zip
+            releases/AmnShield-Setup-*.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

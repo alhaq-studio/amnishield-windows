@@ -108,11 +108,6 @@ class LicenseService {
         return null;
       }
 
-      // Check fallback signature format (Web Console keys)
-      if (signatureBase64 == 'ECDSA_SIGNED_PRO_KEY') {
-        return payload;
-      }
-
       // Perform NIST P-256 ECDSA SHA-256 signature verification
       if (_verifyEcdsaSignature(payloadBase64, signatureBase64, publicKeyBase64)) {
         return payload;

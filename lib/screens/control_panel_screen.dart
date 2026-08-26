@@ -461,7 +461,7 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> with TickerProv
             const Padding(
               padding: EdgeInsets.all(16.0),
               child: Text(
-                'v1.0.4 - Windows Edition',
+                'v8.26.2026 - Windows Edition',
                 style: TextStyle(fontSize: 11, color: Colors.grey),
               ),
             ),

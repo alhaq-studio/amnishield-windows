@@ -4,7 +4,7 @@
 [Setup]
 AppId={{91A39BE9-4A73-4019-9430-8D3E64AE1B42}
 AppName=AmnShield Guardian
-AppVersion=07.08.2026
+AppVersion=08.26.2026
 AppPublisher=Al-Haq Studio
 AppPublisherURL=https://alhaq.uk
 AppSupportURL=https://alhaq.uk
@@ -12,7 +12,7 @@ AppUpdatesURL=https://amnishield.com/download
 DefaultDirName={commonpf}\AmnShield
 DefaultGroupName=AmnShield
 OutputDir=releases
-OutputBaseFilename=AmnShield-Setup-v07.08.2026
+OutputBaseFilename=AmnShield-Setup-v8.26.2026
 SetupIconFile=windows\runner\resources\app_icon.ico
 Compression=lzma
 SolidCompression=yes
