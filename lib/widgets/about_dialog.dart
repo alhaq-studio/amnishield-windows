@@ -117,7 +117,7 @@ class AboutAmnShieldDialog extends StatelessWidget {
                           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
                         ),
                         Text(
-                          'Developed by Afrasyaab Meranai | Al-Haq.uk',
+                          'Developed by Habib Mukhlis | Al-Haq.uk',
                           style: TextStyle(fontSize: 11, color: Colors.grey),
                         ),
                       ],
