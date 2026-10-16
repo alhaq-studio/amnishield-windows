@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../services/extension_enforcer_service.dart';
 
@@ -52,15 +53,17 @@ class _WebFilterTabState extends State<WebFilterTab> {
 
   Future<void> _checkStatus() async {
     bool serviceOnline = false;
-    try {
-      final client = HttpClient();
-      client.connectionTimeout = const Duration(seconds: 2);
-      final req = await client.getUrl(Uri.parse('http://127.0.0.1:48192/status'));
-      final res = await req.close();
-      serviceOnline = res.statusCode == HttpStatus.ok;
-      client.close();
-    } catch (_) {
-      serviceOnline = false;
+    if (!kIsWeb) {
+      try {
+        final client = HttpClient();
+        client.connectionTimeout = const Duration(seconds: 2);
+        final req = await client.getUrl(Uri.parse('http://127.0.0.1:48192/status'));
+        final res = await req.close();
+        serviceOnline = res.statusCode == HttpStatus.ok;
+        client.close();
+      } catch (_) {
+        serviceOnline = false;
+      }
     }
 
     final enforced = await ExtensionEnforcerService.isEnforced();
@@ -77,18 +80,32 @@ class _WebFilterTabState extends State<WebFilterTab> {
 
   Future<List<String>> _detectActiveBrowsers() async {
     final list = <String>[];
-    if (!Platform.isWindows) return ['Web Browser'];
+    if (kIsWeb) return ['Web Browser'];
 
-    try {
-      final result = await Process.run('tasklist', ['/FO', 'CSV', '/NH']);
-      final output = result.stdout.toString().toLowerCase();
+    if (Platform.isWindows) {
+      try {
+        final result = await Process.run('tasklist', ['/FO', 'CSV', '/NH']);
+        final output = result.stdout.toString().toLowerCase();
 
-      if (output.contains('chrome.exe')) list.add('Google Chrome');
-      if (output.contains('msedge.exe')) list.add('Microsoft Edge');
-      if (output.contains('brave.exe')) list.add('Brave Browser');
-      if (output.contains('firefox.exe')) list.add('Mozilla Firefox');
-      if (output.contains('opera.exe')) list.add('Opera');
-    } catch (_) {}
+        if (output.contains('chrome.exe')) list.add('Google Chrome');
+        if (output.contains('msedge.exe')) list.add('Microsoft Edge');
+        if (output.contains('brave.exe')) list.add('Brave Browser');
+        if (output.contains('firefox.exe')) list.add('Mozilla Firefox');
+        if (output.contains('opera.exe')) list.add('Opera');
+      } catch (_) {}
+    } else if (Platform.isLinux || Platform.isMacOS) {
+      try {
+        final result = await Process.run('ps', ['-A', '-o', 'comm=']);
+        final output = result.stdout.toString().toLowerCase();
+
+        if (output.contains('chrome') || output.contains('chromium')) list.add('Google Chrome');
+        if (output.contains('msedge')) list.add('Microsoft Edge');
+        if (output.contains('brave')) list.add('Brave Browser');
+        if (output.contains('firefox')) list.add('Mozilla Firefox');
+        if (output.contains('safari')) list.add('Safari');
+        if (output.contains('opera')) list.add('Opera');
+      } catch (_) {}
+    }
 
     if (list.isEmpty) list.add('Standard Browser');
     return list;

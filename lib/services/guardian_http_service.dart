@@ -12,7 +12,7 @@ class GuardianHttpService {
   static bool get isRunning => _isRunning;
 
   static Future<void> start() async {
-    if (_isRunning) return;
+    if (kIsWeb || _isRunning) return;
 
     try {
       // Bind to 127.0.0.1:48192 using standard non-admin socket binding
@@ -36,6 +36,7 @@ class GuardianHttpService {
   }
 
   static Future<void> stop() async {
+    if (kIsWeb) return;
     _isRunning = false;
     await _server?.close(force: true);
     _server = null;

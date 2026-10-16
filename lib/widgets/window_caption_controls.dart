@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -13,22 +15,30 @@ class WindowCaptionControls extends StatefulWidget {
 class _WindowCaptionControlsState extends State<WindowCaptionControls> {
   bool _isMaximized = false;
 
+  bool get _isDesktop => !kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS);
+
   @override
   void initState() {
     super.initState();
-    _checkMaximized();
-  }
-
-  Future<void> _checkMaximized() async {
-    final max = await windowManager.isMaximized();
-    if (mounted) {
-      setState(() {
-        _isMaximized = max;
-      });
+    if (_isDesktop) {
+      _checkMaximized();
     }
   }
 
+  Future<void> _checkMaximized() async {
+    if (!_isDesktop) return;
+    try {
+      final max = await windowManager.isMaximized();
+      if (mounted) {
+        setState(() {
+          _isMaximized = max;
+        });
+      }
+    } catch (_) {}
+  }
+
   Future<void> _toggleMaximize() async {
+    if (!_isDesktop) return;
     if (_isMaximized) {
       await windowManager.unmaximize();
     } else {
@@ -39,6 +49,10 @@ class _WindowCaptionControlsState extends State<WindowCaptionControls> {
 
   @override
   Widget build(BuildContext context) {
+    if (!_isDesktop) {
+      return const SizedBox.shrink();
+    }
+
     final iconColor = widget.color ?? Theme.of(context).colorScheme.onPrimary;
 
     return Row(
