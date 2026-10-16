@@ -393,6 +393,16 @@ namespace AmnShield
 
                     if (active && currentBannedApps.Count > 0)
                     {
+                        var cleanBannedApps = new List<string>(currentBannedApps.Count);
+                        foreach (var banned in currentBannedApps)
+                        {
+                            string cleanBanned = banned.Replace(".exe", "").Trim();
+                            if (!string.IsNullOrEmpty(cleanBanned))
+                            {
+                                cleanBannedApps.Add(cleanBanned);
+                            }
+                        }
+
                         Process[] processes = Process.GetProcesses();
                         foreach (var process in processes)
                         {
@@ -408,11 +418,8 @@ namespace AmnShield
 
                                  // Check if app name matches the blocklist (Exact or UWP Store App prefix match)
                                  bool isBanned = false;
-                                 foreach (var banned in currentBannedApps)
+                                 foreach (var cleanBanned in cleanBannedApps)
                                  {
-                                     string cleanBanned = banned.Replace(".exe", "").Trim();
-                                     if (string.IsNullOrEmpty(cleanBanned)) continue;
-
                                      if (string.Equals(name, cleanBanned, StringComparison.OrdinalIgnoreCase) ||
                                          (cleanBanned.Length >= 3 && name.StartsWith(cleanBanned, StringComparison.OrdinalIgnoreCase)) ||
                                          (name.Length >= 3 && cleanBanned.StartsWith(name, StringComparison.OrdinalIgnoreCase)))
