@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PaymentManager {
   static const String _supabaseCheckoutUrl =
@@ -13,6 +14,8 @@ class PaymentManager {
     String plan = 'annual',
     String? customerEmail,
   }) async {
+    if (kIsWeb) return null;
+
     try {
       final client = HttpClient();
       client.connectionTimeout = const Duration(seconds: 8);
@@ -43,7 +46,7 @@ class PaymentManager {
     }
   }
 
-  /// Launch external system browser to complete checkout
+  /// Launch external system browser to complete checkout across all platforms
   static Future<bool> openStripeCheckout({
     String plan = 'annual',
     String? customerEmail,
@@ -57,16 +60,21 @@ class PaymentManager {
         ? checkoutUrl
         : '$_fallbackPricingUrl?plan=$plan';
 
+    final uri = Uri.parse(urlToOpen);
     try {
-      if (Platform.isWindows) {
-        await Process.run('cmd', ['/c', 'start', '', urlToOpen]);
-        return true;
-      } else if (Platform.isLinux) {
-        await Process.run('xdg-open', [urlToOpen]);
-        return true;
-      } else if (Platform.isMacOS) {
-        await Process.run('open', [urlToOpen]);
-        return true;
+      if (await canLaunchUrl(uri)) {
+        return await launchUrl(uri, mode: LaunchMode.externalApplication);
+      } else if (!kIsWeb) {
+        if (Platform.isWindows) {
+          await Process.run('cmd', ['/c', 'start', '', urlToOpen]);
+          return true;
+        } else if (Platform.isLinux) {
+          await Process.run('xdg-open', [urlToOpen]);
+          return true;
+        } else if (Platform.isMacOS) {
+          await Process.run('open', [urlToOpen]);
+          return true;
+        }
       }
     } catch (e) {
       debugPrint('Failed to launch browser: $e');

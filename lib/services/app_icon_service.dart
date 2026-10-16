@@ -6,6 +6,10 @@ class AppIconService {
 
   /// Asynchronously fetches native PNG Base64 icon for any app executable/path across Windows
   static Future<String?> getIconBase64(String executable, [String? targetPath]) async {
+    if (kIsWeb || !Platform.isWindows) {
+      return null;
+    }
+
     final cleanExe = executable.toLowerCase().trim();
     if (_iconCache.containsKey(cleanExe)) {
       return _iconCache[cleanExe];
