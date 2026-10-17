@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:path_provider/path_provider.dart';
@@ -14,39 +13,6 @@ class ConfigSyncer {
   static const String _keyBlockedDomains = 'blocked_domains';
   static const String _keyFocusMode = 'focus_mode_active';
   static const String _keyPassword = 'app_password';
-  static const String _passwordSalt = 'AmnShield_Secure_Salt_2026_';
-
-  /// Hashes a plaintext password using SHA-256 with a salt
-  static String hashPassword(String password) {
-    if (password.isEmpty) return '';
-    final bytes = utf8.encode('$_passwordSalt$password');
-    return sha256.convert(bytes).toString();
-  }
-
-  /// Verifies if a user-supplied password matches the stored password hash
-  static Future<bool> verifyPassword(String input) async {
-    final prefs = await SharedPreferences.getInstance();
-    final stored = prefs.getString(_keyPassword) ?? '';
-    if (stored.isEmpty) return true;
-
-    final trimmedInput = input.trim();
-
-    // Check if stored string is legacy plaintext
-    if (stored == trimmedInput) {
-      // Automatic migration from legacy plaintext to hashed
-      await savePassword(trimmedInput);
-      return true;
-    }
-
-    return hashPassword(trimmedInput) == stored;
-  }
-
-  /// Returns true if a master password is set
-  static Future<bool> hasPassword() async {
-    final prefs = await SharedPreferences.getInstance();
-    final stored = prefs.getString(_keyPassword) ?? '';
-    return stored.isNotEmpty;
-  }
   static const String _keyTheme = 'app_theme';
   static const String _keyAdultPackActive = 'adult_pack_active';
   static const String _keySocialPackActive = 'social_pack_active';
@@ -228,7 +194,7 @@ class ConfigSyncer {
       'blocked_apps': prefs.getStringList(_keyBlockedApps) ?? [],
       'blocked_domains': prefs.getStringList(_keyBlockedDomains) ?? [],
       'focus_mode_active': prefs.getBool(_keyFocusMode) ?? false,
-      'password': prefs.getString(_keyPassword) ?? '', // password hash (or empty)
+      'password': prefs.getString(_keyPassword) ?? '', // no default password
       'theme': prefs.getString(_keyTheme) ?? 'emerald', // default theme
       'custom_whitelist': prefs.getStringList(_keyCustomWhitelist) ?? [],
       'show_block_overlay': prefs.getBool(_keyShowBlockOverlay) ?? true,
@@ -256,14 +222,9 @@ class ConfigSyncer {
     await prefs.setBool(_keyOnboardingCompleted, completed);
   }
 
-  // Save new password configuration (stores SHA-256 hash or empty string)
+  // Save new password configuration
   static Future<void> savePassword(String password) async {
     final prefs = await SharedPreferences.getInstance();
-    final trimmed = password.trim();
-    if (trimmed.isEmpty) {
-      await prefs.setString(_keyPassword, '');
-    } else {
-      await prefs.setString(_keyPassword, hashPassword(trimmed));
-    }
+    await prefs.setString(_keyPassword, password);
   }
 }
