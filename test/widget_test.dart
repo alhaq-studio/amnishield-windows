@@ -34,7 +34,7 @@ void main() {
   testWidgets('AmnShield launch with passcode set requires authentication', (WidgetTester tester) async {
     SharedPreferences.setMockInitialValues({
       'onboarding_completed': true,
-      'app_password': 'secret_password_123',
+      'app_password': 'secret_password_123', // Legacy plaintext or hashed
     });
     await tester.pumpWidget(const AmnShieldApp());
     await tester.pumpAndSettle();

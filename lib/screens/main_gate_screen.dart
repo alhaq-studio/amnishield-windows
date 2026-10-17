@@ -18,7 +18,6 @@ class _MainGateScreenState extends State<MainGateScreen> {
   bool _isAuthenticated = false;
   bool _hasCompletedOnboarding = true;
   bool _isLoading = true;
-  String _storedPassword = '';
   String _errorMessage = '';
 
   @override
@@ -34,21 +33,21 @@ class _MainGateScreenState extends State<MainGateScreen> {
   }
 
   Future<void> _loadAuthSettings() async {
-    final config = await ConfigSyncer.loadLocalConfig();
+    final hasPassword = await ConfigSyncer.hasPassword();
     final onboardingDone = await ConfigSyncer.isOnboardingCompleted();
     if (mounted) {
-      final pwd = (config['password'] as String? ?? '').trim();
       setState(() {
-        _storedPassword = pwd;
-        _isAuthenticated = pwd.isEmpty;
+        _isAuthenticated = !hasPassword;
         _hasCompletedOnboarding = onboardingDone;
         _isLoading = false;
       });
     }
   }
 
-  void _verifyPassword() {
-    if (_passwordController.text == _storedPassword) {
+  Future<void> _verifyPassword() async {
+    final isCorrect = await ConfigSyncer.verifyPassword(_passwordController.text);
+    if (!mounted) return;
+    if (isCorrect) {
       setState(() {
         _isAuthenticated = true;
         _errorMessage = '';

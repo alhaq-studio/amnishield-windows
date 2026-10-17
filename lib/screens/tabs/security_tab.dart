@@ -14,7 +14,7 @@ class _SecurityTabWidgetState extends State<SecurityTabWidget> {
   final _newPasswordController = TextEditingController();
   final _customWhitelistController = TextEditingController();
 
-  String _storedPassword = '';
+  bool _hasPasswordSet = false;
   List<String> _customWhitelist = [];
   bool _showBlockOverlay = true;
   String _message = '';
@@ -36,9 +36,10 @@ class _SecurityTabWidgetState extends State<SecurityTabWidget> {
 
   Future<void> _loadSettings() async {
     final config = await ConfigSyncer.loadLocalConfig();
+    final hasPassword = await ConfigSyncer.hasPassword();
     if (mounted) {
       setState(() {
-        _storedPassword = config['password'] ?? '';
+        _hasPasswordSet = hasPassword;
         _customWhitelist = List<String>.from(config['custom_whitelist'] ?? []);
         _showBlockOverlay = config['show_block_overlay'] ?? true;
       });
@@ -49,12 +50,17 @@ class _SecurityTabWidgetState extends State<SecurityTabWidget> {
     final oldText = _oldPasswordController.text;
     final newText = _newPasswordController.text.trim();
 
-    if (_storedPassword.isNotEmpty && oldText != _storedPassword) {
-      setState(() {
-        _message = 'Incorrect current passcode.';
-        _messageColor = Colors.red;
-      });
-      return;
+    if (_hasPasswordSet) {
+      final isOldCorrect = await ConfigSyncer.verifyPassword(oldText);
+      if (!isOldCorrect) {
+        if (mounted) {
+          setState(() {
+            _message = 'Incorrect current passcode.';
+            _messageColor = Colors.red;
+          });
+        }
+        return;
+      }
     }
 
     if (newText.isNotEmpty && newText.length < 4) {
@@ -68,7 +74,7 @@ class _SecurityTabWidgetState extends State<SecurityTabWidget> {
     await ConfigSyncer.savePassword(newText);
     if (mounted) {
       setState(() {
-        _storedPassword = newText;
+        _hasPasswordSet = newText.isNotEmpty;
         _message = newText.isEmpty ? 'Passcode removed.' : 'Passcode updated successfully.';
         _messageColor = Colors.green;
         _oldPasswordController.clear();
@@ -124,7 +130,7 @@ class _SecurityTabWidgetState extends State<SecurityTabWidget> {
               constraints: const BoxConstraints(maxWidth: 400),
               child: Column(
                 children: [
-                  if (_storedPassword.isNotEmpty) ...[
+                  if (_hasPasswordSet) ...[
                     TextField(
                       controller: _oldPasswordController,
                       obscureText: true,
@@ -139,7 +145,7 @@ class _SecurityTabWidgetState extends State<SecurityTabWidget> {
                     controller: _newPasswordController,
                     obscureText: true,
                     decoration: InputDecoration(
-                      labelText: _storedPassword.isEmpty ? 'Set Master Passcode' : 'New Passcode (Leave blank to remove)',
+                      labelText: !_hasPasswordSet ? 'Set Master Passcode' : 'New Passcode (Leave blank to remove)',
                       border: const OutlineInputBorder(),
                     ),
                   ),
@@ -157,7 +163,7 @@ class _SecurityTabWidgetState extends State<SecurityTabWidget> {
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         foregroundColor: Theme.of(context).colorScheme.onPrimary,
                       ),
-                      child: Text(_storedPassword.isEmpty ? 'SET PASSCODE' : 'UPDATE PASSCODE'),
+                      child: Text(!_hasPasswordSet ? 'SET PASSCODE' : 'UPDATE PASSCODE'),
                     ),
                   )
                 ],
