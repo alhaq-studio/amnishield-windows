@@ -10,8 +10,8 @@ class ProcessBlockerService {
 
   static const Set<String> _systemWhitelist = {
     // Windows Core Shell & Subsystems
-    'explorer', 'taskmgr', 'svchost', 'lsass', 'services', 'winlogon', 
-    'csrss', 'smss', 'wininit', 'spoolsv', 'dwm', 'runtimebroker', 
+    'explorer', 'taskmgr', 'svchost', 'lsass', 'services', 'winlogon',
+    'csrss', 'smss', 'wininit', 'spoolsv', 'dwm', 'runtimebroker',
     'taskhostw', 'taskhost', 'searchindexer', 'searchhost', 'searchapp',
     'ctfmon', 'conhost', 'cmd', 'powershell', 'pwsh', 'sihost', 'fontdrvhost',
     'system', 'idle', 'audiodg', 'memory compression', 'registry',
@@ -19,6 +19,10 @@ class ProcessBlockerService {
     'startmenuexperiencehost', 'textinputhost', 'useroobebroker', 'systemsettings',
     'lockapp', 'tabtip', 'dllhost', 'unsecapp', 'wlanext', 'wmiprvse',
     'wmiregistrationservice', 'lsaiso', 'ngciso', 'secure system',
+
+    // Linux & macOS System Whitelist
+    'systemd', 'init', 'bash', 'zsh', 'sh', 'python', 'python3', 'Xorg', 'wayland',
+    'gnome-shell', 'dock', 'finder', 'launchd', 'windowserver', 'syslog',
 
     // Windows Accounts & Security Authentication Brokers
     'tokenbroker', 'webaccountmanager', 'msa', 'credprov', 'microsoftaccount', 'accountsd',
@@ -43,10 +47,10 @@ class ProcessBlockerService {
     'sechealthui', 'smartscreen', 'sense', 'mpdefendercoreservice',
 
     // Windows Administrative & System Tools
-    'control', 'regedit', 'mmc', 'msconfig', 'perfmon', 'resmon', 
-    'cleanmgr', 'dfrgui', 'mdsched', 'iscsicpl', 'odbcad32', 
-    'recoverydrive', 'osrecoveryagent', 'postonce', 'msinfo32', 'psr', 
-    'mstsc', 'charmap', 'magnify', 'narrator', 'osk', 'voiceaccess', 
+    'control', 'regedit', 'mmc', 'msconfig', 'perfmon', 'resmon',
+    'cleanmgr', 'dfrgui', 'mdsched', 'iscsicpl', 'odbcad32',
+    'recoverydrive', 'osrecoveryagent', 'postonce', 'msinfo32', 'psr',
+    'mstsc', 'charmap', 'magnify', 'narrator', 'osk', 'voiceaccess',
     'livecaptions', 'appverif', 'appcertui', 'gpuview', 'wpa', 'wprui',
 
     // OEM & Hardware Background Drivers (Dell, Intel, Waves, Realtek)
@@ -110,23 +114,37 @@ class ProcessBlockerService {
 
   /// Executes process termination ONLY for apps currently running in RAM.
   static Future<void> _enforceBlocking() async {
-    if (!_isActive || _blockedApps.isEmpty) return;
+    if (kIsWeb || !_isActive || _blockedApps.isEmpty) return;
 
     try {
-      // 1. Get snapshot of currently active processes in ONE lightweight call
-      final res = await Process.run('tasklist', ['/FO', 'CSV', '/NH']);
-      if (res.exitCode != 0) return;
-
-      final outputLines = res.stdout.toString().split('\n');
       final runningProcessNames = <String>{};
 
-      for (final line in outputLines) {
-        if (line.trim().isEmpty) continue;
-        final parts = line.split('","');
-        if (parts.isNotEmpty) {
-          final procName = parts[0].replaceAll('"', '').trim().toLowerCase();
-          if (procName.isNotEmpty) {
-            runningProcessNames.add(procName);
+      if (Platform.isWindows) {
+        // 1. Snapshot active processes on Windows
+        final res = await Process.run('tasklist', ['/FO', 'CSV', '/NH']);
+        if (res.exitCode == 0) {
+          final outputLines = res.stdout.toString().split('\n');
+          for (final line in outputLines) {
+            if (line.trim().isEmpty) continue;
+            final parts = line.split('","');
+            if (parts.isNotEmpty) {
+              final procName = parts[0].replaceAll('"', '').trim().toLowerCase();
+              if (procName.isNotEmpty) {
+                runningProcessNames.add(procName);
+              }
+            }
+          }
+        }
+      } else if (Platform.isLinux || Platform.isMacOS) {
+        // 1. Snapshot active processes on macOS / Linux
+        final res = await Process.run('ps', ['-A', '-o', 'comm=']);
+        if (res.exitCode == 0) {
+          final outputLines = res.stdout.toString().split('\n');
+          for (final line in outputLines) {
+            final proc = line.trim().split('/').last.trim().toLowerCase();
+            if (proc.isNotEmpty) {
+              runningProcessNames.add(proc);
+            }
           }
         }
       }
@@ -142,10 +160,18 @@ class ProcessBlockerService {
         // Guard against system whitelist and user custom exceptions
         if (_systemWhitelist.contains(cleanName) || _customWhitelist.contains(cleanName)) continue;
 
-        // ONLY execute taskkill IF the process is actually running in RAM!
+        // ONLY execute process kill IF running in RAM!
         if (runningProcessNames.contains(targetExe) || runningProcessNames.contains(cleanName)) {
-          final killRes = await Process.run('taskkill', ['/F', '/IM', targetExe]);
-          if (killRes.exitCode == 0) {
+          bool killed = false;
+          if (Platform.isWindows) {
+            final killRes = await Process.run('taskkill', ['/F', '/IM', targetExe]);
+            killed = killRes.exitCode == 0;
+          } else if (Platform.isLinux || Platform.isMacOS) {
+            final killRes = await Process.run('killall', ['-9', cleanName]);
+            killed = killRes.exitCode == 0;
+          }
+
+          if (killed) {
             _notifyBlocked(cleanName);
           }
         }

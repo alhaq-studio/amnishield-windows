@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/foundation.dart' show debugPrint;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ConfigSyncer {
-  static const String _configPath = r'C:\ProgramData\AmnShield\config.json';
-  static const String _configDir = r'C:\ProgramData\AmnShield';
+  static const String _windowsConfigPath = r'C:\ProgramData\AmnShield\config.json';
+  static const String _windowsConfigDir = r'C:\ProgramData\AmnShield';
 
   static const String _keyBlockedApps = 'blocked_apps';
   static const String _keyBlockedDomains = 'blocked_domains';
@@ -31,7 +32,7 @@ class ConfigSyncer {
     if (socialPackActive != null) await prefs.setBool(_keySocialPackActive, socialPackActive);
   }
 
-  // Save config both to local SharedPrefs and write to shared JSON for the C# Service
+  // Save config both to local SharedPrefs and write to shared JSON for background service
   static Future<void> syncConfig({
     List<String>? blockedApps,
     List<String>? customDomains,
@@ -60,11 +61,13 @@ class ConfigSyncer {
     bool webFilterEnabled = prefs.getBool(_keyWebFilterEnabled) ?? true;
     bool appBlockerEnabled = prefs.getBool(_keyAppBlockerEnabled) ?? true;
 
+    if (kIsWeb) return; // Skip disk file writing on web
+
     // Format app names with .exe extension for Windows monitoring if enabled and focus active
     List<String> formattedApps = (focus && appBlockerEnabled)
         ? apps.map((app) {
             String clean = app.trim().toLowerCase();
-            if (!clean.endsWith('.exe')) {
+            if (Platform.isWindows && !clean.endsWith('.exe')) {
               return '$clean.exe';
             }
             return clean;
@@ -97,14 +100,23 @@ class ConfigSyncer {
       }
     }
 
-    // Write to C:\ProgramData\AmnShield\config.json
+    // Write to platform config path
     try {
-      final dir = Directory(_configDir);
-      if (!await dir.exists()) {
-        await dir.create(recursive: true);
+      File? file;
+      if (Platform.isWindows) {
+        final dir = Directory(_windowsConfigDir);
+        if (!await dir.exists()) {
+          await dir.create(recursive: true);
+        }
+        file = File(_windowsConfigPath);
+      } else {
+        final appDir = await getApplicationSupportDirectory();
+        if (!await appDir.exists()) {
+          await appDir.create(recursive: true);
+        }
+        file = File('${appDir.path}/config.json');
       }
 
-      final file = File(_configPath);
       final configMap = {
         'banned_apps': formattedApps,
         'banned_domains': allBannedDomains.toList(),

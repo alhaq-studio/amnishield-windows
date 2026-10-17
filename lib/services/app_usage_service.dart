@@ -90,7 +90,7 @@ class AppUsageService {
   static Future<void> _loadData() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      
+
       final limitsRaw = prefs.getString(_keyAppLimits) ?? '{}';
       final usageRaw = prefs.getString(_keyAppUsage) ?? '{}';
       final webRaw = prefs.getString(_keyWebUsage) ?? '{}';
@@ -168,7 +168,13 @@ class AppUsageService {
           final allowedSec = limitMin * 60;
           if (_appUsage[exe]! >= allowedSec) {
             // Enforcement: Kill the process immediately
-            Process.run('taskkill', ['/F', '/IM', exe]);
+            if (!kIsWeb) {
+              if (Platform.isWindows) {
+                Process.run('taskkill', ['/F', '/IM', exe]);
+              } else if (Platform.isLinux || Platform.isMacOS) {
+                Process.run('killall', ['-9', exe.replaceAll('.exe', '')]);
+              }
+            }
             ProcessBlockerService.lastBlockedNotifier.value = '$exe (Daily Time Limit Reached)';
           }
         }

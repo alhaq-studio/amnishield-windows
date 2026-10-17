@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:app_links/app_links.dart';
@@ -10,32 +12,42 @@ import 'services/guardian_http_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await windowManager.ensureInitialized();
+
+  final isDesktop = !kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS);
+
+  if (isDesktop) {
+    await windowManager.ensureInitialized();
+  }
 
   // Initialize App Usage Tracking Engine & HTTP API Server for Extension Sync
   await AppUsageService.initialize();
-  await GuardianHttpService.start();
+
+  if (!kIsWeb) {
+    await GuardianHttpService.start();
+  }
 
   // Load initial theme configuration
   final config = await ConfigSyncer.loadLocalConfig();
   themeNotifier.value = config['theme'] ?? 'emerald';
 
-  // Set window size constraints for desktop
-  WindowOptions windowOptions = const WindowOptions(
-    size: Size(960, 680),
-    minimumSize: Size(900, 600),
-    center: true,
-    backgroundColor: Colors.transparent,
-    skipTaskbar: false,
-    titleBarStyle: TitleBarStyle.hidden,
-    title: 'AmnShield | Desktop Guardian',
-  );
+  if (isDesktop) {
+    // Set window size constraints for desktop
+    WindowOptions windowOptions = const WindowOptions(
+      size: Size(960, 680),
+      minimumSize: Size(900, 600),
+      center: true,
+      backgroundColor: Colors.transparent,
+      skipTaskbar: false,
+      titleBarStyle: TitleBarStyle.hidden,
+      title: 'AmnShield | Desktop Guardian',
+    );
 
-  await windowManager.waitUntilReadyToShow(windowOptions, () async {
-    await windowManager.setTitleBarStyle(TitleBarStyle.hidden, windowButtonVisibility: false);
-    await windowManager.show();
-    await windowManager.focus();
-  });
+    await windowManager.waitUntilReadyToShow(windowOptions, () async {
+      await windowManager.setTitleBarStyle(TitleBarStyle.hidden, windowButtonVisibility: false);
+      await windowManager.show();
+      await windowManager.focus();
+    });
+  }
 
   runApp(const AmnShieldApp());
 }
@@ -102,4 +114,3 @@ class _AmnShieldAppState extends State<AmnShieldApp> {
     );
   }
 }
-

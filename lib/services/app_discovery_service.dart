@@ -29,8 +29,8 @@ class AppItem {
 class AppDiscoveryService {
   static const Set<String> systemWhitelist = {
     // Windows Core Shell & Subsystems
-    'explorer', 'taskmgr', 'svchost', 'lsass', 'services', 'winlogon', 
-    'csrss', 'smss', 'wininit', 'spoolsv', 'dwm', 'runtimebroker', 
+    'explorer', 'taskmgr', 'svchost', 'lsass', 'services', 'winlogon',
+    'csrss', 'smss', 'wininit', 'spoolsv', 'dwm', 'runtimebroker',
     'taskhostw', 'taskhost', 'searchindexer', 'searchhost', 'searchapp',
     'ctfmon', 'conhost', 'cmd', 'powershell', 'pwsh', 'sihost', 'fontdrvhost',
     'system', 'idle', 'audiodg', 'memory compression', 'registry',
@@ -38,6 +38,10 @@ class AppDiscoveryService {
     'startmenuexperiencehost', 'textinputhost', 'useroobebroker', 'systemsettings',
     'lockapp', 'tabtip', 'dllhost', 'unsecapp', 'wlanext', 'wmiprvse',
     'wmiregistrationservice', 'lsaiso', 'ngciso', 'secure system',
+
+    // Linux & macOS System Whitelist
+    'systemd', 'init', 'bash', 'zsh', 'sh', 'python', 'python3', 'Xorg', 'wayland',
+    'gnome-shell', 'dock', 'finder', 'launchd', 'windowserver', 'syslog',
 
     // Windows Accounts & Security Authentication Brokers
     'tokenbroker', 'webaccountmanager', 'msa', 'credprov', 'microsoftaccount', 'accountsd',
@@ -62,10 +66,10 @@ class AppDiscoveryService {
     'sechealthui', 'smartscreen', 'sense', 'mpdefendercoreservice',
 
     // Windows Administrative & System Tools
-    'control', 'regedit', 'mmc', 'msconfig', 'perfmon', 'resmon', 
-    'cleanmgr', 'dfrgui', 'mdsched', 'iscsicpl', 'odbcad32', 
-    'recoverydrive', 'osrecoveryagent', 'postonce', 'msinfo32', 'psr', 
-    'mstsc', 'charmap', 'magnify', 'narrator', 'osk', 'voiceaccess', 
+    'control', 'regedit', 'mmc', 'msconfig', 'perfmon', 'resmon',
+    'cleanmgr', 'dfrgui', 'mdsched', 'iscsicpl', 'odbcad32',
+    'recoverydrive', 'osrecoveryagent', 'postonce', 'msinfo32', 'psr',
+    'mstsc', 'charmap', 'magnify', 'narrator', 'osk', 'voiceaccess',
     'livecaptions', 'appverif', 'appcertui', 'gpuview', 'wpa', 'wprui',
 
     // OEM & Hardware Background Drivers (Dell, Intel, Waves, Realtek)
@@ -94,10 +98,31 @@ class AppDiscoveryService {
     caseSensitive: false,
   );
 
-  /// Comprehensive Windows App Discovery engine (< 500ms execution time)
-  /// Discovers 100% of installed desktop apps & Microsoft Store (AppX) apps:
-  /// (Instagram, WhatsApp, Facebook, TikTok, Netflix, Spotify, Discord, VS Code, Steam, Epic Games, etc.)
+  /// Cross-platform App Discovery engine (Windows, macOS, Linux, Web)
   static Future<List<AppItem>> getInstalledApps() async {
+    if (kIsWeb) {
+      return const [
+        AppItem(name: 'Google Chrome', executable: 'chrome'),
+        AppItem(name: 'Mozilla Firefox', executable: 'firefox'),
+        AppItem(name: 'Brave Browser', executable: 'brave'),
+        AppItem(name: 'Discord', executable: 'discord'),
+        AppItem(name: 'Spotify', executable: 'spotify'),
+        AppItem(name: 'VS Code', executable: 'code'),
+      ];
+    }
+
+    if (Platform.isWindows) {
+      return _getInstalledAppsWindows();
+    } else if (Platform.isMacOS) {
+      return _getInstalledAppsMac();
+    } else if (Platform.isLinux) {
+      return _getInstalledAppsLinux();
+    }
+
+    return [];
+  }
+
+  static Future<List<AppItem>> _getInstalledAppsWindows() async {
     final Map<String, AppItem> installedMap = {};
 
     try {
@@ -106,12 +131,12 @@ $apps = [System.Collections.Generic.List[PSCustomObject]]::new()
 
 function Add-App ($name, $exePath) {
     if ([string]::IsNullOrWhiteSpace($name)) { return }
-    
+
     $cleanPath = ""
     if (-not [string]::IsNullOrWhiteSpace($exePath)) {
         $cleanPath = $exePath.Split(',')[0].Trim('"').Trim()
     }
-    
+
     $exeName = ""
     if ($cleanPath.EndsWith(".exe", [System.StringComparison]::OrdinalIgnoreCase)) {
         $exeName = [System.IO.Path]::GetFileName($cleanPath).ToLower()
@@ -126,13 +151,12 @@ function Add-App ($name, $exePath) {
     }
 }
 
-# 1. Store / UWP Apps (Instagram, WhatsApp, Facebook, TikTok, Netflix, Spotify, Twitter/X, Prime Video, Telegram, etc.)
 try {
     Get-AppxPackage | ForEach-Object {
         if (-not $_.IsFramework -and $_.NonRemovable -ne $true) {
             $rawName = $_.Name
             $displayName = if ($rawName.Contains('.')) { $rawName.Split('.')[-1] } else { $rawName }
-            
+
             $manifest = Get-AppxPackageManifest $_ -ErrorAction SilentlyContinue
             if ($manifest -and $manifest.Package.Properties.DisplayName) {
                 $propName = $manifest.Package.Properties.DisplayName
@@ -153,7 +177,6 @@ try {
     }
 } catch {}
 
-# 2. Registry Uninstall Keys (HKLM & HKCU, 64-bit & 32-bit)
 $regPaths = @(
     "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*",
     "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*",
@@ -173,7 +196,6 @@ foreach ($p in $regPaths) {
     }
 }
 
-# 3. Registry App Paths
 $appPaths = @(
     "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\*",
     "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\*"
@@ -190,7 +212,6 @@ foreach ($ap in $appPaths) {
     }
 }
 
-# 4. Start Menu Shortcuts
 $shortcuts = Get-ChildItem -Path "$env:ProgramData\Microsoft\Windows\Start Menu\Programs", "$env:APPDATA\Microsoft\Windows\Start Menu\Programs" -Recurse -Filter "*.lnk" -ErrorAction SilentlyContinue
 foreach ($s in $shortcuts) {
     try {
@@ -200,7 +221,6 @@ foreach ($s in $shortcuts) {
     } catch {}
 }
 
-# 5. User Programs Directories Direct Scanner
 $userProgDirs = @(
     "$env:LOCALAPPDATA\Programs",
     "$env:APPDATA\Programs"
@@ -215,7 +235,6 @@ foreach ($dir in $userProgDirs) {
     }
 }
 
-# Output deduplicated list: DisplayName||executable.exe||Path
 $apps | Group-Object Executable | ForEach-Object {
     $item = $_.Group[0]
     Write-Output "$($item.Name)||$($item.Executable)||$($item.Path)"
@@ -251,7 +270,7 @@ $apps | Group-Object Executable | ForEach-Object {
         }
       }
     } catch (e) {
-      debugPrint('Error discovering installed apps: $e');
+      debugPrint('Error discovering installed apps on Windows: $e');
     }
 
     final list = installedMap.values.toList()
@@ -259,29 +278,141 @@ $apps | Group-Object Executable | ForEach-Object {
     return list;
   }
 
-  /// Discovers currently running desktop processes via tasklist.
+  static Future<List<AppItem>> _getInstalledAppsMac() async {
+    final Map<String, AppItem> installedMap = {};
+    final dirs = [Directory('/Applications'), Directory('/System/Applications')];
+
+    for (final dir in dirs) {
+      if (dir.existsSync()) {
+        try {
+          final entities = dir.listSync();
+          for (final entity in entities) {
+            if (entity.path.endsWith('.app')) {
+              final name = entity.path.split('/').last.replaceAll('.app', '');
+              final cleanExe = name.toLowerCase().replaceAll(' ', '');
+              if (!systemWhitelist.contains(cleanExe) && !_noiseFilter.hasMatch(name)) {
+                installedMap[cleanExe] = AppItem(
+                  name: name,
+                  executable: cleanExe,
+                  path: entity.path,
+                );
+              }
+            }
+          }
+        } catch (e) {
+          debugPrint('Error scanning Mac applications directory: $e');
+        }
+      }
+    }
+
+    final list = installedMap.values.toList()
+      ..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+    return list;
+  }
+
+  static Future<List<AppItem>> _getInstalledAppsLinux() async {
+    if (kIsWeb || !Platform.isLinux) return [];
+    final Map<String, AppItem> installedMap = {};
+    final home = Platform.environment['HOME'] ?? '';
+    final dirs = [
+      Directory('/usr/share/applications'),
+      if (home.isNotEmpty) Directory('$home/.local/share/applications'),
+    ];
+
+    for (final dir in dirs) {
+      if (dir.existsSync()) {
+        try {
+          final entities = dir.listSync();
+          for (final entity in entities) {
+            if (entity.path.endsWith('.desktop')) {
+              try {
+                final file = File(entity.path);
+                final lines = file.readAsLinesSync();
+                String? name;
+                String? exec;
+
+                for (final line in lines) {
+                  if (line.startsWith('Name=') && name == null) {
+                    name = line.substring(5).trim();
+                  } else if (line.startsWith('Exec=') && exec == null) {
+                    exec = line.substring(5).split(' ').first.split('/').last.trim();
+                  }
+                }
+
+                if (name != null && exec != null) {
+                  final cleanExe = exec.toLowerCase().replaceAll('.exe', '');
+                  if (!systemWhitelist.contains(cleanExe) && !_noiseFilter.hasMatch(name)) {
+                    installedMap[cleanExe] = AppItem(
+                      name: name,
+                      executable: cleanExe,
+                      path: entity.path,
+                    );
+                  }
+                }
+              } catch (_) {}
+            }
+          }
+        } catch (e) {
+          debugPrint('Error scanning Linux applications directory: $e');
+        }
+      }
+    }
+
+    final list = installedMap.values.toList()
+      ..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+    return list;
+  }
+
+  /// Discovers currently running desktop processes across platforms.
   static Future<List<AppItem>> getRunningApps() async {
+    if (kIsWeb) {
+      return const [
+        AppItem(name: 'Web Browser', executable: 'browser'),
+      ];
+    }
+
     final Map<String, AppItem> runningMap = {};
 
     try {
-      final result = await Process.run('tasklist', ['/FO', 'CSV', '/NH']);
-      if (result.exitCode == 0) {
-        final lines = const LineSplitter().convert(result.stdout as String);
-        for (final line in lines) {
-          if (line.trim().isEmpty) continue;
-          final parts = line.split('","');
-          if (parts.isNotEmpty) {
-            final exe = parts[0].replaceAll('"', '').trim().toLowerCase();
-            final cleanExe = exe.replaceAll('.exe', '');
+      if (Platform.isWindows) {
+        final result = await Process.run('tasklist', ['/FO', 'CSV', '/NH']);
+        if (result.exitCode == 0) {
+          final lines = const LineSplitter().convert(result.stdout as String);
+          for (final line in lines) {
+            if (line.trim().isEmpty) continue;
+            final parts = line.split('","');
+            if (parts.isNotEmpty) {
+              final exe = parts[0].replaceAll('"', '').trim().toLowerCase();
+              final cleanExe = exe.replaceAll('.exe', '');
 
-            if (exe.endsWith('.exe') &&
-                !systemWhitelist.contains(cleanExe) &&
-                !_noiseFilter.hasMatch(exe)) {
-              if (!runningMap.containsKey(exe)) {
+              if (exe.endsWith('.exe') &&
+                  !systemWhitelist.contains(cleanExe) &&
+                  !_noiseFilter.hasMatch(exe)) {
+                if (!runningMap.containsKey(exe)) {
+                  final displayName = cleanExe.length > 1
+                      ? '${cleanExe[0].toUpperCase()}${cleanExe.substring(1)}'
+                      : cleanExe.toUpperCase();
+                  runningMap[exe] = AppItem(name: displayName, executable: exe);
+                }
+              }
+            }
+          }
+        }
+      } else if (Platform.isLinux || Platform.isMacOS) {
+        final result = await Process.run('ps', ['-A', '-o', 'comm=']);
+        if (result.exitCode == 0) {
+          final lines = const LineSplitter().convert(result.stdout as String);
+          for (final line in lines) {
+            final raw = line.trim().split('/').last.trim();
+            if (raw.isEmpty) continue;
+
+            final cleanExe = raw.toLowerCase();
+            if (!systemWhitelist.contains(cleanExe) && !_noiseFilter.hasMatch(cleanExe)) {
+              if (!runningMap.containsKey(cleanExe)) {
                 final displayName = cleanExe.length > 1
                     ? '${cleanExe[0].toUpperCase()}${cleanExe.substring(1)}'
                     : cleanExe.toUpperCase();
-                runningMap[exe] = AppItem(name: displayName, executable: exe);
+                runningMap[cleanExe] = AppItem(name: displayName, executable: cleanExe);
               }
             }
           }

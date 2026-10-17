@@ -34,7 +34,7 @@ class ExtensionEnforcerService {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_keyExtensionEnforced, enable);
 
-    if (!Platform.isWindows) return true;
+    if (kIsWeb || !Platform.isWindows) return true;
 
     try {
       if (enable) {
@@ -50,6 +50,8 @@ class ExtensionEnforcerService {
   }
 
   static Future<void> _applyRegistryPolicy() async {
+    if (kIsWeb || !Platform.isWindows) return;
+
     final webstorePolicy = '$webstoreExtensionId;https://clients2.google.com/service/update2/crx';
     final amngazeWebstorePolicy = '$amngazeWebstoreExtensionId;https://clients2.google.com/service/update2/crx';
 
@@ -105,6 +107,8 @@ class ExtensionEnforcerService {
   }
 
   static Future<void> _removeRegistryPolicy() async {
+    if (kIsWeb || !Platform.isWindows) return;
+
     final psScript = '''
       \$chromeForcelist = @(
         "HKCU:\\Software\\Policies\\Google\\Chrome\\ExtensionInstallForcelist",
