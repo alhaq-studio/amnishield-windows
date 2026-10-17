@@ -50,7 +50,7 @@ class _BlockOverlayDialogState extends State<BlockOverlayDialog> with SingleTick
   late String _motivationalQuote;
   String _unlockError = '';
   bool _showPasscodePrompt = false;
-  String _storedPassword = '';
+  bool _hasPasswordSet = false;
 
   static const List<String> _quotes = [
     '"Starve your distractions, feed your focus."',
@@ -86,22 +86,25 @@ class _BlockOverlayDialogState extends State<BlockOverlayDialog> with SingleTick
   }
 
   Future<void> _loadStoredPassword() async {
-    final config = await ConfigSyncer.loadLocalConfig();
+    final hasPassword = await ConfigSyncer.hasPassword();
     if (mounted) {
       setState(() {
-        _storedPassword = config['password'] ?? '';
+        _hasPasswordSet = hasPassword;
       });
     }
   }
 
   Future<void> _verifyPasscode() async {
     final text = _passcodeController.text.trim();
-    if (_storedPassword.isNotEmpty && text == _storedPassword) {
-      if (mounted) {
+    if (_hasPasswordSet) {
+      final isCorrect = await ConfigSyncer.verifyPassword(text);
+      if (isCorrect && mounted) {
         Navigator.of(context).pop();
         widget.onDismiss?.call();
+        return;
       }
-    } else {
+    }
+    if (mounted) {
       setState(() {
         _unlockError = 'Incorrect master passcode.';
       });
@@ -274,7 +277,7 @@ class _BlockOverlayDialogState extends State<BlockOverlayDialog> with SingleTick
                 ),
               ),
 
-              if (_storedPassword.isNotEmpty) ...[
+              if (_hasPasswordSet) ...[
                 const SizedBox(height: 12),
                 TextButton.icon(
                   onPressed: () {
