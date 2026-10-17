@@ -1,18 +1,18 @@
-; Inno Setup Compiler Script for AmnShield Windows Guardian
+; Inno Setup Compiler Script for Amnishield Windows Guardian
 ; Compatible with Inno Setup 6+
 
 [Setup]
 AppId={{91A39BE9-4A73-4019-9430-8D3E64AE1B42}
-AppName=AmnShield Guardian
-AppVersion=08.26.2026
+AppName=Amnishield Guardian
+AppVersion=0.1.0
 AppPublisher=Al-Haq Studio
 AppPublisherURL=https://alhaq.uk
 AppSupportURL=https://alhaq.uk
 AppUpdatesURL=https://amnishield.com/download
-DefaultDirName={commonpf}\AmnShield
-DefaultGroupName=AmnShield
+DefaultDirName={commonpf}\Amnishield
+DefaultGroupName=Amnishield
 OutputDir=releases
-OutputBaseFilename=AmnShield-Setup-v8.26.2026
+OutputBaseFilename=Amnishield-Setup-v0.1.0
 SetupIconFile=windows\runner\resources\app_icon.ico
 Compression=lzma
 SolidCompression=yes
@@ -26,7 +26,7 @@ PrivilegesRequired=admin
 ArchitecturesAllowed=x64
 ArchitecturesInstallIn64BitMode=x64
 UninstallDisplayIcon={app}\amnshield_flutter.exe
-UninstallDisplayName=AmnShield Guardian
+UninstallDisplayName=Amnishield Guardian
 CreateUninstallRegKey=yes
 Uninstallable=yes
 
@@ -49,15 +49,15 @@ Source: "install.ps1"; DestDir: "{app}"; Flags: ignoreversion
 Source: "uninstall.ps1"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
-Name: "{group}\AmnShield Guardian"; Filename: "{app}\amnshield_flutter.exe"
-Name: "{group}\{cm:UninstallProgram,AmnShield Guardian}"; Filename: "{uninstallexe}"
-Name: "{autodesktop}\AmnShield Guardian"; Filename: "{app}\amnshield_flutter.exe"; Tasks: desktopicon
+Name: "{group}\Amnishield Guardian"; Filename: "{app}\amnshield_flutter.exe"
+Name: "{group}\{cm:UninstallProgram,Amnishield Guardian}"; Filename: "{uninstallexe}"
+Name: "{autodesktop}\Amnishield Guardian"; Filename: "{app}\amnshield_flutter.exe"; Tasks: desktopicon
 
 [Run]
 ; Run the PowerShell installation script to register and start the Windows service
 Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File ""{app}\install.ps1"""; Flags: runhidden runascurrentuser
-; Launch AmnShield Desktop application at the end of setup
-Filename: "{app}\amnshield_flutter.exe"; Description: "{cm:LaunchProgram,AmnShield Guardian}"; Flags: nowait postinstall skipifsilent
+; Launch Amnishield Desktop application at the end of setup
+Filename: "{app}\amnshield_flutter.exe"; Description: "{cm:LaunchProgram,Amnishield Guardian}"; Flags: nowait postinstall skipifsilent
 
 [UninstallRun]
 ; Stop and unregister the service before deleting files
