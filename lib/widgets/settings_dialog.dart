@@ -22,7 +22,7 @@ class _SettingsDialogState extends State<SettingsDialog> {
   final _oldPasswordController = TextEditingController();
   final _newPasswordController = TextEditingController();
 
-  String _storedPassword = '';
+  bool _hasPasswordSet = false;
   bool _showBlockOverlay = true;
   bool _extensionEnforced = false;
   bool _syncRulesEnabled = true;
@@ -48,9 +48,10 @@ class _SettingsDialogState extends State<SettingsDialog> {
   Future<void> _loadSettings() async {
     final config = await ConfigSyncer.loadLocalConfig();
     final enforced = await ExtensionEnforcerService.isEnforced();
+    final hasPassword = await ConfigSyncer.hasPassword();
     if (mounted) {
       setState(() {
-        _storedPassword = config['password'] ?? '';
+        _hasPasswordSet = hasPassword;
         _showBlockOverlay = config['show_block_overlay'] ?? true;
         _extensionEnforced = enforced;
         _syncRulesEnabled = config['sync_rules_enabled'] ?? true;
@@ -65,12 +66,17 @@ class _SettingsDialogState extends State<SettingsDialog> {
     final oldText = _oldPasswordController.text;
     final newText = _newPasswordController.text.trim();
 
-    if (_storedPassword.isNotEmpty && oldText != _storedPassword) {
-      setState(() {
-        _message = 'Incorrect current passcode.';
-        _messageColor = Colors.red;
-      });
-      return;
+    if (_hasPasswordSet) {
+      final isOldCorrect = await ConfigSyncer.verifyPassword(oldText);
+      if (!isOldCorrect) {
+        if (mounted) {
+          setState(() {
+            _message = 'Incorrect current passcode.';
+            _messageColor = Colors.red;
+          });
+        }
+        return;
+      }
     }
 
     if (newText.isNotEmpty && newText.length < 4) {
@@ -84,7 +90,7 @@ class _SettingsDialogState extends State<SettingsDialog> {
     await ConfigSyncer.savePassword(newText);
     if (mounted) {
       setState(() {
-        _storedPassword = newText;
+        _hasPasswordSet = newText.isNotEmpty;
         _message = newText.isEmpty ? 'Passcode removed.' : 'Passcode updated successfully.';
         _messageColor = Colors.green;
         _oldPasswordController.clear();
@@ -145,7 +151,7 @@ class _SettingsDialogState extends State<SettingsDialog> {
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
                     children: [
-                      if (_storedPassword.isNotEmpty)
+                      if (_hasPasswordSet)
                         Padding(
                           padding: const EdgeInsets.only(bottom: 12.0),
                           child: TextField(
@@ -162,7 +168,7 @@ class _SettingsDialogState extends State<SettingsDialog> {
                         controller: _newPasswordController,
                         obscureText: true,
                         decoration: InputDecoration(
-                          labelText: _storedPassword.isEmpty ? 'New Passcode (Leave empty to disable)' : 'New Passcode',
+                          labelText: !_hasPasswordSet ? 'New Passcode (Leave empty to disable)' : 'New Passcode',
                           border: const OutlineInputBorder(),
                           isDense: true,
                         ),
