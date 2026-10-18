@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:path_provider/path_provider.dart';
@@ -222,9 +223,51 @@ class ConfigSyncer {
     await prefs.setBool(_keyOnboardingCompleted, completed);
   }
 
-  // Save new password configuration
+  /// Generates SHA-256 hash of plaintext password
+  static String hashPassword(String password) {
+    final bytes = utf8.encode(password);
+    final digest = sha256.convert(bytes);
+    return digest.toString();
+  }
+
+  /// Checks if a password has been configured
+  static Future<bool> hasPassword() async {
+    final prefs = await SharedPreferences.getInstance();
+    final pwd = prefs.getString(_keyPassword);
+    return pwd != null && pwd.isNotEmpty;
+  }
+
+  /// Verifies input password against stored hash, migrating legacy plaintext if needed
+  static Future<bool> verifyPassword(String input) async {
+    final prefs = await SharedPreferences.getInstance();
+    final stored = prefs.getString(_keyPassword);
+
+    if (stored == null || stored.isEmpty) {
+      return input.isEmpty;
+    }
+
+    final hashedInput = hashPassword(input);
+    if (stored == hashedInput) {
+      return true;
+    }
+
+    // Migration check: if stored equals plaintext input, update to hash
+    if (stored == input) {
+      await savePassword(input);
+      return true;
+    }
+
+    return false;
+  }
+
+  // Save new password configuration (hashed)
   static Future<void> savePassword(String password) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_keyPassword, password);
+    if (password.isEmpty) {
+      await prefs.setString(_keyPassword, '');
+    } else {
+      final hashed = hashPassword(password);
+      await prefs.setString(_keyPassword, hashed);
+    }
   }
 }
