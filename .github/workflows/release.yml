@@ -1,4 +1,4 @@
-name: Build & Release AmnShield Multi-Platform
+name: Build & Release Amnishield Multi-Platform
 
 on:
   push:
@@ -58,7 +58,7 @@ jobs:
         run: |
           $tag = "${{ steps.version.outputs.TAG }}"
           New-Item -ItemType Directory -Force -Path "artifacts"
-          Compress-Archive -Path "build\windows\x64\runner\Release\*" -DestinationPath "artifacts\AmnShield-Windows-$tag-x64.zip" -Force
+          Compress-Archive -Path "build\windows\x64\runner\Release\*" -DestinationPath "artifacts\Amnishield-Windows-$tag-x64.zip" -Force
 
       - name: Install Inno Setup
         shell: powershell
@@ -92,7 +92,7 @@ jobs:
           if ($LASTEXITCODE -ne 0) {
             Write-Warning "Inno Setup compilation failed"
           } else {
-            Write-Host "Successfully compiled AmnShield installer" -ForegroundColor Green
+            Write-Host "Successfully compiled Amnishield installer" -ForegroundColor Green
             Get-ChildItem -Path "releases\*.exe" | Copy-Item -Destination "artifacts"
           }
 
@@ -141,7 +141,7 @@ jobs:
           TAG="${{ steps.version.outputs.TAG }}"
           mkdir -p artifacts
           cd build/macos/Build/Products/Release
-          zip -r "../../../../../artifacts/AmnShield-macOS-$TAG-x64.zip" amnshield_flutter.app
+          zip -r "../../../../../artifacts/Amnishield-macOS-$TAG-x64.zip" amnshield_flutter.app
 
       - name: Upload macOS Artifacts
         uses: actions/upload-artifact@v4
@@ -193,7 +193,7 @@ jobs:
           TAG="${{ steps.version.outputs.TAG }}"
           mkdir -p artifacts
           cd build/linux/x64/release/bundle
-          zip -r "../../../../../artifacts/AmnShield-Linux-$TAG-x64.zip" .
+          zip -r "../../../../../artifacts/Amnishield-Linux-$TAG-x64.zip" .
 
       - name: Upload Linux Artifacts
         uses: actions/upload-artifact@v4
@@ -240,7 +240,7 @@ jobs:
           TAG="${{ steps.version.outputs.TAG }}"
           mkdir -p artifacts
           cd build/web
-          zip -r "../../artifacts/AmnShield-Web-$TAG.zip" .
+          zip -r "../../artifacts/Amnishield-Web-$TAG.zip" .
 
       - name: Upload Web Artifacts
         uses: actions/upload-artifact@v4
@@ -293,9 +293,9 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.version.outputs.TAG }}
-          name: AmnShield Guardian ${{ steps.version.outputs.TAG }} (Cross-Platform)
+          name: Amnishield Guardian ${{ steps.version.outputs.TAG }} (2026)
           body: |
-            ## 🛡️ AmnShield Guardian ${{ steps.version.outputs.TAG }}
+            ## 🛡️ Amnishield Guardian ${{ steps.version.outputs.TAG }} (2026)
 
             Cross-platform digital wellness and desktop focus enforcement application for **Windows**, **macOS**, **Linux**, and **Web**.
 
@@ -303,18 +303,18 @@ jobs:
             - **Desktop App Blocker**: Block distracting desktop applications with real-time process monitoring
             - **Web Domain Filter**: 50,000+ domain pack support with Adult & Social Media domain packs
             - **Usage Tracker**: Real-time app & website screentime tracking with daily time limits
-            - **Browser Extension Sync**: Local HTTP API server on `127.0.0.1:48192` for live rule sync with AmnShield extension
+            - **Browser Extension Sync**: Local HTTP API server on `127.0.0.1:48192` for live rule sync with Amnishield extension
             - **ECDSA License Verification**: Offline NIST P-256 cryptographic license key validation
             - **Cross-Platform**: Windows, macOS, Linux desktop builds & web app support
 
             ### 📦 Downloads
             | Platform | File | Description |
             |----------|------|-------------|
-            | **Windows** | `AmnShield-Windows-${{ steps.version.outputs.TAG }}-x64.zip` | Portable version |
-            | **Windows** | `AmnShield-Setup-*.exe` | Windows Installer |
-            | **macOS** | `AmnShield-macOS-${{ steps.version.outputs.TAG }}-x64.zip` | macOS App bundle |
-            | **Linux** | `AmnShield-Linux-${{ steps.version.outputs.TAG }}-x64.zip` | Linux Portable bundle |
-            | **Web** | `AmnShield-Web-${{ steps.version.outputs.TAG }}.zip` | Web app build |
+            | **Windows** | `Amnishield-Windows-${{ steps.version.outputs.TAG }}-x64.zip` | Portable version |
+            | **Windows** | `Amnishield-Setup-*.exe` | Windows Installer |
+            | **macOS** | `Amnishield-macOS-${{ steps.version.outputs.TAG }}-x64.zip` | macOS App bundle |
+            | **Linux** | `Amnishield-Linux-${{ steps.version.outputs.TAG }}-x64.zip` | Linux Portable bundle |
+            | **Web** | `Amnishield-Web-${{ steps.version.outputs.TAG }}.zip` | Web app build |
 
             ### 🔒 Privacy
             - 100% local processing — zero telemetry, zero cloud data collection
