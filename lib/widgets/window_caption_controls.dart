@@ -15,7 +15,8 @@ class WindowCaptionControls extends StatefulWidget {
 class _WindowCaptionControlsState extends State<WindowCaptionControls> {
   bool _isMaximized = false;
 
-  bool get _isDesktop => !kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS);
+  bool get _isDesktop =>
+      !kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS);
 
   @override
   void initState() {
@@ -34,7 +35,9 @@ class _WindowCaptionControlsState extends State<WindowCaptionControls> {
           _isMaximized = max;
         });
       }
-    } catch (_) {}
+    } catch (e) {
+      debugPrint('Error checking window maximized state: $e');
+    }
   }
 
   Future<void> _toggleMaximize() async {
