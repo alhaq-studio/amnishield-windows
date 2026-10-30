@@ -247,227 +247,235 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> with TickerProv
     _updateConfig();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(100),
-        child: GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onPanStart: (_) => windowManager.startDragging(),
-          onDoubleTap: () async {
-            if (await windowManager.isMaximized()) {
-              await windowManager.unmaximize();
-            } else {
-              await windowManager.maximize();
-            }
-          },
-          child: DragToMoveArea(
-            child: AppBar(
-              leading: Builder(
-                builder: (context) => IconButton(
-                  icon: Icon(Icons.menu, color: Theme.of(context).colorScheme.onPrimary),
-                  tooltip: 'Navigation Menu',
-                  onPressed: () => Scaffold.of(context).openDrawer(),
+  PreferredSizeWidget _buildAppBar(BuildContext context) {
+    return PreferredSize(
+      preferredSize: const Size.fromHeight(100),
+      child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onPanStart: (_) => windowManager.startDragging(),
+        onDoubleTap: () async {
+          if (await windowManager.isMaximized()) {
+            await windowManager.unmaximize();
+          } else {
+            await windowManager.maximize();
+          }
+        },
+        child: DragToMoveArea(
+          child: AppBar(
+            leading: Builder(
+              builder: (context) => IconButton(
+                icon: Icon(Icons.menu, color: Theme.of(context).colorScheme.onPrimary),
+                tooltip: 'Navigation Menu',
+                onPressed: () => Scaffold.of(context).openDrawer(),
+              ),
+            ),
+            titleSpacing: 0,
+            title: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(6),
+                  child: Image.asset(
+                    'assets/images/app_logo.png',
+                    width: 24,
+                    height: 24,
+                    fit: BoxFit.contain,
+                  ),
                 ),
-              ),
-              titleSpacing: 0,
-              title: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(6),
-                    child: Image.asset(
-                      'assets/images/app_logo.png',
-                      width: 24,
-                      height: 24,
-                      fit: BoxFit.contain,
+                const SizedBox(width: 8),
+                Flexible(
+                  child: Text(
+                    'AmnShield Control Panel',
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Theme.of(context).colorScheme.onPrimary,
                     ),
                   ),
-                  const SizedBox(width: 8),
-                  Flexible(
-                    child: Text(
-                      'AmnShield Control Panel',
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: Theme.of(context).colorScheme.onPrimary,
+                ),
+                const SizedBox(width: 10),
+                Chip(
+                  avatar: Icon(
+                    _isBlockerActive ? Icons.check_circle : Icons.pause_circle_filled,
+                    color: Colors.white,
+                    size: 14,
+                  ),
+                  label: Text(
+                    _isBlockerActive ? 'SHIELD ACTIVE' : 'INACTIVE',
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 10, color: Colors.white),
+                  ),
+                  backgroundColor: _isBlockerActive ? const Color(0xFF2E7D32) : const Color(0xFFC62828),
+                  side: BorderSide.none,
+                  visualDensity: VisualDensity.compact,
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                ),
+                const SizedBox(width: 8),
+                Tooltip(
+                  message: _isBlockerActive
+                      ? 'Guardian Service & Browser Extension Synced (127.0.0.1:48192)'
+                      : 'Guardian Engine Disconnected / Standby',
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: _isBlockerActive
+                          ? const Color(0xFF1B5E20).withValues(alpha: 0.8)
+                          : Colors.red.shade900.withValues(alpha: 0.8),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: _isBlockerActive ? Colors.greenAccent : Colors.redAccent,
+                        width: 1,
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 10),
-                  Chip(
-                    avatar: Icon(
-                      _isBlockerActive ? Icons.check_circle : Icons.pause_circle_filled,
-                      color: Colors.white,
-                      size: 14,
-                    ),
-                    label: Text(
-                      _isBlockerActive ? 'SHIELD ACTIVE' : 'INACTIVE',
-                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 10, color: Colors.white),
-                    ),
-                    backgroundColor: _isBlockerActive ? const Color(0xFF2E7D32) : const Color(0xFFC62828),
-                    side: BorderSide.none,
-                    visualDensity: VisualDensity.compact,
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                  ),
-                  const SizedBox(width: 8),
-                  Tooltip(
-                    message: _isBlockerActive
-                        ? 'Guardian Service & Browser Extension Synced (127.0.0.1:48192)'
-                        : 'Guardian Engine Disconnected / Standby',
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: _isBlockerActive
-                            ? const Color(0xFF1B5E20).withValues(alpha: 0.8)
-                            : Colors.red.shade900.withValues(alpha: 0.8),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: _isBlockerActive ? Colors.greenAccent : Colors.redAccent,
-                          width: 1,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          width: 8,
+                          height: 8,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: _isBlockerActive ? Colors.greenAccent : Colors.redAccent,
+                            boxShadow: [
+                              BoxShadow(
+                                color: _isBlockerActive ? Colors.greenAccent : Colors.redAccent,
+                                blurRadius: 4,
+                                spreadRadius: 1,
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            width: 8,
-                            height: 8,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: _isBlockerActive ? Colors.greenAccent : Colors.redAccent,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: _isBlockerActive ? Colors.greenAccent : Colors.redAccent,
-                                  blurRadius: 4,
-                                  spreadRadius: 1,
-                                ),
-                              ],
-                            ),
+                        const SizedBox(width: 6),
+                        Text(
+                          _isBlockerActive ? 'SYS & EXT ONLINE' : 'OFFLINE',
+                          style: const TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            letterSpacing: 0.5,
                           ),
-                          const SizedBox(width: 6),
-                          Text(
-                            _isBlockerActive ? 'SYS & EXT ONLINE' : 'OFFLINE',
-                            style: const TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              letterSpacing: 0.5,
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-              actions: const [
-                WindowCaptionControls(),
-                SizedBox(width: 4),
+                ),
               ],
-              backgroundColor: Theme.of(context).colorScheme.primary,
-              elevation: 2,
-              bottom: TabBar(
-                controller: _tabController,
-                labelColor: Theme.of(context).colorScheme.onPrimary,
-                unselectedLabelColor: Theme.of(context).colorScheme.onPrimary.withValues(alpha: 0.7),
-                indicatorColor: Theme.of(context).colorScheme.onPrimary,
-                indicatorWeight: 3,
-                tabs: const [
-                  Tab(icon: Icon(Icons.dashboard), text: 'Dashboard'),
-                  Tab(icon: Icon(Icons.app_blocking), text: 'App Blocker'),
-                  Tab(icon: Icon(Icons.web), text: 'Website Filter'),
-                  Tab(icon: Icon(Icons.timer), text: 'Usage Tracker'),
-                ],
-              ),
+            ),
+            actions: const [
+              WindowCaptionControls(),
+              SizedBox(width: 4),
+            ],
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            elevation: 2,
+            bottom: TabBar(
+              controller: _tabController,
+              labelColor: Theme.of(context).colorScheme.onPrimary,
+              unselectedLabelColor: Theme.of(context).colorScheme.onPrimary.withValues(alpha: 0.7),
+              indicatorColor: Theme.of(context).colorScheme.onPrimary,
+              indicatorWeight: 3,
+              tabs: const [
+                Tab(icon: Icon(Icons.dashboard), text: 'Dashboard'),
+                Tab(icon: Icon(Icons.app_blocking), text: 'App Blocker'),
+                Tab(icon: Icon(Icons.web), text: 'Website Filter'),
+                Tab(icon: Icon(Icons.timer), text: 'Usage Tracker'),
+              ],
             ),
           ),
         ),
       ),
-      drawer: Drawer(
-        child: Column(
-          children: [
-            UserAccountsDrawerHeader(
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary,
+    );
+  }
+
+  Widget _buildDrawer(BuildContext context) {
+    return Drawer(
+      child: Column(
+        children: [
+          UserAccountsDrawerHeader(
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            currentAccountPicture: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white24,
               ),
-              currentAccountPicture: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white24,
-                ),
-                child: const Icon(Icons.shield, size: 36, color: Colors.white),
-              ),
-              accountName: const Text('AmnShield Guardian', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-              accountEmail: Text(_isBlockerActive ? '● Shield Active' : '○ Shield Paused', style: const TextStyle(fontSize: 12)),
+              child: const Icon(Icons.shield, size: 36, color: Colors.white),
             ),
-            ListTile(
-              leading: const Icon(Icons.dashboard_outlined),
-              title: const Text('Dashboard'),
-              selected: _tabController.index == 0,
-              onTap: () {
-                _tabController.animateTo(0);
-                Navigator.of(context).pop();
-              },
+            accountName: const Text('AmnShield Guardian', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            accountEmail: Text(_isBlockerActive ? '● Shield Active' : '○ Shield Paused', style: const TextStyle(fontSize: 12)),
+          ),
+          ListTile(
+            leading: const Icon(Icons.dashboard_outlined),
+            title: const Text('Dashboard'),
+            selected: _tabController.index == 0,
+            onTap: () {
+              _tabController.animateTo(0);
+              Navigator.of(context).pop();
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.app_blocking_outlined),
+            title: const Text('App Blocker & Whitelist'),
+            selected: _tabController.index == 1,
+            onTap: () {
+              _tabController.animateTo(1);
+              Navigator.of(context).pop();
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.web_outlined),
+            title: const Text('Website Filter'),
+            selected: _tabController.index == 2,
+            onTap: () {
+              _tabController.animateTo(2);
+              Navigator.of(context).pop();
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.timer_outlined),
+            title: const Text('Usage Tracker & Limits'),
+            selected: _tabController.index == 3,
+            onTap: () {
+              _tabController.animateTo(3);
+              Navigator.of(context).pop();
+            },
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.settings_outlined),
+            title: const Text('Settings & Security'),
+            onTap: () {
+              Navigator.of(context).pop();
+              SettingsDialog.show(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.info_outline),
+            title: const Text('About AmnShield'),
+            onTap: () {
+              Navigator.of(context).pop();
+              AboutAmnShieldDialog.show(context);
+            },
+          ),
+          const Spacer(),
+          const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Text(
+              'v8.26.2026 - Windows Edition',
+              style: TextStyle(fontSize: 11, color: Colors.grey),
             ),
-            ListTile(
-              leading: const Icon(Icons.app_blocking_outlined),
-              title: const Text('App Blocker & Whitelist'),
-              selected: _tabController.index == 1,
-              onTap: () {
-                _tabController.animateTo(1);
-                Navigator.of(context).pop();
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.web_outlined),
-              title: const Text('Website Filter'),
-              selected: _tabController.index == 2,
-              onTap: () {
-                _tabController.animateTo(2);
-                Navigator.of(context).pop();
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.timer_outlined),
-              title: const Text('Usage Tracker & Limits'),
-              selected: _tabController.index == 3,
-              onTap: () {
-                _tabController.animateTo(3);
-                Navigator.of(context).pop();
-              },
-            ),
-            const Divider(),
-            ListTile(
-              leading: const Icon(Icons.settings_outlined),
-              title: const Text('Settings & Security'),
-              onTap: () {
-                Navigator.of(context).pop();
-                SettingsDialog.show(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.info_outline),
-              title: const Text('About AmnShield'),
-              onTap: () {
-                Navigator.of(context).pop();
-                AboutAmnShieldDialog.show(context);
-              },
-            ),
-            const Spacer(),
-            const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text(
-                'v8.26.2026 - Windows Edition',
-                style: TextStyle(fontSize: 11, color: Colors.grey),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: _buildAppBar(context),
+      drawer: _buildDrawer(context),
       body: TabBarView(
         controller: _tabController,
         children: [
